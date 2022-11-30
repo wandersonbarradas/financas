@@ -3,7 +3,7 @@ import { Context } from '../../context/context'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Api from '../../Api'
-import Logo from '../../assets/Logo.svg'
+import Logo from '../../assets/LogoLight.svg'
 import VectorIlustration from '../../assets/Manage money-pana.svg'
 import IconGoogle from '../../assets/search.png'
 export const PageLogin = () => {

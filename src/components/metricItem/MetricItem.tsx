@@ -19,13 +19,13 @@ export const MetricItem = ({ title, value, percentage }: Props) => {
             <span className='title'>{title}</span>
             <div className='value'>R$ {valor}.<span>{decimais}</span></div>
             {percentage >= 0 &&
-                <C.Percentagem background='#DCF5E8' color='#4FD18B'>
+                <C.Percentagem background='#A9FFA7' color='#037400'>
                     <div>
                         <TrendingUpIcon /> +{percentage}%
                     </div>
                 </C.Percentagem>
             }{percentage < 0 &&
-                <C.Percentagem background='#F5DCDC' color='#D14F4F'>
+                <C.Percentagem background='#FFA7A7' color='#F02927'>
                     <div>
                         <TrendingDownIcon /> {percentage}%
                     </div>

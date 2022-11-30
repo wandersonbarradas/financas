@@ -1,5 +1,8 @@
 import * as C from './sidebar.styled'
-import Logo from '../../assets/Logo.svg'
+import LogoLight from '../../assets/LogoLight.svg'
+import LogoLight2 from '../../assets/Logo2Light.svg'
+import LogoDark from '../../assets/LogoDark.svg'
+import LogoDark2 from '../../assets/Logo2Dark.svg'
 import { ListItemSideBar } from '../listItemSideBar/listItemSideBar'
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ArticleIcon from '@mui/icons-material/Article';
@@ -17,17 +20,19 @@ import { useState } from 'react';
 import { Context } from '../../context/context';
 import { useContext } from 'react'
 import Api from '../../Api';
-import Logo2 from '../../assets/so-wallet-coin.svg'
+import { Dark, Light } from '../../reducers/ThemeReducer'
+import Cookies from 'js-cookie'
+
 
 type Props = {
-    showLoader: (value: boolean) => void
+    showLoader: (value: boolean) => void;
 }
 
 export const SideBar = ({ showLoader }: Props) => {
     const [openMenu, setOpenMenu] = useState(true)
     const [modalMore, setModalMore] = useState(false)
     const [opacityModalMore, setOpacityModalMore] = useState(0)
-    const [top, setTop] = useState(0)
+    const [cordenadas, setCordenadas] = useState({ top: 0, left: 0 })
     const { state, dispatch } = useContext(Context)
 
     const handleLogOut = () => {
@@ -39,8 +44,24 @@ export const SideBar = ({ showLoader }: Props) => {
         })
     }
 
-    const handelModalMore = (top: number) => {
-        setTop(top)
+    const handleTheme = () => {
+        if (state.theme.status === 'Light') {
+            dispatch({
+                type: 'setTheme',
+                payload: { status: 'Dark', theme: Dark }
+            })
+            Cookies.set("theme", 'Dark', { expires: 999 });
+        } else {
+            dispatch({
+                type: 'setTheme',
+                payload: { status: 'Light', theme: Light }
+            })
+            Cookies.set("theme", 'Light', { expires: 999 });
+        }
+    }
+
+    const handelModalMore = (top: number, left: number) => {
+        setCordenadas({ top, left })
         setOpacityModalMore(0)
         setModalMore(true)
         setTimeout(() => {
@@ -63,7 +84,7 @@ export const SideBar = ({ showLoader }: Props) => {
     }
 
     return (
-        <C.Container modalMore={{ opacity: opacityModalMore, top }} Theme={state.theme.theme} menu={openMenu}>
+        <C.Container modalMore={{ opacity: opacityModalMore, top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
             {modalMore &&
                 <div onClick={handleClickModalMore} className='containerModalMore'>
                     <div className='modalMore'>
@@ -85,28 +106,28 @@ export const SideBar = ({ showLoader }: Props) => {
                 </div>
             }
             <div className='box-logo' onClick={() => setOpenMenu(openMenu ? false : true)}>
-                <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? Logo : Logo2} alt="" />
+                {state.theme.status === 'Dark' &&
+                    <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoDark : LogoDark2} alt="" />
+                }
+                {state.theme.status === 'Light' &&
+                    <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoLight : LogoLight2} alt="" />
+                }
             </div>
             <nav className='navigation'>
                 <ul className='list-navigation'>
-                    <ListItemSideBar Icon={DashboardIcon} label='Dashboard' url="/dashboard" />
-                    <ListItemSideBar Icon={ArticleIcon} label='Fatura' url="/fatura" />
-                    <ListItemSideBar Icon={AccountBalanceIcon} label='Bancos' url="/bancos" />
-                    <ListItemSideBar Icon={SignalCellularAltIcon} label='Relatórios' url="relatorios" />
-                    <ListItemSideBar Icon={ListIcon} label='Transações' url="transacoes" />
-                    <ListItemSideBar click={handelModalMore} Icon={MoreHorizIcon} label='Mais opções' />
+                    <ListItemSideBar menuOpen={openMenu} Icon={DashboardIcon} label='Dashboard' url="/dashboard" />
+                    <ListItemSideBar menuOpen={openMenu} Icon={ArticleIcon} label='Fatura' url="/fatura" />
+                    <ListItemSideBar menuOpen={openMenu} Icon={AccountBalanceIcon} label='Bancos' url="/bancos" />
+                    <ListItemSideBar menuOpen={openMenu} Icon={SignalCellularAltIcon} label='Relatórios' url="relatorios" />
+                    <ListItemSideBar menuOpen={openMenu} Icon={ListIcon} label='Transações' url="transacoes" />
+                    <ListItemSideBar menuOpen={openMenu} click={handelModalMore} Icon={MoreHorizIcon} label='Mais opções' />
                 </ul>
                 <ul className='list-options'>
-                    <ListItemSideBar Icon={SettingsIcon} label='Configurações' />
-                    <ListItemSideBar Icon={HelpIcon} label='Ajuda' />
+                    <ListItemSideBar menuOpen={openMenu} Icon={SettingsIcon} label='Configurações' />
+                    <ListItemSideBar logout={handleTheme} menuOpen={openMenu} Icon={HelpIcon} label='Ajuda' url=' ' />
+                    <ListItemSideBar menuOpen={openMenu} Icon={ArrowBackIcon} logout={handleLogOut} label='Log Out' url='/login' />
                 </ul>
             </nav>
-            <Link className='logout' onClick={handleLogOut} to=''>
-                <div className='box-icon'>
-                    <ArrowBackIcon />
-                </div>
-                Log Out
-            </Link>
         </C.Container>
     )
 }

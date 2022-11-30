@@ -1,6 +1,11 @@
 import styled from "styled-components";
+import { ThemeValues } from "../../reducers/ThemeReducer";
+type Props = {
+    menuOpen: boolean;
+    Theme: ThemeValues;
+};
 
-export const Container = styled.li`
+export const Container = styled.li<Props>`
     list-style: none;
 
     .link-item {
@@ -8,28 +13,34 @@ export const Container = styled.li`
         justify-content: flex-start;
         align-items: center;
         text-decoration: none;
-        padding: 14px 0;
-        color: #a1a0bd;
-        font-weight: 800;
-        font-size: 17px;
+        padding: 8px 0;
+        color: ${(props) => props.Theme.colorOpacity};
+        font-weight: 600;
+        font-size: 16px;
         line-height: 21px;
         transition: all 0.3s ease;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+        border-radius: 4px;
         cursor: pointer;
 
         &.activeLinkNavBar,
         &:hover {
-            color: #4c49ed;
-            background-color: #e4e3ff;
+            color: #fff;
+            background-color: ${(props) => props.Theme.colorPrimary};
         }
 
         .box-icon {
-            min-width: 100px;
+            width: 56px;
+            min-width: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
+
+            svg {
+                margin-left: -6px;
+            }
         }
     }
 `;

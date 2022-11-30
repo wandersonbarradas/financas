@@ -6,7 +6,14 @@ const DF = {
         const month = DF.getMonthString(date.month());
         const day = date.date();
         const year = date.year();
-        return `${day < 10 ? "0" + day : day} de ${month} de ${year}`;
+        return `${day < 10 ? "0" + day : day} ${month} ${year}`;
+    },
+    getHoursExtense: (value: Date) => {
+        const hours = value.getHours();
+        const minutes = value.getMinutes();
+        return `${hours < 10 ? "0" + hours : hours}:${
+            minutes < 10 ? "0" + minutes : minutes
+        }`;
     },
     getMonthString: (mes: number) => {
         switch (mes) {

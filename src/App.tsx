@@ -76,21 +76,6 @@ const App = () => {
             setNewTransfer(false)
         }
     }
-    const handleTheme = () => {
-        if (state.theme.status === 'Light') {
-            dispatch({
-                type: 'setTheme',
-                payload: { status: 'Dark', theme: Dark }
-            })
-            Cookies.set("theme", 'Dark', { expires: 999 });
-        } else {
-            dispatch({
-                type: 'setTheme',
-                payload: { status: 'Light', theme: Light }
-            })
-            Cookies.set("theme", 'Light', { expires: 999 });
-        }
-    }
 
     const getTheme = () => {
         const theme = Cookies.get('theme')
@@ -114,7 +99,6 @@ const App = () => {
                 }
                 {state.user &&
                     <C.Container Theme={state.theme.theme}>
-                        <button className='btn-switch-theme' onClick={handleTheme}>Theme {state.theme.status}</button>
                         <SideBar showLoader={showLoader} />
                         <main className='main'>
                             <Header showLoader={showLoader} />

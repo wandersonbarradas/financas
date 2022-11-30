@@ -13,15 +13,9 @@ export const Container = styled.div<Props>`
     overflow: hidden;
     transition: all 0.3s ease;
 
-    .btn-switch-theme {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-    }
-
     .main {
         flex: 1;
-        padding: 0 24px 36px 36px;
+        padding: 0 0 36px 0;
         max-height: 100%;
         overflow-y: scroll;
 

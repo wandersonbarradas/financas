@@ -1,3 +1,4 @@
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -7,19 +8,56 @@ type Props = {
 
 export const Container = styled.header<Props>`
     width: 100%;
-    padding: 25px 0 60px 0;
+    height: 96px;
+    padding: 0 24px 0 36px;
     display: flex;
     align-items: center;
+    background-color: ${(props) => props.Theme.colorSideBar};
+    border-bottom: 1px solid ${(props) => props.Theme.colorBorder};
 
-    .rightSide,
     .leftSide {
-        flex: 1;
+        width: 42%;
+        display: flex;
+        align-items: center;
+
+        .InfoNameUser {
+            display: block;
+            font-size: 18px;
+            color: ${(props) => props.Theme.colorTitle};
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .infoDate {
+            display: block;
+            font-size: 14px;
+            color: ${(props) => props.Theme.colorOpacity};
+            font-weight: 500;
+        }
     }
 
-    .leftSide {
-        display: flex;
-        justify-content: flex-end;
+    .toogleMenu {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 6px;
+        transition: all 0.3s ease;
 
+        &:hover {
+            background-color: ${(props) => props.Theme.colorBorder};
+        }
+
+        img {
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+
+    .rightSide {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         .selectMonth {
             width: 175px;
             border: solid 1px ${(props) => props.Theme.colorOpacity};
@@ -31,6 +69,11 @@ export const Container = styled.header<Props>`
             gap: 8px;
             color: ${(props) => props.Theme.colorTitle};
             cursor: pointer;
+
+            &:hover {
+                background-color: ${(props) => props.Theme.colorBorder};
+                transition: all 0.3s ease;
+            }
 
             span {
                 flex: 1;
@@ -49,57 +92,6 @@ export const Container = styled.header<Props>`
         }
     }
 
-    .rightSide {
-        display: flex;
-        justify-content: flex-end;
-
-        .perfilCard {
-            cursor: pointer;
-            width: 250px;
-            height: 55px;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 30px;
-            transition: all 0.3s ease;
-
-            &:hover {
-                background-color: ${(props) => props.Theme.colorComponents};
-            }
-
-            .perfilPhoto {
-                width: 40px;
-                height: 40px;
-                min-width: 40px;
-                min-height: 40px;
-                margin-right: 15px;
-                img {
-                    width: 100%;
-                    border-radius: 50%;
-                }
-            }
-
-            .perfilName {
-                color: ${(props) => props.Theme.colorTitle};
-                font-weight: 700;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                margin-right: 10px;
-            }
-            .perfilIcon {
-                width: 26px;
-                height: 26px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: ${(props) => props.Theme.colorTitle};
-                border-radius: 50%;
-                border: solid 1px ${(props) => props.Theme.colorTitle};
-            }
-        }
-    }
     .containerMenuDropDown {
         position: absolute;
         top: 0;
@@ -114,11 +106,13 @@ export const Container = styled.header<Props>`
             position: absolute;
             overflow: hidden;
             transition: all 0.1s ease-out;
-            top: 95px;
+            top: 105px;
             right: 30px;
             padding: ${(props) => (props.dropdown ? "12px 0px" : "0px")};
             background-color: ${(props) => props.Theme.colorComponents};
-            box-shadow: 8px 13px 44px -6px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+                0px 8px 10px 1px rgb(0 0 0 / 14%),
+                0px 3px 14px 2px rgb(0 0 0 / 12%);
             border-radius: 16px;
             height: ${(props) => (props.dropdown ? "auto" : "0px")};
 
@@ -145,8 +139,7 @@ export const Container = styled.header<Props>`
                     transition: all 0.3s ease-in-out;
 
                     &:hover {
-                        background-color: ${(props) =>
-                            props.Theme.colorContainer};
+                        background-color: ${(props) => props.Theme.colorBorder};
                     }
 
                     .icon {

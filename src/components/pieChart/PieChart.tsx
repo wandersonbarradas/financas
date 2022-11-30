@@ -36,7 +36,7 @@ export const PieChart = () => {
                 display: true,
                 position: 'top' as const,
                 labels: {
-                    color: state.theme.theme.colorTitle
+                    color: state.theme.theme.colorOpacity
                 }
             },
         },

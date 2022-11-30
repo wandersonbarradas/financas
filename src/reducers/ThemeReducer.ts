@@ -7,6 +7,9 @@ export type ThemeValues = {
     colorOpacity: string;
     colorPrimary: string;
     colorSecundary: string;
+    colorBorder: string;
+    gradientBalance: string;
+    colorSideBar: string;
 };
 
 export const Light: ThemeValues = {
@@ -16,6 +19,9 @@ export const Light: ThemeValues = {
     colorOpacity: "#7C7C7C",
     colorPrimary: "#4c49ed",
     colorSecundary: "#AFAEFE",
+    colorBorder: "#D1D1D1",
+    gradientBalance: "linear-gradient(180deg, #04B900 -0.38%, #F9F9F9 110.73%)",
+    colorSideBar: "#FFFFFF",
 };
 
 export const Dark: ThemeValues = {
@@ -25,10 +31,13 @@ export const Dark: ThemeValues = {
     colorOpacity: "#7C7C7C",
     colorPrimary: "#4c49ed",
     colorSecundary: "#AFAEFE",
+    colorBorder: "#3C3C3C",
+    gradientBalance: "linear-gradient(180deg, #4FD18B 0%, #232323 100%)",
+    colorSideBar: "#000000",
 };
 
 export type ThemeType = {
-    status: string;
+    status: "Dark" | "Light";
     theme: ThemeValues;
 };
 

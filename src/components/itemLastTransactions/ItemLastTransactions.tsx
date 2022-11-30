@@ -10,7 +10,7 @@ type Props = {
 export const ItemLastTransactions = ({ value, title, categoria }: Props) => {
     const { state } = useContext(Context)
     return (
-        <C.Container Theme={state.theme.theme} colorValue={value >= 0 ? '#6ED69E' : '#D14F4F'}>
+        <C.Container Theme={state.theme.theme} colorValue={value >= 0 ? '#4FD18B' : '#F02927'}>
             <div className='profile'>
                 <AccountCircleIcon />
             </div>

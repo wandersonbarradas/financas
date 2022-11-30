@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -7,17 +6,18 @@ type Props = {
     modalMore: {
         opacity: number;
         top: number;
+        left: number;
     };
 };
 
 export const Container = styled.div<Props>`
-    background-color: ${(props) => props.Theme.colorComponents};
-    padding: 42px 0;
-    min-width: ${(props) => (props.menu ? "256px" : "100px")};
-    max-width: ${(props) => (props.menu ? "256px" : "100px")};
+    background-color: ${(props) => props.Theme.colorSideBar};
+    padding: 24px 0;
+    width: ${(props) => (props.menu ? "247px" : "88px")};
     transition: all 0.3s ease;
     overflow-x: hidden;
     overflow-y: scroll;
+    border-right: 1px solid ${(props) => props.Theme.colorBorder};
 
     &::-webkit-scrollbar {
         width: 4px;
@@ -51,48 +51,24 @@ export const Container = styled.div<Props>`
 
     .navigation {
         width: 100%;
-        padding: 30px 0;
-        margin-top: 43px;
+        margin-top: 45px;
 
         ul {
             margin: 0;
-            padding: 0;
+            padding: 0 16px;
             display: flex;
             flex-direction: column;
         }
 
         .list-navigation {
-            gap: 22px;
+            gap: 20px;
         }
 
         .list-options {
-            margin-top: 46px;
-            padding-top: 22px;
-            gap: 22px;
-            border-top: 1px solid ${(props) => props.Theme.colorOpacity};
-        }
-    }
-
-    .logout {
-        margin-top: 60px;
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        padding: 15px 0;
-        font-weight: 800;
-        font-size: 17px;
-        line-height: 21px;
-        color: #cccbd8;
-        transition: all 0.3s ease;
-        &:hover {
-            color: #4c49ed;
-        }
-
-        .box-icon {
-            min-width: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin-top: 56px;
+            padding-top: 16px;
+            gap: 16px;
+            border-top: 1px solid ${(props) => props.Theme.colorBorder};
         }
     }
 
@@ -111,11 +87,14 @@ export const Container = styled.div<Props>`
             width: 250px;
             position: absolute;
             top: ${(props) => props.modalMore.top}px;
-            left: 230px;
+            left: ${(props) => props.modalMore.left}px;
             padding: 12px 0;
             background-color: ${(props) => props.Theme.colorComponents};
-            box-shadow: 8px 13px 44px -6px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+                0px 8px 10px 1px rgb(0 0 0 / 14%),
+                0px 3px 14px 2px rgb(0 0 0 / 12%);
             border-radius: 16px;
+            border: 1px solid ${(props) => props.Theme.colorBorder};
 
             ul {
                 list-style: none;
@@ -140,8 +119,7 @@ export const Container = styled.div<Props>`
                     transition: all 0.3s ease-in-out;
 
                     &:hover {
-                        background-color: ${(props) =>
-                            props.Theme.colorContainer};
+                        background-color: ${(props) => props.Theme.colorBorder};
                     }
 
                     .icon {

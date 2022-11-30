@@ -10,7 +10,6 @@ type Props = {
 
 export const Container = styled.div<PropsContainer>`
     background-color: ${(props) => props.Theme.colorComponents};
-    box-shadow: 8px 13px 44px -6px ${(props) => props.Theme.colorComponents};
     padding: 15px;
     border-radius: 11px;
     display: flex;
@@ -18,12 +17,14 @@ export const Container = styled.div<PropsContainer>`
     justify-content: space-around;
     gap: 14px;
     transition: all 0.3s ease;
+    border: 1px solid ${(props) => props.Theme.colorBorder};
 
     .title {
         font-weight: 700;
-        font-size: 14px;
+        font-size: 16px;
         line-height: 20px;
         color: ${(props) => props.Theme.colorOpacity};
+        transition: all 0.3s ease;
     }
 
     .value {
@@ -32,11 +33,11 @@ export const Container = styled.div<PropsContainer>`
         font-size: 16px;
         line-height: 28px;
         color: ${(props) => props.Theme.colorTitle};
+        transition: all 0.3s ease;
 
         span {
             font-size: 14px;
             line-height: 23px;
-            color: ${(props) => props.Theme.colorSecundary};
         }
     }
 `;
@@ -54,5 +55,6 @@ export const Percentagem = styled.div<Props>`
         border-radius: 19px;
         background-color: ${(props) => props.background};
         color: ${(props) => props.color};
+        transition: all 0.3s ease;
     }
 `;

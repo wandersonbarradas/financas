@@ -38,10 +38,6 @@ export const Dashboard = ({ handleModal }: HandleModalType) => {
                             <div className='last-transaction-value'>+ R$28,55</div>
                             <div className='balance-text-info'>
                                 Última Transação</div>
-                            <div className='balance-actions'>
-                                <button onClick={handleExpense} className='btn primary'>DESPESA</button>
-                                <button className='btn primary'>RECEITA</button>
-                            </div>
                         </div>
                         <div className='balance-total'>
                             <div className='balance-value'>R$ 20000<span>.58</span></div>
@@ -50,6 +46,7 @@ export const Dashboard = ({ handleModal }: HandleModalType) => {
                         <div></div>
                     </div>
                     <div className='report'>
+                        <h4 className='report-title'>Relatório</h4>
                         <ChartReport />
                     </div>
                 </div>
