@@ -15,7 +15,7 @@ export const Container = styled.div<Props>`
     max-height: 100vh;
     transition: all 0.3s ease;
     padding: 0 10px;
-    font-family: "Mulish", sans-serif;
+    font-family: "Poppins", sans-serif;
 
     header {
         .logo {
@@ -33,7 +33,7 @@ export const Container = styled.div<Props>`
         height: 100%;
     }
 
-    .rightSide {
+    .leftSide {
         min-width: 400px;
         flex: 1;
         display: flex;
@@ -56,13 +56,14 @@ export const Container = styled.div<Props>`
         }
 
         p {
+            font-family: "Poppins", sans-serif;
             color: #7f8589;
             max-width: 500px;
             text-align: center;
         }
     }
 
-    .leftSide {
+    .rightSide {
         width: 600px;
         padding: 0 24px;
         display: flex;
@@ -81,12 +82,12 @@ export const Container = styled.div<Props>`
                 display: flex;
                 padding: 0 26px;
                 button {
+                    font-family: "Poppins", sans-serif;
                     flex: 1;
                     padding: 15px;
                     background-color: #fff;
                     border: 0;
                     outline: 0;
-                    font-family: "Mulish", sans-serif;
                     font-weight: 600;
                     font-size: 16px;
                     border-bottom: 2px solid transparent;
@@ -120,8 +121,8 @@ export const Container = styled.div<Props>`
                 align-items: center;
                 gap: 10px;
                 color: rgba(0, 0, 0, 0.9);
-                font-family: "Mulish", sans-serif;
-                font-weight: 700;
+                font-family: "Poppins", sans-serif;
+                font-weight: 500;
                 width: 100%;
                 background-color: #fff;
                 padding: 6px 16px;
@@ -158,7 +159,7 @@ export const Container = styled.div<Props>`
                 transform: scale(1);
                 gap: 15px;
                 color: #7f8589;
-                font-weight: 600;
+                font-weight: 400;
             }
 
             input[type="checkbox"] {

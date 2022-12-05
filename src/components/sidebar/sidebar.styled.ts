@@ -115,7 +115,7 @@ export const Container = styled.div<Props>`
                     color: ${(props) => props.Theme.colorOpacity};
                     text-decoration: none;
                     padding: 12px 24px;
-                    font-weight: 600;
+                    font-weight: 500;
                     transition: all 0.3s ease-in-out;
 
                     &:hover {

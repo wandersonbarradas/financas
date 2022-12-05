@@ -38,14 +38,14 @@ export const Container = styled.li<Props>`
             margin: 0;
             font-family: "Mulish", sans-serif;
             font-style: normal;
-            font-weight: 600;
+            font-weight: 500;
             font-size: 17px;
             line-height: 21px;
             letter-spacing: -0.02em;
         }
 
         .categorie-transaction {
-            font-weight: 600;
+            font-weight: 500;
             font-size: 14px;
             line-height: 18px;
             letter-spacing: -0.02em;
@@ -53,7 +53,7 @@ export const Container = styled.li<Props>`
         }
 
         .value {
-            font-weight: 600;
+            font-weight: 500;
             font-size: 18px;
             line-height: 23px;
             text-align: right;

@@ -21,7 +21,7 @@ export const Container = styled.div<Props>`
             .balance,
             .report {
                 background-color: ${(props) => props.Theme.colorComponents};
-                border-radius: 20px;
+                border-radius: 12px;
                 height: 230px;
                 transition: all 0.3s ease;
                 border: 1px solid ${(props) => props.Theme.colorBorder};
@@ -44,7 +44,7 @@ export const Container = styled.div<Props>`
             .balance-title {
                 margin: 0 0 13px 0;
                 font-size: 25px;
-                font-weight: 700;
+                font-weight: 600;
                 color: ${(props) => props.Theme.colorTitle};
                 transition: all 0.3s ease;
             }
@@ -58,7 +58,7 @@ export const Container = styled.div<Props>`
 
             .balance-text-info {
                 font-size: 14px;
-                font-weight: 700;
+                font-weight: 500;
                 color: ${(props) => props.Theme.colorOpacity};
                 margin-bottom: 13px;
                 transition: all 0.3s ease;
@@ -80,7 +80,7 @@ export const Container = styled.div<Props>`
 
                 .info {
                     font-weight: 900;
-                    font-size: 9px;
+                    font-size: 10px;
                     letter-spacing: 0.17em;
                     color: ${(props) => props.Theme.colorTitle};
                     transition: all 0.3s ease;
@@ -106,7 +106,7 @@ export const Container = styled.div<Props>`
                 .report-title {
                     margin: 0;
                     color: ${(props) => props.Theme.colorTitle};
-                    font-weight: 700;
+                    font-weight: 600;
                 }
 
                 padding: 15px;
@@ -133,9 +133,8 @@ export const Container = styled.div<Props>`
         .last-transactions,
         .chart-pie {
             background-color: ${(props) => props.Theme.colorComponents};
-            border-radius: 20px;
+            border-radius: 12px;
             padding: 24px 25px;
-            border-radius: 16px;
             transition: all 0.3s ease;
             border: 1px solid ${(props) => props.Theme.colorBorder};
 
@@ -150,7 +149,7 @@ export const Container = styled.div<Props>`
 
                 .title {
                     margin: 0;
-                    font-weight: 700;
+                    font-weight: 600;
                     line-height: 25px;
                     letter-spacing: -0.02em;
                 }

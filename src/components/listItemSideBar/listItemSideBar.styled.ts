@@ -15,7 +15,7 @@ export const Container = styled.li<Props>`
         text-decoration: none;
         padding: 8px 0;
         color: ${(props) => props.Theme.colorOpacity};
-        font-weight: 600;
+        font-weight: 500;
         font-size: 16px;
         line-height: 21px;
         transition: all 0.3s ease;

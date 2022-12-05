@@ -17,11 +17,10 @@ export const PageLogin = () => {
     }, [navigate])
 
     const handleLogin = async () => {
-
         const resultUser = await Api.getLogin(persistent)
         dispatch({
-            type: 'setUser',
-            payload: { user: resultUser }
+            type: 'setData',
+            payload: { data: resultUser }
         })
     }
 
@@ -49,12 +48,12 @@ export const PageLogin = () => {
                 </div>
             </header>
             <main>
-                <div className='rightSide'>
+                <div className='leftSide'>
                     <h1>Dê o primeiro passo rumo a sua liberdade econômica.</h1>
                     <img src={VectorIlustration} alt="" />
                     <p>“Uma jornada de mil quilômetros precisa começar com um simples passo.” – Lao Tzu</p>
                 </div>
-                <div className='leftSide'>
+                <div className='rightSide'>
                     <div className='contentLogin'>
                         <div className='headerLogin'>
                             <button onClick={handleCardLogin} id='entrar' className='active'>Entrar</button>

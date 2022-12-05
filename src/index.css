@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800;600&family=Kanit:wght@400;700&family=Mulish:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@800&family=Kanit:wght@400;700&family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 * {
   box-sizing: border-box;
@@ -6,12 +6,13 @@
 
 body {
   margin: 0;
-  font-family: 'Mulish', sans-serif;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   justify-content: space-around;
   max-height: 100vh;
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 li:last-child code {

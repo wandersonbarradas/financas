@@ -11,7 +11,7 @@ type Props = {
 export const Container = styled.div<PropsContainer>`
     background-color: ${(props) => props.Theme.colorComponents};
     padding: 15px;
-    border-radius: 11px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -20,7 +20,7 @@ export const Container = styled.div<PropsContainer>`
     border: 1px solid ${(props) => props.Theme.colorBorder};
 
     .title {
-        font-weight: 700;
+        font-weight: 600;
         font-size: 16px;
         line-height: 20px;
         color: ${(props) => props.Theme.colorOpacity};
@@ -29,7 +29,7 @@ export const Container = styled.div<PropsContainer>`
 
     .value {
         font-family: "Inter", sans-serif;
-        font-weight: 800;
+        font-weight: 700;
         font-size: 16px;
         line-height: 28px;
         color: ${(props) => props.Theme.colorTitle};

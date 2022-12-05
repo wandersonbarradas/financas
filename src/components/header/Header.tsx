@@ -1,6 +1,5 @@
 import * as C from './Header.styled'
 import { useContext, useEffect, useState } from 'react'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -22,7 +21,7 @@ export const Header = ({ showLoader }: Props) => {
     const [containerCalendar, setContainerCalendar] = useState(false)
     const [dataCalendar, setDataCalendar] = useState({ left: 0, display: false })
     const [dateRef, setDateRef] = useState(new Date())
-    const [dateExtense, setDateExtense] = useState(`${DF.GetDateExtense(new Date())} | ${DF.getHoursExtense(new Date())} AM GMT`)
+    const [dateExtense, setDateExtense] = useState(`${DF.GetDateExtense(new Date())} | ${DF.getHoursExtense(new Date())}`)
 
     useEffect(() => {
         handleDate()
@@ -32,7 +31,7 @@ export const Header = ({ showLoader }: Props) => {
         setContainerDropdown(true)
         setTimeout(() => {
             setDropdown(true)
-        }, 100)
+        }, 25)
     }
 
     const closeDropdown = (e: React.MouseEvent<HTMLElement>) => {
@@ -41,14 +40,14 @@ export const Header = ({ showLoader }: Props) => {
             setDropdown(false)
             setTimeout(() => {
                 setContainerDropdown(false)
-            }, 300)
+            }, 100)
         }
     }
 
     const handleDate = () => {
         setInterval(() => {
-            setDateExtense(`${DF.GetDateExtense(new Date())} | ${DF.getHoursExtense(new Date())} AM GMT`)
-        }, 60000)
+            setDateExtense(`${DF.GetDateExtense(new Date())} | ${DF.getHoursExtense(new Date())}`)
+        }, 1000)
     }
 
     const closeContainerCalendar = (e: React.MouseEvent<HTMLElement>) => {
@@ -98,24 +97,25 @@ export const Header = ({ showLoader }: Props) => {
             return `${DF.getMonthString(dayjs(dateRef).month())} ${dayjs(dateRef).year()}`
         }
     }
-
     return (
-        <C.Container dropdown={dropdown} Theme={state.theme.theme}>
+        <C.Container selectMonth={state.general.selectMonth} dropdown={dropdown} Theme={state.theme.theme}>
             <div className='leftSide'>
                 <div className='infoUser'>
-                    <span className='InfoNameUser'>Bem vindo, {state.user?.name.split(' ')[0]}</span>
+                    <span className='InfoNameUser'>Bem vindo, {state.user.data?.name.split(' ')[0]}</span>
                     <span className='infoDate'>{dateExtense}</span>
                 </div>
             </div>
             <div className='rightSide'>
-                <div onClick={handleMonth} className='selectMonth'>
-                    <span>{getMonthString()}</span>
-                    <div className='icon'>
-                        <KeyboardArrowDownIcon />
+                {state.general.selectMonth &&
+                    <div onClick={handleMonth} className='selectMonth'>
+                        <span>{getMonthString()}</span>
+                        <div className='icon'>
+                            <KeyboardArrowDownIcon />
+                        </div>
                     </div>
-                </div>
+                }
                 <div onClick={handleDropdown} className='toogleMenu'>
-                    <img src={state.user?.photo} alt="" />
+                    <img src={state.user.data?.photo} alt="" />
                 </div>
             </div>
             {containerDropdown &&

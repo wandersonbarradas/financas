@@ -4,6 +4,7 @@ import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
     Theme: ThemeValues;
     dropdown: boolean;
+    selectMonth: boolean;
 };
 
 export const Container = styled.header<Props>`
@@ -22,9 +23,9 @@ export const Container = styled.header<Props>`
 
         .InfoNameUser {
             display: block;
-            font-size: 18px;
+            font-size: 20px;
             color: ${(props) => props.Theme.colorTitle};
-            font-weight: 500;
+            font-weight: 600;
             margin-bottom: 5px;
         }
         .infoDate {
@@ -56,7 +57,8 @@ export const Container = styled.header<Props>`
     .rightSide {
         flex: 1;
         display: flex;
-        justify-content: space-between;
+        justify-content: ${(props) =>
+            props.selectMonth ? "space-between" : "flex-end"};
         align-items: center;
         .selectMonth {
             width: 175px;
@@ -114,6 +116,7 @@ export const Container = styled.header<Props>`
                 0px 8px 10px 1px rgb(0 0 0 / 14%),
                 0px 3px 14px 2px rgb(0 0 0 / 12%);
             border-radius: 16px;
+            border: 1px solid ${(props) => props.Theme.colorBorder};
             height: ${(props) => (props.dropdown ? "auto" : "0px")};
 
             ul {
@@ -135,7 +138,7 @@ export const Container = styled.header<Props>`
                     color: ${(props) => props.Theme.colorOpacity};
                     text-decoration: none;
                     padding: 12px 24px;
-                    font-weight: 600;
+                    font-weight: 500;
                     transition: all 0.3s ease-in-out;
 
                     &:hover {

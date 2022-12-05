@@ -10,14 +10,32 @@ import {
     browserSessionPersistence,
     setPersistence,
 } from "firebase/auth";
-import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { UserType } from "./types/UserType";
+import {
+    arrayRemove,
+    arrayUnion,
+    collection,
+    collectionGroup,
+    doc,
+    getDoc,
+    getDocs,
+    getFirestore,
+    query,
+    setDoc,
+    updateDoc,
+    where,
+} from "firebase/firestore";
+import {
+    UserType,
+    DataType,
+    CategoryType,
+    SubCategories,
+} from "./types/UserType";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const Api = {
     getLogin: async (persistent: boolean) => {
         const auth = getAuth();
-        let user: UserType | null = null;
+        let user: DataType | null = null;
         try {
             const provider = new GoogleAuthProvider();
             await setPersistence(
@@ -65,30 +83,40 @@ const Api = {
 
     createUser: async (user: User) => {
         await setDoc(
-            doc(db, "users", user.uid),
+            doc(db, user.uid, "data"),
             {
                 name: user.displayName,
                 email: user.email,
                 photo: user.photoURL,
+                id: user.uid,
             },
             { merge: true },
         );
+        await setDoc(doc(db, user.uid, "categories"), {
+            categories: [],
+        });
+        await setDoc(doc(db, user.uid, "subcategories"), {
+            subcategories: [],
+        });
         const newUser = await Api.checkUser(user.uid);
         return newUser;
     },
 
     checkUser: async (id?: string) => {
-        if (id) {
-            const ref = doc(db, "users", id);
+        if (id === undefined) {
+            return;
+        }
+        const ref = doc(db, id, "data");
+        if (ref.id) {
             const res = await getDoc(ref);
-            const dados = res.data() as UserType;
+            const dados = res.data() as DataType;
             return dados;
         } else {
             return undefined;
         }
     },
 
-    getToken: (setNewUser: (value: UserType | null) => void) => {
+    getToken: (setNewUser: (value: DataType | null) => void) => {
         const auth = getAuth();
         auth.languageCode = "it";
         onAuthStateChanged(auth, async (currentUser) => {
@@ -104,6 +132,50 @@ const Api = {
     signOut: () => {
         const auth = getAuth();
         auth.signOut();
+    },
+
+    getCategory: async (id: string, document: string) => {
+        let result: any;
+        const docRef = doc(db, id, document);
+        try {
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                result = docSnap.data();
+            }
+        } catch (error: any) {
+            console.log(error.message);
+        }
+        return result;
+    },
+
+    setCategory: async (id: string, category: CategoryType) => {
+        const categoriesRef = doc(db, id, "categories");
+        await updateDoc(categoriesRef, {
+            categories: arrayUnion(category),
+        });
+    },
+
+    setSubCategory: async (id: string, subcategory: SubCategories) => {
+        const subcategoriesRef = doc(db, id, "subcategories");
+        await updateDoc(subcategoriesRef, {
+            subcategories: arrayUnion(subcategory),
+        });
+    },
+
+    removeCategory: async (id: string, category: CategoryType) => {
+        const categoriesRef = doc(db, id, "categories");
+        await updateDoc(categoriesRef, {
+            categories: arrayRemove(category),
+        });
+        console.log("removido");
+    },
+
+    removeSubCategory: async (id: string, subcategory: SubCategories) => {
+        const subcategoriesRef = doc(db, id, "subcategories");
+        await updateDoc(subcategoriesRef, {
+            subcategories: arrayRemove(subcategory),
+        });
+        console.log("removido");
     },
 };
 

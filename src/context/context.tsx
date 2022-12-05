@@ -7,7 +7,7 @@ import { UserType } from "../types/UserType";
 
 type initialStateType = {
     theme: ThemeType;
-    user: UserType | null;
+    user: UserType
     general: GeneralType;
 };
 

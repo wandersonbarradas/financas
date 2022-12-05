@@ -7,7 +7,7 @@ import { Dark, Light } from './reducers/ThemeReducer';
 import { ModalExpense } from './components/modalExpense/ModalExpense';
 import Api from './Api'
 import Cookies from 'js-cookie';
-import { UserType } from './types/UserType';
+import { DataType, UserType } from './types/UserType';
 import { Loader } from './components/loader/Loader';
 import { Header } from './components/header/Header';
 const App = () => {
@@ -23,18 +23,14 @@ const App = () => {
         getTheme()
     }, [])
 
-    // useEffect(() => {
-    //     console.log(state.user)
-    // }, [state.user])
-
     const showLoader = (value: boolean) => {
         setLoader(value)
     }
 
-    const setNewUser = (value: UserType | null,) => {
+    const setNewUser = (value: DataType | null,) => {
         dispatch({
-            type: 'setUser',
-            payload: { user: value }
+            type: 'setData',
+            payload: { data: value }
         })
         setLoader(false)
     }
@@ -94,10 +90,10 @@ const App = () => {
     } else {
         return (
             <>
-                {!state.user &&
+                {!state.user.data &&
                     <LoginRouter />
                 }
-                {state.user &&
+                {state.user.data &&
                     <C.Container Theme={state.theme.theme}>
                         <SideBar showLoader={showLoader} />
                         <main className='main'>
