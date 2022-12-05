@@ -105,6 +105,7 @@ export const Categorias = () => {
             setModalContainer({ display: false, opacity: 0 })
             setModalType(false)
             setModalCategory(false)
+            clearValue()
         }, 200)
     }
 
@@ -125,7 +126,6 @@ export const Categorias = () => {
             return;
         }
         const t = state.user.categories?.filter(item => item.id === category.id)
-        console.log(t)
         if (t && t.length > 0) {
             console.log('entrou')
             await Api.removeCategory(state.user.data.id, t[0])
@@ -177,8 +177,6 @@ export const Categorias = () => {
             type: typeCategory
         }
         await setNewCategory(cat)
-        setNameCategory('')
-        setColorCategory('')
         closeModalType()
         handleAlert('#4FD18B', 'Categoria adicionada com sucesso!')
     }
@@ -260,15 +258,6 @@ export const Categorias = () => {
         openModalCategory(type, true)
         setColorCategory(category.color)
         setSelectCategory(category)
-        // if(type === 'category') {
-        //     const categoryTarget = category as CategoryType;
-
-        //     await removeCategory(categoryTarget)
-        //     await setNewCategory(categoryTarget)
-        // }else {
-        //     const categoryTarget = category as SubCategories;
-        //     await removeSubCategory(categoryTarget)
-        // }
     }
 
     const editCategory = async () => {
@@ -293,6 +282,11 @@ export const Categorias = () => {
         setSelectCategory(null)
         closeModalType()
         handleAlert('#4FD18B', 'Categoria editada com sucesso!')
+    }
+
+    const clearValue = () => {
+        setNameCategory('')
+        setColorCategory('')
     }
 
     return (
