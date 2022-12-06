@@ -16,11 +16,22 @@ export const PageLogin = () => {
         navigate('/login')
     }, [navigate])
 
+    const showLoader = () => {
+        dispatch({
+            type: 'setLoader',
+            payload: { loader: true }
+        })
+    }
+
     const handleLogin = async () => {
-        const resultUser = await Api.getLogin(persistent)
+        const resultUser = await Api.getLogin(persistent, showLoader)
         dispatch({
             type: 'setData',
             payload: { data: resultUser }
+        })
+        dispatch({
+            type: 'setLoader',
+            payload: { loader: false }
         })
     }
 

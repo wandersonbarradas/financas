@@ -16,19 +16,17 @@ const App = () => {
     const [newExpense, setNewExpense] = useState(false)
     const [newIncome, setNewIncome] = useState(false)
     const [newTransfer, setNewTransfer] = useState(false)
-    const [loader, setLoader] = useState(true)
 
     useEffect(() => {
         handleGetLogin()
         getCookies()
     }, [])
 
-    useEffect(() => {
-        console.log(state.general.sideBar)
-    }, [state.general])
-
     const showLoader = (value: boolean) => {
-        setLoader(value)
+        dispatch({
+            type: 'setLoader',
+            payload: { loader: value }
+        })
     }
 
     const setNewUser = (value: DataType | null,) => {
@@ -36,11 +34,17 @@ const App = () => {
             type: 'setData',
             payload: { data: value }
         })
-        setLoader(false)
+        dispatch({
+            type: 'setLoader',
+            payload: { loader: false }
+        })
     }
 
     const handleGetLogin = () => {
-        setLoader(true)
+        dispatch({
+            type: 'setLoader',
+            payload: { loader: true }
+        })
         Api.getToken(setNewUser)
     }
 
@@ -94,7 +98,7 @@ const App = () => {
         }
     }
 
-    if (loader) {
+    if (state.general.loader) {
         return (
             <Loader />
         )

@@ -8,4 +8,5 @@ export type reducerActionType = {
 export type GeneralType = {
     selectMonth: boolean;
     sideBar: boolean;
+    loader: boolean;
 };

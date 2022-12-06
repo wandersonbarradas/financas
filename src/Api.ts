@@ -33,7 +33,7 @@ import {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const Api = {
-    getLogin: async (persistent: boolean) => {
+    getLogin: async (persistent: boolean, showLoader: () => void) => {
         const auth = getAuth();
         let user: DataType | null = null;
         try {
@@ -45,11 +45,11 @@ const Api = {
                     : browserSessionPersistence,
             );
             const result = await signInWithPopup(auth, provider);
+            showLoader();
             const dateUser = result.user;
             const userExists = await Api.checkUser(dateUser.uid);
             if (userExists) {
                 user = userExists;
-                console.log("Tem cadastro");
             } else {
                 const newUser = await Api.createUser(dateUser);
                 if (newUser) {
