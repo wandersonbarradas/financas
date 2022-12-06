@@ -53,6 +53,7 @@ export const Container = styled.li<Props>`
         }
 
         .value {
+            white-space: nowrap;
             font-weight: 500;
             font-size: 18px;
             line-height: 23px;

@@ -20,8 +20,12 @@ const App = () => {
 
     useEffect(() => {
         handleGetLogin()
-        getTheme()
+        getCookies()
     }, [])
+
+    useEffect(() => {
+        console.log(state.general.sideBar)
+    }, [state.general])
 
     const showLoader = (value: boolean) => {
         setLoader(value)
@@ -73,12 +77,19 @@ const App = () => {
         }
     }
 
-    const getTheme = () => {
+    const getCookies = () => {
         const theme = Cookies.get('theme')
+        const sidebar = Cookies.get('sidebar')
         if (theme) {
             dispatch({
                 type: 'setTheme',
                 payload: { status: theme, theme: theme === 'Light' ? Light : Dark }
+            })
+        }
+        if (sidebar) {
+            dispatch({
+                type: 'setSideBar',
+                payload: { sideBar: +sidebar > 0 ? true : false }
             })
         }
     }

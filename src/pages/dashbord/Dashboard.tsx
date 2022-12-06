@@ -29,9 +29,9 @@ export const Dashboard = ({ handleModal }: HandleModalType) => {
     }, [])
 
     return (
-        <C.Container Theme={state.theme.theme}>
+        <C.Container Menu={state.general.sideBar} Theme={state.theme.theme}>
             <div className='top-metrics'>
-                <div className='row balance-report'>
+                <div className={state.general.sideBar ? 'row response balance-report' : 'row balance-report'}>
                     <div className='balance'>
                         <div className='balance-summary'>
                             <h4 className='balance-title'>Balanço Total</h4>
@@ -50,7 +50,7 @@ export const Dashboard = ({ handleModal }: HandleModalType) => {
                         <ChartReport />
                     </div>
                 </div>
-                <div className='row metric'>
+                <div className={state.general.sideBar ? 'row response metric' : 'row metric'}>
                     <MetricItem title="Saldo Total" value={18532.52} percentage={11} />
                     <MetricItem title="Total Receitas" value={137.43} percentage={-8} />
                     <MetricItem title="Total Despesas" value={5000} percentage={8} />
@@ -58,7 +58,7 @@ export const Dashboard = ({ handleModal }: HandleModalType) => {
                 </div>
             </div>
             <div className='bottom-metrics'>
-                <div className='row'>
+                <div className={state.general.sideBar ? 'row response' : 'row'}>
                     <div className='last-transactions'>
                         <div className='header'>
                             <h4 className='title'>Últimas Transações</h4>

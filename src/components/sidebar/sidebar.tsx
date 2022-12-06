@@ -16,12 +16,13 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import TagIcon from '@mui/icons-material/Tag';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Context } from '../../context/context';
 import { useContext } from 'react'
 import Api from '../../Api';
 import { Dark, Light } from '../../reducers/ThemeReducer'
 import Cookies from 'js-cookie'
+import AddIcon from '@mui/icons-material/Add';
 
 
 type Props = {
@@ -34,6 +35,10 @@ export const SideBar = ({ showLoader }: Props) => {
     const [opacityModalMore, setOpacityModalMore] = useState(0)
     const [cordenadas, setCordenadas] = useState({ top: 0, left: 0 })
     const { state, dispatch } = useContext(Context)
+
+    useEffect(() => {
+        setOpenMenu(state.general.sideBar)
+    }, [state.general.sideBar]);
 
     const handleLogOut = () => {
         showLoader(true)
@@ -83,6 +88,15 @@ export const SideBar = ({ showLoader }: Props) => {
         }
     }
 
+    const handleSideBar = () => {
+        setOpenMenu(openMenu ? false : true)
+        dispatch({
+            type: 'setSideBar',
+            payload: { sideBar: openMenu ? false : true }
+        })
+        Cookies.set("sidebar", openMenu ? '0' : '1', { expires: 999 });
+    }
+
     return (
         <C.Container modalMore={{ opacity: opacityModalMore, top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
             {modalMore &&
@@ -105,7 +119,7 @@ export const SideBar = ({ showLoader }: Props) => {
                     </div>
                 </div>
             }
-            <div className='box-logo' onClick={() => setOpenMenu(openMenu ? false : true)}>
+            <div className='box-logo' onClick={handleSideBar}>
                 {state.theme.status === 'Dark' &&
                     <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoDark : LogoDark2} alt="" />
                 }
@@ -113,6 +127,11 @@ export const SideBar = ({ showLoader }: Props) => {
                     <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoLight : LogoLight2} alt="" />
                 }
             </div>
+            {/* <div className='box-btn'>
+                <button className='btnNew'>
+                    <AddIcon />
+                </button>
+            </div> */}
             <nav className='navigation'>
                 <ul className='list-navigation'>
                     <ListItemSideBar menuOpen={openMenu} Icon={DashboardIcon} label='Dashboard' url="/dashboard" />

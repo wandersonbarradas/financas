@@ -3,6 +3,7 @@ import { ThemeValues } from "../../reducers/ThemeReducer";
 
 type Props = {
     Theme: ThemeValues;
+    Menu: boolean;
 };
 
 export const Container = styled.div<Props>`
@@ -132,6 +133,7 @@ export const Container = styled.div<Props>`
 
         .last-transactions,
         .chart-pie {
+            flex: 1;
             background-color: ${(props) => props.Theme.colorComponents};
             border-radius: 12px;
             padding: 24px 25px;
@@ -183,6 +185,8 @@ export const Container = styled.div<Props>`
             display: flex;
             flex-direction: column;
             align-items: center;
+            align-self: flex-start;
+            padding-bottom: 48px;
             gap: 34px;
             canvas {
                 width: auto !important;
@@ -193,7 +197,7 @@ export const Container = styled.div<Props>`
     }
 
     @media screen and (max-width: 1090px) {
-        .row {
+        .response {
             flex-direction: column;
             grid-template-columns: repeat(1, 1fr);
             .balance-total {
@@ -201,11 +205,27 @@ export const Container = styled.div<Props>`
             }
         }
 
-        .row {
+        .response {
             &.metric {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-        } 
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            } 
         }
     }
+
+    @media screen and (max-width: 900px) {
+        .row:not(.response) {
+            flex-direction: column;
+            grid-template-columns: repeat(1, 1fr);
+            .balance-total {
+                align-items: center;
+            }
+
+            &.metric {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            } 
+        }  
+    }
+
 `;

@@ -60,7 +60,7 @@ export const Container = styled.div<Props>`
 
                 &.btn-search {
                     justify-content: flex-start;
-                    width: ${(props) => (props.inputSearch ? 400 : 48)}px;
+                    width: ${(props) => (props.inputSearch ? 300 : 48)}px;
                     border-radius: ${(props) =>
                         props.inputSearch ? 12 : 48}px;
                     padding: 0 10px;
