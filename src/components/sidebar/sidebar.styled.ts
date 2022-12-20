@@ -19,22 +19,10 @@ export const Container = styled.div<Props>`
     overflow-y: scroll;
     border-right: 1px solid ${(props) => props.Theme.colorBorder};
 
-    &::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
-        opacity: 0;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background-color: transparent;
-        border-radius: 5px;
-        transition: all 0.3s ease;
-    }
-
-    &:hover {
-        &::-webkit-scrollbar-thumb {
-            background-color: ${(props) => props.Theme.colorOpacity};
-            border-radius: 5px;
+    &.scroll {
+        &::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
         }
     }
 

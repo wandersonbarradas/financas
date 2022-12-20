@@ -98,7 +98,7 @@ export const SideBar = ({ showLoader }: Props) => {
     }
 
     return (
-        <C.Container modalMore={{ opacity: opacityModalMore, top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
+        <C.Container className='scroll' modalMore={{ opacity: opacityModalMore, top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
             {modalMore &&
                 <div onClick={handleClickModalMore} className='containerModalMore'>
                     <div className='modalMore'>
@@ -136,7 +136,7 @@ export const SideBar = ({ showLoader }: Props) => {
                 <ul className='list-navigation'>
                     <ListItemSideBar menuOpen={openMenu} Icon={DashboardIcon} label='Dashboard' url="/dashboard" />
                     <ListItemSideBar menuOpen={openMenu} Icon={ArticleIcon} label='Fatura' url="/fatura" />
-                    <ListItemSideBar menuOpen={openMenu} Icon={AccountBalanceIcon} label='Bancos' url="/bancos" />
+                    <ListItemSideBar menuOpen={openMenu} Icon={AccountBalanceIcon} label='Contas' url="/contas" />
                     <ListItemSideBar menuOpen={openMenu} Icon={SignalCellularAltIcon} label='Relatórios' url="relatorios" />
                     <ListItemSideBar menuOpen={openMenu} Icon={ListIcon} label='Transações' url="transacoes" />
                     <ListItemSideBar menuOpen={openMenu} click={handelModalMore} Icon={MoreHorizIcon} label='Mais opções' />

@@ -1,3 +1,4 @@
+import { AccountType, UserAccountType } from "./types/AccountsType";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebaseConfig";
 import {
@@ -98,6 +99,9 @@ const Api = {
         await setDoc(doc(db, user.uid, "subcategories"), {
             subcategories: [],
         });
+        await setDoc(doc(db, user.uid, "accounts"), {
+            accounts: [],
+        });
         const newUser = await Api.checkUser(user.uid);
         return newUser;
     },
@@ -134,7 +138,7 @@ const Api = {
         auth.signOut();
     },
 
-    getCategory: async (id: string, document: string) => {
+    getUserDocument: async (id: string, document: string) => {
         let result: any;
         const docRef = doc(db, id, document);
         try {
@@ -155,6 +159,13 @@ const Api = {
         });
     },
 
+    removeCategory: async (id: string, category: CategoryType) => {
+        const categoriesRef = doc(db, id, "categories");
+        await updateDoc(categoriesRef, {
+            categories: arrayRemove(category),
+        });
+    },
+
     setSubCategory: async (id: string, subcategory: SubCategories) => {
         const subcategoriesRef = doc(db, id, "subcategories");
         await updateDoc(subcategoriesRef, {
@@ -162,20 +173,36 @@ const Api = {
         });
     },
 
-    removeCategory: async (id: string, category: CategoryType) => {
-        const categoriesRef = doc(db, id, "categories");
-        await updateDoc(categoriesRef, {
-            categories: arrayRemove(category),
-        });
-        console.log("removido");
-    },
-
     removeSubCategory: async (id: string, subcategory: SubCategories) => {
         const subcategoriesRef = doc(db, id, "subcategories");
         await updateDoc(subcategoriesRef, {
             subcategories: arrayRemove(subcategory),
         });
-        console.log("removido");
+    },
+
+    setUserAccount: async (id: string, account: UserAccountType) => {
+        const userAccountRef = doc(db, id, "accounts");
+        await updateDoc(userAccountRef, {
+            accounts: arrayUnion(account),
+        });
+    },
+
+    removeUserAccount: async (id: string, account: UserAccountType) => {
+        const userAccountRef = doc(db, id, "accounts");
+        await updateDoc(userAccountRef, {
+            accounts: arrayRemove(account),
+        });
+    },
+
+    getAccountsPublic: async () => {
+        const ref = doc(db, "public", "accounts");
+        if (ref.id) {
+            const res = await getDoc(ref);
+            const dados = res.data() as { accounts: AccountType[] };
+            return dados.accounts;
+        } else {
+            return undefined;
+        }
     },
 };
 

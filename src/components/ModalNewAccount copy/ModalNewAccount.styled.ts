@@ -9,6 +9,7 @@ export const Container = styled.div<Props>`
     padding: 16px;
     border-radius: 16px;
     background-color: ${(props) => props.Theme.colorComponents};
+    border: solid 1px ${(props) => props.Theme.colorBorder};
 
     .modalDatePicker {
         width: 100vw;

@@ -3,15 +3,12 @@ import { Context } from '../../context/context'
 import CloseIcon from '@mui/icons-material/Close';
 import EventIcon from '@mui/icons-material/Event';
 import { Calendario } from '../calendar/Calendar';
-import * as C from './ModalExpense.styled'
+import * as C from './ModalNewAccount.styled'
 import DF from '../../helpers/DateFunctions';
 import dayjs from "dayjs";
 
-type HandleModalType = {
-    handleModal: (value?: boolean, type?: 'income' | 'expense' | 'transfer') => void
-}
 
-export const ModalExpense = ({ handleModal }: HandleModalType) => {
+export const ModalNewAccount = () => {
     const { state } = useContext(Context)
     const [valueExpense, setValueExpense] = useState(0)
     const [modalDatePicker, setModalDatePiker] = useState(false)
@@ -35,9 +32,6 @@ export const ModalExpense = ({ handleModal }: HandleModalType) => {
         console.log(dateExpense)
     }, [dateExpense])
 
-    const closeModal = () => {
-        handleModal()
-    }
 
     const handleDateExpense = (date: Date) => {
         setDateExpense(date)
@@ -119,7 +113,7 @@ export const ModalExpense = ({ handleModal }: HandleModalType) => {
             }
             <div className='header'>
                 <h3>Nova Despesa</h3>
-                <div className='icon' onClick={closeModal}>
+                <div className='icon'>
                     <CloseIcon />
                 </div>
             </div>

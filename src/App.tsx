@@ -4,7 +4,7 @@ import { MainRouter, LoginRouter } from './routers/MainRouter';
 import { Context } from './context/context'
 import { useContext, useState, useEffect } from 'react'
 import { Dark, Light } from './reducers/ThemeReducer';
-import { ModalExpense } from './components/modalExpense/ModalExpense';
+import { ModalNewAccount } from './components/ModalNewAccount/ModalNewAccount';
 import Api from './Api'
 import Cookies from 'js-cookie';
 import { DataType, UserType } from './types/UserType';
@@ -111,13 +111,13 @@ const App = () => {
                 {state.user.data &&
                     <C.Container Theme={state.theme.theme}>
                         <SideBar showLoader={showLoader} />
-                        <main className='main'>
+                        <main className='main scroll'>
                             <Header showLoader={showLoader} />
                             <MainRouter handleModal={hendleModalTrasactions} />
                         </main>
                         {modalTransactions &&
                             <div className='container-modal-transactions'>
-                                {newExpense ? <ModalExpense handleModal={hendleModalTrasactions} /> : ''}
+
                             </div>
                         }
                     </C.Container>

@@ -18,7 +18,22 @@ export const Container = styled.div<Props>`
         padding: 0 0 36px 0;
         max-height: 100%;
         overflow-y: scroll;
+    }
 
+    .container-modal-transactions {
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .scroll {
         &::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -37,19 +52,6 @@ export const Container = styled.div<Props>`
                 border-radius: 5px;
             }
         }
-    }
-
-    .container-modal-transactions {
-        width: 100%;
-        height: 100vh;
-        max-height: 100vh;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 `;
 

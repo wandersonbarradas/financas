@@ -6,10 +6,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { CategoryItem } from '../../components/CategoryItem/CategoryItem';
 import { CategoryType, SubCategories } from '../../types/UserType';
 import Api from '../../Api';
-import * as C from './Categorias.styled'
+import * as C from './Categories.styled'
 import { AlertAviso } from '../../components/alertAviso/AlertAviso';
 
-export const Categorias = () => {
+export const Categories = () => {
     const { state, dispatch } = useContext(Context)
     const [category, setCategory] = useState<CategoryType[]>([])
     const [subcategory, setSubcategory] = useState<SubCategories[]>([])
@@ -44,8 +44,8 @@ export const Categorias = () => {
 
     const getData = async () => {
         if (state.user.data) {
-            const categoriesData: { categories: CategoryType[] } = await Api.getCategory(state.user.data.id, 'categories')
-            const subCategoriesData: { subcategories: SubCategories[] } = await Api.getCategory(state.user.data.id, 'subcategories')
+            const categoriesData: { categories: CategoryType[] } = await Api.getUserDocument(state.user.data.id, 'categories')
+            const subCategoriesData: { subcategories: SubCategories[] } = await Api.getUserDocument(state.user.data.id, 'subcategories')
             if (categoriesData) {
                 dispatch({
                     type: 'setCategories',
@@ -379,7 +379,10 @@ export const Categorias = () => {
                     }
                 </div>
             }
-            <AlertAviso color={colorAlert} label={textAlert} display={displayAlert} />
+
+            <div className='box-alert'>
+                <AlertAviso color={colorAlert} label={textAlert} display={displayAlert} />
+            </div>
         </C.Container>
     )
 }
