@@ -23,6 +23,10 @@ import Api from '../../Api';
 import { Dark, Light } from '../../reducers/ThemeReducer'
 import Cookies from 'js-cookie'
 import AddIcon from '@mui/icons-material/Add';
+import TrendingDownOutlinedIcon from '@mui/icons-material/TrendingDownOutlined';
+import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
+import TransformOutlinedIcon from '@mui/icons-material/TransformOutlined';
+import { Modal } from '../modais/Modais'
 
 
 type Props = {
@@ -34,8 +38,8 @@ export const SideBar = ({ showLoader }: Props) => {
     const [modalMore, setModalMore] = useState(false)
     const [opacityModalMore, setOpacityModalMore] = useState(0)
     const [cordenadas, setCordenadas] = useState({ top: 0, left: 0 })
+    const [modalAdd, setModalAdd] = useState(false)
     const { state, dispatch } = useContext(Context)
-
     useEffect(() => {
         setOpenMenu(state.general.sideBar)
     }, [state.general.sideBar]);
@@ -67,11 +71,7 @@ export const SideBar = ({ showLoader }: Props) => {
 
     const handelModalMore = (top: number, left: number) => {
         setCordenadas({ top, left })
-        setOpacityModalMore(0)
         setModalMore(true)
-        setTimeout(() => {
-            setOpacityModalMore(1)
-        }, 100)
     }
 
     const handleCloseModalMore = () => {
@@ -98,8 +98,8 @@ export const SideBar = ({ showLoader }: Props) => {
     }
 
     return (
-        <C.Container className='scroll' modalMore={{ opacity: opacityModalMore, top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
-            {modalMore &&
+        <C.Container className='scroll' modalMore={{ top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
+            <Modal open={modalMore} setOpen={setModalMore} modalOpacity={0}>
                 <div onClick={handleClickModalMore} className='containerModalMore'>
                     <div className='modalMore'>
                         <ul>
@@ -118,7 +118,14 @@ export const SideBar = ({ showLoader }: Props) => {
                         </ul>
                     </div>
                 </div>
-            }
+            </Modal>
+            <Modal open={modalAdd} setOpen={setModalAdd} modalOpacity={0}>
+                <ul className='menuAdd'>
+                    <li className='listItem'> <div className='icon des'><TrendingDownOutlinedIcon /></div> <span>Despesa</span></li>
+                    <li className='listItem'> <div className='icon res'><TrendingUpOutlinedIcon /></div> <span>Receita</span></li>
+                    <li className='listItem'> <div className='icon tras'><TransformOutlinedIcon /></div> <span>Transferência</span></li>
+                </ul>
+            </Modal>
             <div className='box-logo' onClick={handleSideBar}>
                 {state.theme.status === 'Dark' &&
                     <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoDark : LogoDark2} alt="" />
@@ -127,11 +134,12 @@ export const SideBar = ({ showLoader }: Props) => {
                     <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoLight : LogoLight2} alt="" />
                 }
             </div>
-            {/* <div className='box-btn'>
-                <button className='btnNew'>
+            <div className='boxBtnAdd'>
+                <button onClick={() => setModalAdd(true)} className='cssbuttons-io-button'>
                     <AddIcon />
+                    {openMenu && <span>Add</span>}
                 </button>
-            </div> */}
+            </div>
             <nav className='navigation'>
                 <ul className='list-navigation'>
                     <ListItemSideBar menuOpen={openMenu} Icon={DashboardIcon} label='Dashboard' url="/dashboard" />

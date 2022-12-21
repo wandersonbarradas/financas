@@ -1,10 +1,10 @@
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
     menu: boolean;
     Theme: ThemeValues;
     modalMore: {
-        opacity: number;
         top: number;
         left: number;
     };
@@ -37,9 +37,45 @@ export const Container = styled.div<Props>`
         }
     }
 
+    .boxBtnAdd {
+        margin-top: 20px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .cssbuttons-io-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 16px;
+        padding: 0.7em 1.1em 0.7em 1.1em;
+        color: white;
+        background-color: #4c49ed;
+        background-image: linear-gradient(0deg, #4c49ed 36%, #8383ea 100%);
+
+        border: none;
+        box-shadow: 0 0.5em 1.5em -0.5em #4c49ed;
+        letter-spacing: 0.05em;
+        border-radius: 20em;
+        cursor: pointer;
+        transition: all 0.15s ease;
+    }
+
+    .cssbuttons-io-button:hover {
+        box-shadow: 0 0.7em 1.5em -0.5em #4c49ed;
+    }
+
+    .cssbuttons-io-button:active {
+        box-shadow: 0 0.7em 1.5em -0.5em #4c49ed;
+    }
+
     .navigation {
         width: 100%;
-        margin-top: 45px;
+        margin-top: 30px;
 
         ul {
             margin: 0;
@@ -68,7 +104,6 @@ export const Container = styled.div<Props>`
         height: 100vh;
         background-color: transparent;
         z-index: 50;
-        opacity: ${(props) => props.modalMore.opacity};
         transition: all 0.2s ease;
 
         .modalMore {
@@ -115,6 +150,53 @@ export const Container = styled.div<Props>`
                         justify-content: center;
                         align-items: center;
                     }
+                }
+            }
+        }
+    }
+
+    .menuAdd {
+        margin: 0;
+        width: 250px;
+        padding: 10px 0;
+        border-radius: 12px;
+        border: solid 1px ${(props) => props.Theme.colorBorder};
+        position: absolute;
+        top: 100px;
+        left: 20px;
+        background-color: ${(props) => props.Theme.colorComponents};
+        list-style: none;
+
+        .listItem {
+            display: flex;
+            align-items: center;
+            color: ${(props) => props.Theme.colorOpacity};
+            gap: 25px;
+            padding: 8px 16px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+
+            &:hover {
+                background-color: ${(props) => props.Theme.colorBorder};
+            }
+
+            .icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &.des {
+                    color: #f02927;
+                }
+
+                &.res {
+                    color: #4fd18b;
+                }
+
+                &.tras {
+                    color: #008dff;
                 }
             }
         }

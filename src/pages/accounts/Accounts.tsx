@@ -7,6 +7,7 @@ import Api from '../../Api';
 import { AccountType, UserAccountType } from '../../types/AccountsType';
 import { Modal } from '../../components/modais/Modais';
 import { ModalNewAccount } from '../../components/ModalNewAccount/ModalNewAccount';
+
 export const Account = () => {
     const { state } = useContext(Context)
     const [accounts, setAccounts] = useState<UserAccountType[]>([])
@@ -39,16 +40,12 @@ export const Account = () => {
         }
     }
 
-    const OpenModal = () => {
-        setOpen(true)
-    }
-
     return (
         <C.Container Theme={state.theme.theme}>
             <div className='header'>
                 <h1>Contas</h1>
                 <div className='actions'>
-                    <div onClick={OpenModal} className='icon'>
+                    <div onClick={() => setOpen(true)} className='icon'>
                         <AddIcon />
                     </div>
                 </div>
