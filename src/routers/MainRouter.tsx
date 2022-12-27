@@ -4,17 +4,13 @@ import { Dashboard } from '../pages/dashbord/Dashboard'
 import { PageLogin } from '../pages/login/Login'
 import { Account } from '../pages/accounts/Accounts'
 
-type HandleModalType = {
-    handleModal: (value?: boolean, type?: 'income' | 'expense' | 'transfer') => void
-}
-
-export const MainRouter = ({ handleModal }: HandleModalType) => {
+export const MainRouter = () => {
     return useRoutes([
-        { path: '/', element: <Dashboard handleModal={handleModal} /> },
-        { path: '/dashboard', element: <Dashboard handleModal={handleModal} /> },
+        { path: '/', element: <Dashboard /> },
+        { path: '/dashboard', element: <Dashboard /> },
         { path: '/contas', element: <Account /> },
         { path: '/categorias', element: <Categories /> },
-        { path: '*', element: <Dashboard handleModal={handleModal} /> },
+        { path: '*', element: <Dashboard /> },
     ])
 }
 

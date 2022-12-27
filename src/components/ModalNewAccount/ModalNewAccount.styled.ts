@@ -41,8 +41,7 @@ export const Container = styled.div<Props>`
             width: 100%;
             display: flex;
             padding-bottom: 5px;
-            transition: border-bottom-color 200ms cubic-bezier(0.4, 0, 0.2, 1)
-                0ms;
+            transition: border-bottom-color 200ms ease-in-out;
             border-radius: 1px;
             margin-top: 20px;
             position: relative;
@@ -124,8 +123,7 @@ export const Container = styled.div<Props>`
                 bottom: 0;
                 content: "";
                 position: absolute;
-                transition: border-bottom-color 200ms
-                    cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+                transition: border-bottom-color 200ms ease-in-out;
                 border-bottom: 1px solid ${(props) => props.Theme.colorOpacity};
                 pointer-events: none;
             }

@@ -1,7 +1,13 @@
+import {
+    NormalTansactionType,
+    TransferTansactionType,
+} from "./TransactionType";
 export type UserType = {
     data: DataType | null;
     categories: CategoryType[] | null;
     subcategories: SubCategories[] | null;
+    transactions: NormalTansactionType[] | TransferTansactionType[];
+    selectedDate: Date;
 };
 
 export type DataType = {

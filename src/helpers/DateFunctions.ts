@@ -1,13 +1,20 @@
 import dayjs from "dayjs";
 
 const DF = {
-    GetDateExtense: (value: Date) => {
+    getDateExtense: (value: Date) => {
         const date = dayjs(value);
         const month = DF.getMonthString(date.month());
         const day = date.date();
         const year = date.year();
         return `${day < 10 ? "0" + day : day} ${month} ${year}`;
     },
+
+    getMonthAndYear: (value: dayjs.Dayjs) => {
+        const month = value.month();
+        const year = value.year();
+        return { month, year };
+    },
+
     getHoursExtense: (value: Date) => {
         const hours = value.getHours();
         const minutes = value.getMinutes();
@@ -15,6 +22,7 @@ const DF = {
             minutes < 10 ? "0" + minutes : minutes
         }`;
     },
+
     getMonthString: (mes: number) => {
         switch (mes) {
             case 0:
@@ -41,6 +49,8 @@ const DF = {
                 return "Novembro";
             case 11:
                 return "Dezembro";
+            default:
+                return "";
         }
     },
 };

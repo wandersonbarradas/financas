@@ -14,6 +14,10 @@ export const PageLogin = () => {
 
     useEffect(() => {
         navigate('/login')
+        dispatch({
+            type: 'setSelectMonth',
+            payload: { selectMonth: false }
+        })
     }, [navigate])
 
     const showLoader = () => {
@@ -27,7 +31,19 @@ export const PageLogin = () => {
         const resultUser = await Api.getLogin(persistent, showLoader)
         dispatch({
             type: 'setData',
-            payload: { data: resultUser }
+            payload: { data: resultUser.user }
+        })
+        dispatch({
+            type: 'setTransactions',
+            payload: { transactions: resultUser.transactions }
+        })
+        dispatch({
+            type: 'setCategories',
+            payload: { categories: resultUser.categories }
+        })
+        dispatch({
+            type: 'setSubCategories',
+            payload: { subcategories: resultUser.subcategories }
         })
         dispatch({
             type: 'setLoader',

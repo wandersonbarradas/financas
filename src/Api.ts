@@ -1,3 +1,7 @@
+import {
+    NormalTansactionType,
+    TransferTansactionType,
+} from "./types/TransactionType";
 import { AccountType, UserAccountType } from "./types/AccountsType";
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "./firebaseConfig";
@@ -14,29 +18,25 @@ import {
 import {
     arrayRemove,
     arrayUnion,
-    collection,
-    collectionGroup,
     doc,
     getDoc,
-    getDocs,
     getFirestore,
-    query,
     setDoc,
     updateDoc,
-    where,
 } from "firebase/firestore";
-import {
-    UserType,
-    DataType,
-    CategoryType,
-    SubCategories,
-} from "./types/UserType";
+import { DataType, CategoryType, SubCategories } from "./types/UserType";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const Api = {
     getLogin: async (persistent: boolean, showLoader: () => void) => {
         const auth = getAuth();
         let user: DataType | null = null;
+        let transactions:
+            | NormalTansactionType[]
+            | TransferTansactionType[]
+            | null = null;
+        let categories: CategoryType[] | null = null;
+        let subcategories: SubCategories[] | null = null;
         try {
             const provider = new GoogleAuthProvider();
             await setPersistence(
@@ -56,6 +56,33 @@ const Api = {
                 if (newUser) {
                     user = newUser;
                 }
+            }
+            const transactionsResult = (await Api.getUserDocument(
+                result.user.uid,
+                "transactions",
+            )) as {
+                transactions: NormalTansactionType[] | TransferTansactionType[];
+            };
+            if (transactionsResult.transactions) {
+                transactions = transactionsResult.transactions;
+            }
+            const categoriesResult = (await Api.getUserDocument(
+                result.user.uid,
+                "categories",
+            )) as {
+                categories: CategoryType[];
+            };
+            if (categoriesResult.categories) {
+                categories = categoriesResult.categories;
+            }
+            const subcategoriesResult = (await Api.getUserDocument(
+                result.user.uid,
+                "subcategories",
+            )) as {
+                subcategories: SubCategories[];
+            };
+            if (subcategoriesResult.subcategories) {
+                subcategories = subcategoriesResult.subcategories;
             }
         } catch (error: any) {
             const errorCode = error.code;
@@ -79,7 +106,7 @@ const Api = {
                 credential,
             );
         }
-        return user;
+        return { user, transactions, categories, subcategories };
     },
 
     createUser: async (user: User) => {
@@ -101,6 +128,9 @@ const Api = {
         });
         await setDoc(doc(db, user.uid, "accounts"), {
             accounts: [],
+        });
+        await setDoc(doc(db, user.uid, "transactions"), {
+            transactions: [],
         });
         const newUser = await Api.checkUser(user.uid);
         return newUser;
@@ -191,6 +221,26 @@ const Api = {
         const userAccountRef = doc(db, id, "accounts");
         await updateDoc(userAccountRef, {
             accounts: arrayRemove(account),
+        });
+    },
+
+    setTransaction: async (
+        id: string,
+        transaction: NormalTansactionType | TransferTansactionType,
+    ) => {
+        const userAccountRef = doc(db, id, "transactions");
+        await updateDoc(userAccountRef, {
+            transactions: arrayUnion(transaction),
+        });
+    },
+
+    removeTransaction: async (
+        id: string,
+        transaction: NormalTansactionType | TransferTansactionType,
+    ) => {
+        const userAccountRef = doc(db, id, "transactions");
+        await updateDoc(userAccountRef, {
+            transactions: arrayRemove(transaction),
         });
     },
 

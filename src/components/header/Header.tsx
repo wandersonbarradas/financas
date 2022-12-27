@@ -20,8 +20,7 @@ export const Header = ({ showLoader }: Props) => {
     const { state, dispatch } = useContext(Context)
     const [containerCalendar, setContainerCalendar] = useState(false)
     const [dataCalendar, setDataCalendar] = useState({ left: 0, display: false })
-    const [dateRef, setDateRef] = useState(new Date())
-    const [dateExtense, setDateExtense] = useState(`${DF.GetDateExtense(new Date())} | ${DF.getHoursExtense(new Date())}`)
+    const [dateExtense, setDateExtense] = useState(`${DF.getDateExtense(new Date())} | ${DF.getHoursExtense(new Date())}`)
 
     useEffect(() => {
         handleDate()
@@ -46,7 +45,7 @@ export const Header = ({ showLoader }: Props) => {
 
     const handleDate = () => {
         setInterval(() => {
-            setDateExtense(`${DF.GetDateExtense(new Date())} | ${DF.getHoursExtense(new Date())}`)
+            setDateExtense(`${DF.getDateExtense(new Date())} | ${DF.getHoursExtense(new Date())}`)
         }, 1000)
     }
 
@@ -86,15 +85,18 @@ export const Header = ({ showLoader }: Props) => {
     }
 
     const onClickCalendar = (date: Date) => {
-        setDateRef(date)
+        dispatch({
+            type: 'setSelectedDate',
+            payload: { selectedDate: date }
+        })
         closeCalendar()
     }
 
     const getMonthString = () => {
-        if (dayjs(dateRef).year() === dayjs().year()) {
-            return DF.getMonthString(dayjs(dateRef).month())
+        if (dayjs(state.user.selectedDate).year() === dayjs().year()) {
+            return DF.getMonthString(dayjs(state.user.selectedDate).month())
         } else {
-            return `${DF.getMonthString(dayjs(dateRef).month())} ${dayjs(dateRef).year()}`
+            return `${DF.getMonthString(dayjs(state.user.selectedDate).month())} ${dayjs(state.user.selectedDate).year()}`
         }
     }
     return (
@@ -147,7 +149,7 @@ export const Header = ({ showLoader }: Props) => {
             {containerCalendar &&
                 <div onClick={closeContainerCalendar} className='containerCalendar'>
                     {dataCalendar.display &&
-                        <MonthCalendar Click={onClickCalendar} dateCurrent={dateRef} dataCalendar={dataCalendar} closeModal={closeCalendar} />
+                        <MonthCalendar Click={onClickCalendar} dateCurrent={state.user.selectedDate} dataCalendar={dataCalendar} closeModal={closeCalendar} />
                     }
                 </div>
             }

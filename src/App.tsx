@@ -2,24 +2,24 @@ import * as C from './app.styled'
 import { SideBar } from './components/sidebar/sidebar';
 import { MainRouter, LoginRouter } from './routers/MainRouter';
 import { Context } from './context/context'
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { Dark, Light } from './reducers/ThemeReducer';
-import { ModalNewAccount } from './components/ModalNewAccount/ModalNewAccount';
 import Api from './Api'
 import Cookies from 'js-cookie';
-import { DataType, UserType } from './types/UserType';
+import { CategoryType, DataType, SubCategories } from './types/UserType';
 import { Loader } from './components/loader/Loader';
 import { Header } from './components/header/Header';
+import { NormalTansactionType, TransferTansactionType } from './types/TransactionType';
 const App = () => {
     const { state, dispatch } = useContext(Context)
-    const [modalTransactions, setModalTransactions] = useState(false)
-    const [newExpense, setNewExpense] = useState(false)
-    const [newIncome, setNewIncome] = useState(false)
-    const [newTransfer, setNewTransfer] = useState(false)
 
     useEffect(() => {
         handleGetLogin()
         getCookies()
+        dispatch({
+            type: 'setSelectedDate',
+            payload: { selectedDate: new Date() }
+        })
     }, [])
 
     const showLoader = (value: boolean) => {
@@ -29,11 +29,43 @@ const App = () => {
         })
     }
 
-    const setNewUser = (value: DataType | null,) => {
+    const getDataUser = async (id: string | undefined) => {
+        if (id === undefined) {
+            return;
+        }
+        const transactions = await Api.getUserDocument(id, 'transactions') as { transactions: NormalTansactionType[] | TransferTansactionType[] }
+        dispatch({
+            type: 'setTransactions',
+            payload: { transactions: transactions.transactions }
+        })
+        const categoriesResult = (await Api.getUserDocument(
+            id,
+            "categories",
+        )) as {
+            categories: CategoryType[];
+        };
+        dispatch({
+            type: 'setCategories',
+            payload: { categories: categoriesResult.categories }
+        })
+        const subcategoriesResult = (await Api.getUserDocument(
+            id,
+            "subcategories",
+        )) as {
+            subcategories: SubCategories[];
+        };
+        dispatch({
+            type: 'setSubCategories',
+            payload: { subcategories: subcategoriesResult.subcategories }
+        })
+    }
+
+    const setNewUser = async (value: DataType | null,) => {
         dispatch({
             type: 'setData',
             payload: { data: value }
         })
+        await getDataUser(value?.id)
         dispatch({
             type: 'setLoader',
             payload: { loader: false }
@@ -46,39 +78,6 @@ const App = () => {
             payload: { loader: true }
         })
         Api.getToken(setNewUser)
-    }
-
-    const hendleModalTrasactions = (value?: boolean, type?: 'income' | 'expense' | 'transfer') => {
-        if (value) {
-            setModalTransactions(true)
-            switch (type) {
-                case 'income':
-                    setNewExpense(false)
-                    setNewTransfer(false)
-                    setNewIncome(value)
-                    break;
-                case 'expense':
-                    setNewIncome(false)
-                    setNewTransfer(false)
-                    setNewExpense(value)
-                    break;
-                case 'transfer':
-                    setNewIncome(false)
-                    setNewExpense(false)
-                    setNewTransfer(value)
-                    break;
-                default:
-                    setModalTransactions(false)
-                    setNewIncome(false)
-                    setNewExpense(false)
-                    setNewTransfer(false)
-            }
-        } else {
-            setModalTransactions(false)
-            setNewIncome(false)
-            setNewExpense(false)
-            setNewTransfer(false)
-        }
     }
 
     const getCookies = () => {
@@ -113,13 +112,8 @@ const App = () => {
                         <SideBar showLoader={showLoader} />
                         <main className='main scroll'>
                             <Header showLoader={showLoader} />
-                            <MainRouter handleModal={hendleModalTrasactions} />
+                            <MainRouter />
                         </main>
-                        {modalTransactions &&
-                            <div className='container-modal-transactions'>
-
-                            </div>
-                        }
                     </C.Container>
                 }
             </>

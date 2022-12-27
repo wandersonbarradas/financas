@@ -6,9 +6,10 @@ type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     children: ReactNode;
     modalOpacity: number;
+    clickAway: boolean;
 }
 
-export const Modal = ({ open, setOpen, children, modalOpacity }: Props) => {
+export const Modal = ({ open, setOpen, children, modalOpacity, clickAway }: Props) => {
     const [modal, setModal] = useState(false)
     const [opacity, setOpacity] = useState(0)
 
@@ -31,20 +32,27 @@ export const Modal = ({ open, setOpen, children, modalOpacity }: Props) => {
     }
 
     const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
-        const element = e.target as HTMLDivElement;
-        if (element.id === 'modal') {
-            setOpacity(0)
-            setTimeout(() => {
-                setModal(false)
-            }, 225)
-            setOpen(false)
+        if (clickAway) {
+            const element = e.target as HTMLDivElement;
+            if (element.id === 'modal') {
+                setOpacity(0)
+                setTimeout(() => {
+                    setModal(false)
+                }, 225)
+                setOpen(false)
+            }
         }
     }
 
     return (
         <>
             {modal &&
-                <C.Container modalOpacity={modalOpacity} onClick={closeModal} id='modal' opacity={opacity}>
+                <C.Container
+                    modalOpacity={modalOpacity}
+                    id='modal'
+                    opacity={opacity}
+                    onClick={closeModal}
+                >
                     {children}
                 </C.Container>
             }

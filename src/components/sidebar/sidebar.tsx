@@ -27,6 +27,7 @@ import TrendingDownOutlinedIcon from '@mui/icons-material/TrendingDownOutlined';
 import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 import TransformOutlinedIcon from '@mui/icons-material/TransformOutlined';
 import { Modal } from '../modais/Modais'
+import { ModalTransaction } from '../modalTransaction/ModalTransaction'
 
 
 type Props = {
@@ -36,9 +37,10 @@ type Props = {
 export const SideBar = ({ showLoader }: Props) => {
     const [openMenu, setOpenMenu] = useState(true)
     const [modalMore, setModalMore] = useState(false)
-    const [opacityModalMore, setOpacityModalMore] = useState(0)
     const [cordenadas, setCordenadas] = useState({ top: 0, left: 0 })
     const [modalAdd, setModalAdd] = useState(false)
+    const [modalTransaction, setModalTransaction] = useState(false)
+    const [typeTransaction, setTypeTransaction] = useState<'expense' | 'income' | 'transfer'>('expense')
     const { state, dispatch } = useContext(Context)
     useEffect(() => {
         setOpenMenu(state.general.sideBar)
@@ -74,17 +76,10 @@ export const SideBar = ({ showLoader }: Props) => {
         setModalMore(true)
     }
 
-    const handleCloseModalMore = () => {
-        setOpacityModalMore(0)
-        setTimeout(() => {
-            setModalMore(false)
-        }, 200)
-    }
-
     const handleClickModalMore = (e: React.MouseEvent<HTMLElement>) => {
         const element = e.target as HTMLElement
         if (element.classList.contains('containerModalMore')) {
-            handleCloseModalMore()
+            setModalMore(false)
         }
     }
 
@@ -97,35 +92,14 @@ export const SideBar = ({ showLoader }: Props) => {
         Cookies.set("sidebar", openMenu ? '0' : '1', { expires: 999 });
     }
 
+    const handleNewTransition = (type: 'expense' | 'income' | 'transfer') => {
+        setModalAdd(false)
+        setTypeTransaction(type)
+        setModalTransaction(true)
+    }
+
     return (
         <C.Container className='scroll' modalMore={{ top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
-            <Modal open={modalMore} setOpen={setModalMore} modalOpacity={0}>
-                <div onClick={handleClickModalMore} className='containerModalMore'>
-                    <div className='modalMore'>
-                        <ul>
-                            <li>
-                                <Link onClick={handleCloseModalMore} to='/categorias'>
-                                    <div className='icon'><TurnedInNotIcon /></div>
-                                    Categorias
-                                </Link>
-                            </li>
-                            <li>
-                                <Link onClick={handleCloseModalMore} to='tags'>
-                                    <div className='icon'><TagIcon /></div>
-                                    Tags
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </Modal>
-            <Modal open={modalAdd} setOpen={setModalAdd} modalOpacity={0}>
-                <ul className='menuAdd'>
-                    <li className='listItem'> <div className='icon des'><TrendingDownOutlinedIcon /></div> <span>Despesa</span></li>
-                    <li className='listItem'> <div className='icon res'><TrendingUpOutlinedIcon /></div> <span>Receita</span></li>
-                    <li className='listItem'> <div className='icon tras'><TransformOutlinedIcon /></div> <span>Transferência</span></li>
-                </ul>
-            </Modal>
             <div className='box-logo' onClick={handleSideBar}>
                 {state.theme.status === 'Dark' &&
                     <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoDark : LogoDark2} alt="" />
@@ -155,6 +129,36 @@ export const SideBar = ({ showLoader }: Props) => {
                     <ListItemSideBar menuOpen={openMenu} Icon={ArrowBackIcon} logout={handleLogOut} label='Log Out' url='/login' />
                 </ul>
             </nav>
+            <Modal clickAway={true} open={modalMore} setOpen={setModalMore} modalOpacity={0}>
+                <div onClick={handleClickModalMore} className='containerModalMore'>
+                    <div className='modalMore'>
+                        <ul>
+                            <li>
+                                <Link onClick={() => setModalMore(false)} to='/categorias'>
+                                    <div className='icon'><TurnedInNotIcon /></div>
+                                    Categorias
+                                </Link>
+                            </li>
+                            <li>
+                                <Link onClick={() => setModalMore(false)} to='tags'>
+                                    <div className='icon'><TagIcon /></div>
+                                    Tags
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </Modal>
+            <Modal clickAway={true} open={modalAdd} setOpen={setModalAdd} modalOpacity={0}>
+                <ul className='menuAdd'>
+                    <li onClick={() => handleNewTransition('expense')} className='listItem'> <div className='icon des'><TrendingDownOutlinedIcon /></div> <span>Despesa</span></li>
+                    <li onClick={() => handleNewTransition('income')} className='listItem'> <div className='icon res'><TrendingUpOutlinedIcon /></div> <span>Receita</span></li>
+                    <li onClick={() => handleNewTransition('transfer')} className='listItem'> <div className='icon tras'><TransformOutlinedIcon /></div> <span>Transferência</span></li>
+                </ul>
+            </Modal>
+            <Modal clickAway={false} modalOpacity={0.5} setOpen={setModalTransaction} open={modalTransaction}>
+                <ModalTransaction setClose={setModalTransaction} type={typeTransaction} />
+            </Modal>
         </C.Container>
     )
 }

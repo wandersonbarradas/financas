@@ -52,9 +52,16 @@ export const Container = styled.div<Props>`
 
             .last-transaction-value {
                 font-family: "Inter", sans-serif;
-                color: #4fd18b;
                 font-size: 18px;
+                font-weight: 600;
                 margin-bottom: 7px;
+
+                &.po {
+                    color: ${(props) => props.Theme.incomeColor}
+                }
+                &.ne {
+                    color: ${(props) => props.Theme.expenseColor}
+                }
             }
 
             .balance-text-info {
@@ -70,7 +77,6 @@ export const Container = styled.div<Props>`
                 flex: 1;
                 max-width: 250px;
                 height: 270px;
-                background: ${(props) => props.Theme.gradientBalance};
                 transition: all 0.3s ease;
                 display: flex;
                 flex-direction: column;
@@ -78,6 +84,13 @@ export const Container = styled.div<Props>`
                 justify-content: center;
                 border-radius: 100% 0 0 100%;
                 padding: 20px 6px 20px 20px;
+
+                &.po {
+                    background: ${(props) => props.Theme.gradientPositive}
+                }
+                &.ne {
+                    background: ${(props) => props.Theme.gradientNegative}
+                }
 
                 .info {
                     font-weight: 900;

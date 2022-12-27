@@ -9,7 +9,7 @@ import { Modal } from '../../components/modais/Modais';
 import { ModalNewAccount } from '../../components/ModalNewAccount/ModalNewAccount';
 
 export const Account = () => {
-    const { state } = useContext(Context)
+    const { state, dispatch } = useContext(Context)
     const [accounts, setAccounts] = useState<UserAccountType[]>([])
     const [publicAccounts, setpublicAccounts] = useState<AccountType[]>([])
     const [open, setOpen] = useState(false)
@@ -17,6 +17,10 @@ export const Account = () => {
     useEffect(() => {
         getAccounts()
         getPublicAccounts()
+        dispatch({
+            type: 'setSelectedDate',
+            payload: { selectedDate: new Date() }
+        })
     }, []);
 
     const getAccounts = async () => {
@@ -57,7 +61,7 @@ export const Account = () => {
                     ))}
                 </div>
             </div>
-            <Modal modalOpacity={0.5} open={open} setOpen={setOpen}>
+            <Modal clickAway={false} modalOpacity={0.5} open={open} setOpen={setOpen}>
                 <ModalNewAccount getAccount={getAccounts} id={accounts[0]?.id ? accounts[0]?.id + 1 : 1} accounts={publicAccounts} setOpen={setOpen} />
             </Modal>
         </C.Container >

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Context } from '../../context/context';
 import { Bar } from 'react-chartjs-2'
 import {
@@ -11,10 +11,49 @@ import {
     Legend,
     ScriptableContext,
 } from 'chart.js';
+import { NormalTansactionType } from '../../types/TransactionType';
+import DF from '../../helpers/DateFunctions';
 
-export const ChartReport = () => {
+type Props = {
+    months: {
+        firstMonth: Date,
+        secondMonth: Date,
+        thirdMonth: Date,
+        fourthMonth: Date
+    } | null;
+}
+
+export const ChartReport = ({ months }: Props) => {
     const { state } = useContext(Context)
+    const [firstMonth, setFirstMonth] = useState({ month: '', expense: 0, income: 0 })
+    const [secondMonth, setSecondMonth] = useState({ month: '', expense: 0, income: 0 })
+    const [thirdMonth, setThirdMonth] = useState({ month: '', expense: 0, income: 0 })
+    const [fourthMonth, setFourthMonth] = useState({ month: '', expense: 0, income: 0 })
 
+    useEffect(() => {
+        if (months === null) {
+            return
+        }
+        setFirstMonth(getValuesMonth(months.firstMonth))
+        setSecondMonth(getValuesMonth(months.secondMonth))
+        setThirdMonth(getValuesMonth(months.thirdMonth))
+        setFourthMonth(getValuesMonth(months.fourthMonth))
+    }, [months]);
+
+    const getValuesMonth = (mesRef: Date) => {
+        const transactionsGeneral = state.user.transactions as NormalTansactionType[];
+        const transactionsSelectedMonth = transactionsGeneral.filter(item => {
+            const date = item.date as { seconds: number; nanoseconds: number }
+            const dateItem = new Date(date.seconds * 1000)
+            if (dateItem.getMonth() === mesRef.getMonth() && dateItem.getFullYear() === mesRef.getFullYear() && item.type !== 'transfer') {
+                return item;
+            }
+        })
+        const expense = transactionsSelectedMonth.filter(item => item.type === 'expense' && item.done).reduce((previousValue, currentValue) => previousValue + currentValue.value, 0)
+        const income = transactionsSelectedMonth.filter(item => item.type === 'income' && item.done).reduce((previousValue, currentValue) => previousValue + currentValue.value, 0)
+
+        return { month: DF.getMonthString(mesRef.getMonth()).slice(0, 3), expense, income }
+    }
 
 
     ChartJS.register(
@@ -26,21 +65,21 @@ export const ChartReport = () => {
         Legend,
     );
 
-    const labels = ['SET', 'OUT', 'NOV', 'DEZ'];
+    const labels = [fourthMonth.month, thirdMonth.month, secondMonth.month, firstMonth.month];
 
     const data = {
         labels,
         datasets: [
             {
                 label: 'Receitas',
-                data: [2000, 1500, 1633, 550],
+                data: [fourthMonth.income, thirdMonth.income, secondMonth.income, firstMonth.income],
                 backgroundColor: '#4FD18B',
                 borderWidth: 2,
                 borderRadius: 5,
             },
             {
                 label: 'Despesas',
-                data: [5000, 300, 995, 1675.69],
+                data: [fourthMonth.expense, thirdMonth.expense, secondMonth.expense, firstMonth.expense],
                 backgroundColor: '#F02927',
                 borderWidth: 2,
                 borderRadius: 5,

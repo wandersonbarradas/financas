@@ -5,6 +5,8 @@ export const UserInitialState: UserType = {
     data: null,
     categories: null,
     subcategories: null,
+    transactions: [],
+    selectedDate: new Date(),
 };
 
 export const UserReducer = (state: UserType, action: reducerActionType) => {
@@ -15,6 +17,10 @@ export const UserReducer = (state: UserType, action: reducerActionType) => {
             return { ...state, categories: action.payload.categories };
         case "setSubCategories":
             return { ...state, subcategories: action.payload.subcategories };
+        case "setTransactions":
+            return { ...state, transactions: action.payload.transactions };
+        case "setSelectedDate":
+            return { ...state, selectedDate: action.payload.selectedDate };
         default:
             return state;
     }
