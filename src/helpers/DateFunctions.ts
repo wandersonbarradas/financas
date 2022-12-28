@@ -1,3 +1,4 @@
+import { NormalTansactionType } from "./../types/TransactionType";
 import dayjs from "dayjs";
 
 const DF = {
@@ -52,6 +53,23 @@ const DF = {
             default:
                 return "";
         }
+    },
+
+    getTransactionsSelectDate: (
+        transactions: NormalTansactionType[],
+        date: dayjs.Dayjs,
+    ) => {
+        const transactionsDate = transactions.filter((item) => {
+            const d = item.date as { seconds: number; nanoseconds: number };
+            const dateItem = dayjs(new Date(d.seconds * 1000));
+            if (
+                dateItem.month() === date.month() &&
+                dateItem.year() === date.year()
+            ) {
+                return item;
+            }
+        });
+        return transactionsDate;
     },
 };
 

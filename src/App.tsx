@@ -10,6 +10,7 @@ import { CategoryType, DataType, SubCategories } from './types/UserType';
 import { Loader } from './components/loader/Loader';
 import { Header } from './components/header/Header';
 import { NormalTansactionType, TransferTansactionType } from './types/TransactionType';
+import { UserAccountType } from './types/AccountsType';
 const App = () => {
     const { state, dispatch } = useContext(Context)
 
@@ -57,6 +58,16 @@ const App = () => {
         dispatch({
             type: 'setSubCategories',
             payload: { subcategories: subcategoriesResult.subcategories }
+        })
+        const accountsResult = (await Api.getUserDocument(
+            id,
+            "accounts",
+        )) as {
+            accounts: UserAccountType[];
+        };
+        dispatch({
+            type: 'setAccounts',
+            payload: { accounts: accountsResult.accounts }
         })
     }
 

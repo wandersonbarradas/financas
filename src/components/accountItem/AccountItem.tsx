@@ -8,6 +8,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Api from '../../Api';
 import { ModalNewAccount } from '../ModalNewAccount/ModalNewAccount';
+import FormattedPrice from '../../helpers/FormattedPrice';
 
 type Props = {
     Account: UserAccountType;
@@ -61,7 +62,7 @@ export const AccountItem = ({ Account, getAccounts, publicAccounts }: Props) => 
             </div>
             <div className='rowResume'>
                 <span className='label'>Saldo atual</span>
-                <span className={Account.value >= 0 ? 'value more' : 'value less'}>R$ {Account.value.toFixed(2)}</span>
+                <span className={Account.value >= 0 ? 'value more' : 'value less'}>R$ {FormattedPrice(Account.value)}</span>
             </div>
             {/* <div className='rowResume'>
                 <span className='label'>Saldo previsto</span>

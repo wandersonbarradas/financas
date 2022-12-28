@@ -158,6 +158,7 @@ export const ModalTransaction = (props: Props) => {
                 accountFor
             }
             await Api.setTransaction(userId, transaction)
+            // attValueBank(account, valueExpense, props.type, accountFor)
         } else {
             if (account === null || category === null) {
                 return
@@ -175,6 +176,7 @@ export const ModalTransaction = (props: Props) => {
                 done
             }
             await Api.setTransaction(userId, transaction)
+            // attValueBank(account, valueExpense, props.type)
         }
         const transactionsResult = await Api.getUserDocument(userId, 'transactions') as { transactions: NormalTansactionType[] | TransferTansactionType[] }
         dispatch({

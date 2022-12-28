@@ -8,8 +8,11 @@ import { Context } from '../../context/context';
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
+import TrendingDownIcon from '@mui/icons-material/TrendingDown';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import dayjs from 'dayjs';
 import DF from '../../helpers/DateFunctions';
+import FormattedPrice from '../../helpers/FormattedPrice';
 
 type LastMonth = {
     firstMonth: Date,
@@ -24,9 +27,13 @@ export const Dashboard = () => {
     const [valueIncomeMonth, setValueIncomeMonth] = useState(0)
     const [valueBalanceMonth, setValueBalanceMonth] = useState(0)
     const [valuePendingMonth, setValuePendingMonth] = useState(0)
+    const [expensePercentage, setExpensePercentage] = useState(0)
+    const [incomePercentage, setIncomePercentage] = useState(0)
+    const [balancePercentage, setBalancePercentage] = useState(0)
+    const [pendingPercentage, setPendingPercentage] = useState(0)
     const [lastTransaction, setLastTransaction] = useState<NormalTansactionType | null>(null)
     const [lastTransactions, setLastTransactions] = useState<NormalTansactionType[]>([])
-    const [amount, setAmount] = useState(0)
+    const [amount, setAmount] = useState({ value: '0', decimals: '00' })
     const [lastMonth, setLastMonth] = useState<LastMonth | null>(null)
     const navigate = useNavigate()
 
@@ -49,33 +56,47 @@ export const Dashboard = () => {
 
     const getValueTransactions = () => {
         const transactions = state.user.transactions as NormalTansactionType[];
-        console.log()
-        const transactionsSelectedMonth = transactions.filter(item => {
-            const date = item.date as { seconds: number; nanoseconds: number }
-            const dateItem = new Date(date.seconds * 1000)
-            if (dateItem.getMonth() === state.user.selectedDate.getMonth() && dateItem.getFullYear() === state.user.selectedDate.getFullYear()) {
-                return item;
-            }
-        });
-        const transactionsExpense = transactionsSelectedMonth.filter((item: NormalTansactionType) => item.type === 'expense' && item.done === true)
-        const valueExpense = transactionsExpense.reduce((previousValue: any, currentValue: any) => previousValue + currentValue.value, 0)
-        setValueExpenseMonth(valueExpense)
-        const transactionsIncome = transactionsSelectedMonth.filter((item: NormalTansactionType) => item.type === 'income' && item.done === true)
-        const valueIncome = transactionsIncome.reduce((previousValue, currentValue) => previousValue + currentValue.value, 0)
-        setValueIncomeMonth(valueIncome)
-        setValueBalanceMonth(valueIncome - valueExpense)
-        const ExpensePending = transactionsSelectedMonth.filter(item => item.done === false && item.type === 'expense');
-        const valueExpensePending = ExpensePending.reduce((previousValue: any, currentValue: any) => previousValue + currentValue.value, 0)
-        setValuePendingMonth(valueExpensePending)
+        console.table(transactions)
         if (transactions.length > 0) {
             transactions.sort((a, b) => b.id - a.id)
             setLastTransactions(transactions.slice(0, 5))
             const transactionsFilt = transactions.filter(item => item.type !== 'transfer')
             setLastTransaction(transactionsFilt[0])
         }
-        const allTheExpenses = transactions.filter(item => item.type === 'expense' && item.done).reduce((previousValue, currentValue) => previousValue + currentValue.value, 0)
-        const allTheIncome = transactions.filter(item => item.type === 'income' && item.done).reduce((previousValue, currentValue) => previousValue + currentValue.value, 0)
-        setAmount(allTheIncome - allTheExpenses)
+        const allTheExpenses = getValuesForType('expense', true, transactions)
+        const allTheIncome = getValuesForType('income', true, transactions)
+        const [value, decimals] = FormattedPrice(allTheIncome - allTheExpenses).split(',')
+        setAmount({ value, decimals })
+
+        //Values SelectMonth
+        const transactionsSelectedMonth = DF.getTransactionsSelectDate(transactions, dayjs(state.user.selectedDate))
+        const valueExpense = getValuesForType('expense', true, transactionsSelectedMonth)
+        setValueExpenseMonth(valueExpense)
+        const valueIncome = getValuesForType('income', true, transactionsSelectedMonth)
+        setValueIncomeMonth(valueIncome)
+        setValueBalanceMonth(valueIncome - valueExpense)
+        const valueExpensePending = getValuesForType('expense', false, transactionsSelectedMonth)
+        setValuePendingMonth(valueExpensePending)
+
+        //Values last month 
+        const transactionsLastMonth = DF.getTransactionsSelectDate(transactions, dayjs(state.user.selectedDate).subtract(1, 'month'))
+        const valueExpenseLastMonth = getValuesForType('expense', true, transactionsLastMonth)
+        setExpensePercentage(valueExpenseLastMonth === 1 ? 0 : ((valueExpense / valueExpenseLastMonth - 1) * 100))
+        const valueIncomeLastMonth = getValuesForType('income', true, transactionsLastMonth)
+        setIncomePercentage(valueIncomeLastMonth === 1 ? 0 : ((valueIncome / valueIncomeLastMonth - 1) * 100))
+        const valueExpensePedingLastMonth = getValuesForType('expense', false, transactionsLastMonth)
+        setPendingPercentage(valueExpensePedingLastMonth === 0 ? 0 : ((valueExpensePending / valueExpensePedingLastMonth - 1) * 100))
+        const balanceMonth = valueIncome - valueExpense;
+        const balanceLastMonth = valueIncomeLastMonth - valueExpenseLastMonth;
+        setBalancePercentage(balanceLastMonth === 0 ? 0 : ((balanceMonth / balanceLastMonth - 1) * 100))
+
+
+    }
+
+    const getValuesForType = (type: 'expense' | 'income', done: boolean, transactions: NormalTansactionType[]) => {
+        const transactionsExpense = transactions.filter((item) => item.type === type && item.done === done)
+        const valueExpense = transactionsExpense.reduce((previousValue: number, currentValue) => previousValue + currentValue.value, 0)
+        return valueExpense;
     }
 
     const valueCharts = () => {
@@ -101,19 +122,18 @@ export const Dashboard = () => {
                             <h4 className='balance-title'>Balanço Total</h4>
                             {lastTransaction &&
                                 <div className={lastTransaction.type === 'income' ? 'last-transaction-value po' : 'last-transaction-value ne'}>
-                                    R$
-                                    {lastTransaction.type === 'income' ? ' +' : ' -'}
-                                    {lastTransaction.value.toFixed(2)}
+                                    {lastTransaction.type === 'income' ? <TrendingUpIcon /> : <TrendingDownIcon />}
+                                    R$ {FormattedPrice(lastTransaction.value)}
                                 </div>
                             }{!lastTransaction &&
-                                <div className="last-transaction-value po">R$ 0.00</div>
+                                <div className="last-transaction-value po">R$ 0,00</div>
                             }
                             <div className='balance-text-info'>
                                 Última Transação</div>
                         </div>
-                        <div className={amount < 0 ? 'balance-total ne' : 'balance-total po'}>
+                        <div className={Number(amount.value) < 0 && Number(amount.decimals) < 0 ? 'balance-total ne' : 'balance-total po'}>
                             <div className="balance-value">
-                                R$ {amount.toFixed(2)}
+                                R$ {amount.value}<span>,{amount.decimals}</span>
                             </div>
                             <div className='info'>SALDO ATUAL</div>
                         </div>
@@ -125,36 +145,40 @@ export const Dashboard = () => {
                     </div>
                 </div>
                 <div className={state.general.sideBar ? 'row response metric' : 'row metric'}>
-                    <MetricItem title="Saldo Total" value={valueBalanceMonth} percentage={11} />
-                    <MetricItem title="Total Receitas" value={valueIncomeMonth} percentage={-8} />
-                    <MetricItem title="Total Despesas" value={valueExpenseMonth} percentage={8} />
-                    <MetricItem title="Pendente" value={valuePendingMonth} percentage={11.52} />
+                    <MetricItem title="Saldo Total" value={valueBalanceMonth} percentage={balancePercentage} />
+                    <MetricItem title="Total Receitas" value={valueIncomeMonth} percentage={incomePercentage} />
+                    <MetricItem title="Total Despesas" value={valueExpenseMonth} percentage={expensePercentage} />
+                    <MetricItem title="Pendente" value={valuePendingMonth} percentage={pendingPercentage} />
                 </div>
             </div>
             <div className='bottom-metrics'>
                 <div className={state.general.sideBar ? 'row response' : 'row'}>
-                    <div className='last-transactions'>
-                        <div className='header'>
-                            <h4 className='title'>Últimas Transações</h4>
-                            <div className='icon'>
-                                <MoreHorizIcon />
+                    {lastTransactions.length > 0 &&
+                        <div className='last-transactions'>
+                            <div className='header'>
+                                <h4 className='title'>Últimas Transações</h4>
+                                <div className='icon'>
+                                    <MoreHorizIcon />
+                                </div>
                             </div>
+                            <ul className='content'>
+                                {lastTransactions.map((item, index) => (
+                                    <ItemLastTransactions key={index} item={item} />
+                                ))}
+                            </ul>
                         </div>
-                        <ul className='content'>
-                            {lastTransactions.map((item, index) => (
-                                <ItemLastTransactions key={index} item={item} />
-                            ))}
-                        </ul>
-                    </div>
-                    <div className='chart-pie'>
-                        <div className='header'>
-                            <h4 className='title'>Gastos este mês</h4>
-                            <div className='icon'>
-                                <MoreHorizIcon />
+                    }
+                    {valueExpenseMonth > 0 &&
+                        <div className='chart-pie'>
+                            <div className='header'>
+                                <h4 className='title'>Gastos este mês</h4>
+                                <div className='icon'>
+                                    <MoreHorizIcon />
+                                </div>
                             </div>
+                            <PieChart />
                         </div>
-                        <PieChart />
-                    </div>
+                    }
                 </div>
             </div>
         </C.Container>

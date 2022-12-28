@@ -1,3 +1,4 @@
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -52,7 +53,10 @@ export const Container = styled.div<Props>`
 
             .last-transaction-value {
                 font-family: "Inter", sans-serif;
-                font-size: 18px;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                font-size: 20px;
                 font-weight: 600;
                 margin-bottom: 7px;
 
@@ -110,7 +114,7 @@ export const Container = styled.div<Props>`
                 color: #ffffff;
 
                 span {
-                    font-size: 16px;
+                    font-size: 22px;
                 }
             }
 

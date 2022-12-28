@@ -1,3 +1,4 @@
+import { UserAccountType } from "./AccountsType";
 import {
     NormalTansactionType,
     TransferTansactionType,
@@ -7,6 +8,7 @@ export type UserType = {
     categories: CategoryType[] | null;
     subcategories: SubCategories[] | null;
     transactions: NormalTansactionType[] | TransferTansactionType[];
+    accounts: UserAccountType[] | null;
     selectedDate: Date;
 };
 

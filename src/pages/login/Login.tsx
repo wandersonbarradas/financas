@@ -46,6 +46,10 @@ export const PageLogin = () => {
             payload: { subcategories: resultUser.subcategories }
         })
         dispatch({
+            type: 'setAccounts',
+            payload: { accounts: resultUser.accounts }
+        })
+        dispatch({
             type: 'setLoader',
             payload: { loader: false }
         })

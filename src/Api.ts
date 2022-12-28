@@ -37,6 +37,7 @@ const Api = {
             | null = null;
         let categories: CategoryType[] | null = null;
         let subcategories: SubCategories[] | null = null;
+        let accounts: UserAccountType[] | null = null;
         try {
             const provider = new GoogleAuthProvider();
             await setPersistence(
@@ -84,6 +85,15 @@ const Api = {
             if (subcategoriesResult.subcategories) {
                 subcategories = subcategoriesResult.subcategories;
             }
+            const accountsResult = (await Api.getUserDocument(
+                result.user.uid,
+                "accounts",
+            )) as {
+                accounts: UserAccountType[];
+            };
+            if (accountsResult.accounts) {
+                accounts = accountsResult.accounts;
+            }
         } catch (error: any) {
             const errorCode = error.code;
             console.log(
@@ -106,7 +116,7 @@ const Api = {
                 credential,
             );
         }
-        return { user, transactions, categories, subcategories };
+        return { user, transactions, categories, subcategories, accounts };
     },
 
     createUser: async (user: User) => {
@@ -168,7 +178,10 @@ const Api = {
         auth.signOut();
     },
 
-    getUserDocument: async (id: string, document: string) => {
+    getUserDocument: async (id: string | undefined, document: string) => {
+        if (!id) {
+            return;
+        }
         let result: any;
         const docRef = doc(db, id, document);
         try {

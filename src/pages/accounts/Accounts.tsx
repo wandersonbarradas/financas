@@ -7,6 +7,14 @@ import Api from '../../Api';
 import { AccountType, UserAccountType } from '../../types/AccountsType';
 import { Modal } from '../../components/modais/Modais';
 import { ModalNewAccount } from '../../components/ModalNewAccount/ModalNewAccount';
+import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
+import FormattedPrice from '../../helpers/FormattedPrice';
+
+type ListAccount = {
+    name: string,
+    id: number,
+    value: number,
+}
 
 export const Account = () => {
     const { state, dispatch } = useContext(Context)
@@ -15,26 +23,117 @@ export const Account = () => {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
-        getAccounts()
+        handleValuesAccounts()
         getPublicAccounts()
         dispatch({
-            type: 'setSelectedDate',
-            payload: { selectedDate: new Date() }
+            type: 'setSelectMonth',
+            payload: { selectMonth: false }
         })
     }, []);
 
+    useEffect(() => {
+        handleValuesAccounts()
+    }, [state.user.transactions,]);
+
+
+
     const getAccounts = async () => {
-        if (state.user.data === null) {
-            return;
-        }
-        const result = await Api.getUserDocument(state.user.data.id, 'accounts') as { accounts: UserAccountType[] }
+        const result = state.user.accounts
         if (result) {
             setAccounts(
-                result.accounts.sort((a, b) => {
+                result.sort((a, b) => {
                     return b.id - a.id
                 })
             )
         }
+    }
+
+    const handleValuesAccounts = () => {
+        const list: ListAccount[] = []
+        state.user.accounts?.map(item => {
+            const verif = list.findIndex(el => el.id === item.id)
+            if (verif < 0) {
+                list.push({ name: item.description, id: item.id, value: 0 })
+            }
+        })
+        const transactions = state.user.transactions as NormalTansactionType[];
+        transactions.map((item) => {
+            if (item.type === 'transfer') {
+                const el = item as unknown as TransferTansactionType;
+                attValueBank(list, el.account, el.value, el.type, el.accountFor)
+            } else {
+                if (!item.done) {
+                    return
+                }
+                attValueBank(list, item.account, item.value, item.type)
+            }
+        })
+        // const transactionsExpense = transactions.filter((item) => item.type === 'expense' && item.done);
+        // transactionsExpense.map(item => {
+        //     attValueBank(list, item.account, item.value, item.type)
+        // })
+        // const transactionsIncome = transactions.filter((item) => item.type === 'income' && item.done);
+        // transactionsIncome.map(item => {
+        //     attValueBank(list, item.account, item.value, item.type)
+        // })
+        // const transactionsTransfer = transactions.filter((item) => item.type === 'transfer') as unknown as TransferTansactionType[];
+        // transactionsTransfer.map(item => {
+        //     attValueBank(list, item.account, item.value, item.type, item.accountFor)
+        // })
+        attBankFirebase(list)
+        getAccounts()
+    }
+
+    const attValueBank = async (listAccounts: ListAccount[], bank: UserAccountType, value: number, type: 'expense' | 'income' | 'transfer', bankFor?: UserAccountType) => {
+        switch (type) {
+            case 'expense':
+                const index1 = listAccounts.findIndex(item => item.id === bank.id)
+                if (index1 < 0) {
+                    return;
+                }
+                listAccounts[index1].value = listAccounts[index1].value - value;
+                break;
+            case 'income':
+                const index2 = listAccounts.findIndex(item => item.id === bank.id)
+                if (index2 < 0) {
+                    return;
+                }
+                listAccounts[index2].value = listAccounts[index2].value + value;
+                break;
+            case 'transfer':
+                if (bankFor === undefined) {
+                    return
+                }
+                // //Att bank 1
+                const index3 = listAccounts.findIndex(item => item.id === bank.id)
+                if (index3 < 0) {
+                    return;
+                }
+                listAccounts[index3].value = listAccounts[index3].value - value;
+
+                const index4 = listAccounts.findIndex(item => item.id === bankFor.id)
+                if (index4 < 0) {
+                    return;
+                }
+                listAccounts[index4].value = listAccounts[index4].value + value;
+                break
+        }
+
+    }
+
+    const attBankFirebase = (arr: ListAccount[]) => {
+        if (state.user.data === null) {
+            return
+        }
+        const userId = state.user.data.id
+        arr.map(async (item) => {
+            const account = state.user.accounts?.find((el) => el.id === item.id)
+            if (account) {
+                await Api.removeUserAccount(userId, account)
+                account.value = item.value;
+                await Api.setUserAccount(userId, account)
+            }
+        })
     }
 
     const getPublicAccounts = async () => {
