@@ -9,6 +9,9 @@ type Props = {
 
 export const Container = styled.div<Props>`
     padding: 32px 24px 0 36px;
+    max-width: 1440px;
+    margin: 0 auto;
+    
     .top-metrics {
         display: flex;
         flex-direction: column;

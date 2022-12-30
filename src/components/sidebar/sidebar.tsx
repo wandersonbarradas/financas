@@ -99,66 +99,68 @@ export const SideBar = ({ showLoader }: Props) => {
     }
 
     return (
-        <C.Container className='scroll' modalMore={{ top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
-            <div className='box-logo' onClick={handleSideBar}>
-                {state.theme.status === 'Dark' &&
-                    <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoDark : LogoDark2} alt="" />
-                }
-                {state.theme.status === 'Light' &&
-                    <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoLight : LogoLight2} alt="" />
-                }
-            </div>
-            <div className='boxBtnAdd'>
-                <button onClick={() => setModalAdd(true)} className='cssbuttons-io-button'>
-                    <AddIcon />
-                    {openMenu && <span>Add</span>}
-                </button>
-            </div>
-            <nav className='navigation'>
-                <ul className='list-navigation'>
-                    <ListItemSideBar menuOpen={openMenu} Icon={DashboardIcon} label='Dashboard' url="/dashboard" />
-                    <ListItemSideBar menuOpen={openMenu} Icon={ArticleIcon} label='Fatura' url="/fatura" />
-                    <ListItemSideBar menuOpen={openMenu} Icon={AccountBalanceIcon} label='Contas' url="/contas" />
-                    <ListItemSideBar menuOpen={openMenu} Icon={SignalCellularAltIcon} label='Relatórios' url="relatorios" />
-                    <ListItemSideBar menuOpen={openMenu} Icon={ListIcon} label='Transações' url="transacoes" />
-                    <ListItemSideBar menuOpen={openMenu} click={handelModalMore} Icon={MoreHorizIcon} label='Mais opções' />
-                </ul>
-                <ul className='list-options'>
-                    <ListItemSideBar menuOpen={openMenu} Icon={SettingsIcon} label='Configurações' />
-                    <ListItemSideBar logout={handleTheme} menuOpen={openMenu} Icon={HelpIcon} label='Ajuda' url=' ' />
-                    <ListItemSideBar menuOpen={openMenu} Icon={ArrowBackIcon} logout={handleLogOut} label='Log Out' url='/login' />
-                </ul>
-            </nav>
-            <Modal clickAway={true} open={modalMore} setOpen={setModalMore} modalOpacity={0}>
-                <div onClick={handleClickModalMore} className='containerModalMore'>
-                    <div className='modalMore'>
-                        <ul>
-                            <li>
-                                <Link onClick={() => setModalMore(false)} to='/categorias'>
-                                    <div className='icon'><TurnedInNotIcon /></div>
-                                    Categorias
-                                </Link>
-                            </li>
-                            <li>
-                                <Link onClick={() => setModalMore(false)} to='tags'>
-                                    <div className='icon'><TagIcon /></div>
-                                    Tags
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
+        <C.Container modalMore={{ top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
+            <div className='sidebar scroll'>
+                <div className='box-logo' onClick={handleSideBar}>
+                    {state.theme.status === 'Dark' &&
+                        <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoDark : LogoDark2} alt="" />
+                    }
+                    {state.theme.status === 'Light' &&
+                        <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoLight : LogoLight2} alt="" />
+                    }
                 </div>
-            </Modal>
-            <Modal clickAway={true} open={modalAdd} setOpen={setModalAdd} modalOpacity={0}>
-                <ul className='menuAdd'>
-                    <li onClick={() => handleNewTransition('expense')} className='listItem'> <div className='icon des'><TrendingDownOutlinedIcon /></div> <span>Despesa</span></li>
-                    <li onClick={() => handleNewTransition('income')} className='listItem'> <div className='icon res'><TrendingUpOutlinedIcon /></div> <span>Receita</span></li>
-                    <li onClick={() => handleNewTransition('transfer')} className='listItem'> <div className='icon tras'><TransformOutlinedIcon /></div> <span>Transferência</span></li>
-                </ul>
-            </Modal>
-            <Modal clickAway={false} modalOpacity={0.5} setOpen={setModalTransaction} open={modalTransaction}>
-                <ModalTransaction setClose={setModalTransaction} type={typeTransaction} />
-            </Modal>
+                <div className='boxBtnAdd'>
+                    <button onClick={() => setModalAdd(true)} className='cssbuttons-io-button'>
+                        <AddIcon />
+                        {openMenu && <span>Add</span>}
+                    </button>
+                </div>
+                <nav className='navigation'>
+                    <ul className='list-navigation'>
+                        <ListItemSideBar menuOpen={openMenu} Icon={DashboardIcon} label='Dashboard' url="/dashboard" />
+                        <ListItemSideBar menuOpen={openMenu} Icon={ArticleIcon} label='Fatura' url="/fatura" />
+                        <ListItemSideBar menuOpen={openMenu} Icon={AccountBalanceIcon} label='Contas' url="/contas" />
+                        <ListItemSideBar menuOpen={openMenu} Icon={SignalCellularAltIcon} label='Relatórios' url="relatorios" />
+                        <ListItemSideBar menuOpen={openMenu} Icon={ListIcon} label='Transações' url="transacoes" />
+                        <ListItemSideBar menuOpen={openMenu} click={handelModalMore} Icon={MoreHorizIcon} label='Mais opções' />
+                    </ul>
+                    <ul className='list-options'>
+                        <ListItemSideBar menuOpen={openMenu} Icon={SettingsIcon} label='Configurações' />
+                        <ListItemSideBar logout={handleTheme} menuOpen={openMenu} Icon={HelpIcon} label='Ajuda' url=' ' />
+                        <ListItemSideBar menuOpen={openMenu} Icon={ArrowBackIcon} logout={handleLogOut} label='Log Out' url='/login' />
+                    </ul>
+                </nav>
+                <Modal clickAway={true} open={modalMore} setOpen={setModalMore} modalOpacity={0}>
+                    <div onClick={handleClickModalMore} className='containerModalMore'>
+                        <div className='modalMore'>
+                            <ul>
+                                <li>
+                                    <Link onClick={() => setModalMore(false)} to='/categorias'>
+                                        <div className='icon'><TurnedInNotIcon /></div>
+                                        Categorias
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link onClick={() => setModalMore(false)} to='tags'>
+                                        <div className='icon'><TagIcon /></div>
+                                        Tags
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </Modal>
+                <Modal clickAway={true} open={modalAdd} setOpen={setModalAdd} modalOpacity={0}>
+                    <ul className='menuAdd'>
+                        <li onClick={() => handleNewTransition('expense')} className='listItem'> <div className='icon des'><TrendingDownOutlinedIcon /></div> <span>Despesa</span></li>
+                        <li onClick={() => handleNewTransition('income')} className='listItem'> <div className='icon res'><TrendingUpOutlinedIcon /></div> <span>Receita</span></li>
+                        <li onClick={() => handleNewTransition('transfer')} className='listItem'> <div className='icon tras'><TransformOutlinedIcon /></div> <span>Transferência</span></li>
+                    </ul>
+                </Modal>
+                <Modal clickAway={false} modalOpacity={0.5} setOpen={setModalTransaction} open={modalTransaction}>
+                    <ModalTransaction setClose={setModalTransaction} type={typeTransaction} />
+                </Modal>
+            </div>
         </C.Container>
     )
 }

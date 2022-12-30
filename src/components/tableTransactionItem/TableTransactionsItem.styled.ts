@@ -19,7 +19,7 @@ export const Container = styled.tr<Props>`
         padding: 10px;
         text-align: start;
         font-weight: 300;
-        font-size: 13px;
+        font-size: 14px;
 
         &.done {
             width: 10%;
@@ -71,25 +71,6 @@ export const Container = styled.tr<Props>`
             width: 20%;
         }
 
-        &.actionArea {
-            width: 10%;
-            div {
-                display: flex;
-                gap: 10px;
-
-                .icon {
-                    padding: 10px;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-
-                    &:hover {
-                        background-color: ${(props) => props.Theme.colorBorder};
-                    }
-                }
-            }
-        }
-
         &.value {
             width: 12%;
             p {
@@ -107,6 +88,29 @@ export const Container = styled.tr<Props>`
                 }
             }
         }
+
+        &.actionArea {
+            width: 10%;
+            div {
+                display: flex;
+                gap: 10px;
+
+                .icon {
+                    padding: 10px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    color: ${(props) => props.Theme.colorOpacity};
+
+                    &:hover {
+                        background-color: ${(props) => props.Theme.colorBorder};
+                    }
+                    }                    
+                }
+            }
+        }
+
+        
     }
     .center {
         display: flex;

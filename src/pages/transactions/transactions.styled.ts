@@ -12,6 +12,9 @@ type Props = {
 export const Container = styled.div<Props>`
     padding: 0 24px 0 36px;
     overflow-x: hidden;
+    max-width: 1440px;
+    margin: 0 auto;
+
     .header {
         width: 100%;
         padding: 50px 0;
@@ -117,10 +120,13 @@ export const Container = styled.div<Props>`
         border: 1px solid ${(props) => props.Theme.colorBorder};
         box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
             0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+        margin-bottom: 20px;
 
         .tableTransactions {
             width: 100%;
             border-spacing: 0;
+            padding-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
         thead {
@@ -156,6 +162,7 @@ export const Container = styled.div<Props>`
                 width: 10%;
                 max-width: 10px;
             }
+            transition: all 0.3s ease;
         }
 
         th {
@@ -171,11 +178,7 @@ export const Container = styled.div<Props>`
             &:first-child {
                 padding-left: 20px;
             }
-        }
-
-        .footerTable {
-            height: 20px;
-            width: 100%;
+            transition: all 0.3s ease;
         }
     }
 

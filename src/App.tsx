@@ -114,7 +114,7 @@ const App = () => {
         )
     } else {
         return (
-            <>
+            <div>
                 {!state.user.data &&
                     <LoginRouter />
                 }
@@ -127,7 +127,7 @@ const App = () => {
                         </main>
                     </C.Container>
                 }
-            </>
+            </div>
         )
     }
 

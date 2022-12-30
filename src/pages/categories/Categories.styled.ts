@@ -11,6 +11,9 @@ type Props = {
 export const Container = styled.div<Props>`
     padding: 0 24px 0 36px;
     overflow-x: hidden;
+    max-width: 1440px;
+    margin: 0 auto;
+
     .header {
         width: 100%;
         padding: 50px 0;

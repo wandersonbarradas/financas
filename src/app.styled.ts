@@ -9,14 +9,13 @@ export const Container = styled.div<Props>`
     width: 100%;
     background-color: ${(props) => props.Theme.colorContainer};
     display: flex;
-    max-height: 100vh;
+    min-height: 100vh;
     overflow: hidden;
     transition: all 0.3s ease;
 
     .main {
         flex: 1;
         padding: 0 0 36px 0;
-        max-height: 100%;
         overflow-y: scroll;
     }
 

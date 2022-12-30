@@ -12,17 +12,29 @@ type Props = {
 
 export const Container = styled.div<Props>`
     background-color: ${(props) => props.Theme.colorSideBar};
-    padding: 24px 0;
     width: ${(props) => (props.menu ? "247px" : "88px")};
     transition: all 0.3s ease;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden;
     border-right: 1px solid ${(props) => props.Theme.colorBorder};
 
-    &.scroll {
-        &::-webkit-scrollbar {
-            width: 4px;
-            height: 4px;
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: ${(props) => props.Theme.colorSideBar};
+        padding: 24px 0;
+        width: ${(props) => (props.menu ? "247px" : "88px")};
+        overflow: visible;
+        overflow-y: scroll;
+        border-right: 1px solid ${(props) => props.Theme.colorBorder};
+        transition: all 0.3s ease;
+        height: 100vh;
+
+        &.scroll {
+            &::-webkit-scrollbar {
+                width: 4px;
+                height: 4px;
+            }
         }
     }
 

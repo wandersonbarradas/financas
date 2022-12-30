@@ -137,7 +137,6 @@ export const Transactions = () => {
                         }
                     </tbody>
                 </table>
-                <div className='footerTable'></div>
             </div>
             <Modal clickAway={true} modalOpacity={0} open={modalType} setOpen={setModalType}>
                 <div className='containerToggle'>

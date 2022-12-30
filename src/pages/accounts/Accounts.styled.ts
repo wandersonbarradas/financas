@@ -7,7 +7,8 @@ type Props = {
 };
 export const Container = styled.div<Props>`
     padding: 24px 24px 0 36px;
-
+    max-width: 1440px;
+    margin: 0 auto;
     .header {
         display: flex;
         justify-content: space-between;
@@ -51,7 +52,7 @@ export const Container = styled.div<Props>`
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: start;
         gap: 30px;
         transition: all .3s ease;
