@@ -27,6 +27,7 @@ export const Container = styled.div<Props>`
         flex: 1;
         width: 100%;
         display: flex;
+        justify-content: center;
     }
     .rightSide,
     .leftSide {
@@ -35,10 +36,10 @@ export const Container = styled.div<Props>`
 
     .leftSide {
         min-width: 400px;
-        flex: 1;
+        max-width: 600px;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
+        justify-content: center;
         align-items: center;
 
         h1 {
@@ -53,6 +54,7 @@ export const Container = styled.div<Props>`
         img {
             width: 100%;
             max-width: 550px;
+            margin: 15px 0;
         }
 
         p {

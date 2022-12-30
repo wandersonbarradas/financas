@@ -7,7 +7,7 @@ import { PieChart } from '../../components/pieChart/PieChart';
 import { Context } from '../../context/context';
 import { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
+import { NormalTansactionType } from '../../types/TransactionType';
 import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import dayjs from 'dayjs';
@@ -56,7 +56,6 @@ export const Dashboard = () => {
 
     const getValueTransactions = () => {
         const transactions = state.user.transactions as NormalTansactionType[];
-        console.table(transactions)
         if (transactions.length > 0) {
             transactions.sort((a, b) => b.id - a.id)
             setLastTransactions(transactions.slice(0, 5))

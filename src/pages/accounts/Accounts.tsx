@@ -8,7 +8,6 @@ import { AccountType, UserAccountType } from '../../types/AccountsType';
 import { Modal } from '../../components/modais/Modais';
 import { ModalNewAccount } from '../../components/ModalNewAccount/ModalNewAccount';
 import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
-import FormattedPrice from '../../helpers/FormattedPrice';
 
 type ListAccount = {
     name: string,
@@ -33,8 +32,7 @@ export const Account = () => {
 
     useEffect(() => {
         handleValuesAccounts()
-    }, [state.user.transactions,]);
-
+    }, [state.user.transactions]);
 
 
     const getAccounts = async () => {

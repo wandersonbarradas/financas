@@ -21,4 +21,5 @@ export type TransferTansactionType = {
     description: string;
     account: UserAccountType;
     accountFor: UserAccountType;
+    done: boolean;
 };

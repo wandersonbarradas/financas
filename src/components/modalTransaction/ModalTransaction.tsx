@@ -155,7 +155,8 @@ export const ModalTransaction = (props: Props) => {
                 date: dateExpense,
                 description: description,
                 account,
-                accountFor
+                accountFor,
+                done: true,
             }
             await Api.setTransaction(userId, transaction)
             // attValueBank(account, valueExpense, props.type, accountFor)

@@ -10,6 +10,16 @@ const DF = {
         return `${day < 10 ? "0" + day : day} ${month} ${year}`;
     },
 
+    formateDate: (value: Date) => {
+        const date = dayjs(value);
+        const month = date.month() + 1;
+        const day = date.date();
+        const year = date.year();
+        return `${day < 10 ? "0" + day : day}/${
+            month < 10 ? "0" + month : month
+        }/${year}`;
+    },
+
     getMonthAndYear: (value: dayjs.Dayjs) => {
         const month = value.month();
         const year = value.year();
