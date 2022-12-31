@@ -16,6 +16,7 @@ export const Container = styled.div<Props>`
     .main {
         flex: 1;
         padding: 0 0 36px 0;
+        overflow-x: hidden;
         overflow-y: scroll;
         max-height: 100vh;
     }
