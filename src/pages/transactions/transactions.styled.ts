@@ -134,7 +134,7 @@ export const Container = styled.div<Props>`
         }
 
         tr {
-            .done {
+            /* .done {
                 max-width: 10%;
                 max-width: 10px;
             }
@@ -161,7 +161,7 @@ export const Container = styled.div<Props>`
             .actionArea {
                 width: 10%;
                 max-width: 10px;
-            }
+            } */
             transition: all 0.3s ease;
         }
 

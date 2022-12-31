@@ -19,6 +19,7 @@ export const Container = styled.div<Props>`
 
     .sidebar {
         position: fixed;
+        z-index: 20;
         top: 0;
         left: 0;
         background-color: ${(props) => props.Theme.colorSideBar};
@@ -168,6 +169,7 @@ export const Container = styled.div<Props>`
     }
 
     .menuAdd {
+        z-index: 30;
         margin: 0;
         width: 250px;
         padding: 10px 0;

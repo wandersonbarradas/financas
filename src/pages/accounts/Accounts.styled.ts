@@ -52,7 +52,7 @@ export const Container = styled.div<Props>`
         width: 100%;
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: start;
         gap: 30px;
         transition: all .3s ease;

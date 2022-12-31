@@ -22,7 +22,6 @@ export const Container = styled.tr<Props>`
         font-size: 14px;
 
         &.done {
-            width: 10%;
             .icon {
                 justify-content: flex-start;
                 &.true {
@@ -43,16 +42,7 @@ export const Container = styled.tr<Props>`
             }
         }
 
-        &.date {
-            width: 10%;
-        }
-
-        &.description {
-            width: 20%;
-        }
-
         &.category {
-            width: 20%;
             div {
                 display: flex;
                 align-items: center;
@@ -67,12 +57,7 @@ export const Container = styled.tr<Props>`
             }
         }
 
-        &.account {
-            width: 20%;
-        }
-
         &.value {
-            width: 12%;
             p {
                 font-weight: 500;
                 &.transfer {
@@ -90,9 +75,11 @@ export const Container = styled.tr<Props>`
         }
 
         &.actionArea {
-            width: 10%;
             div {
                 display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-wrap: wrap;
                 gap: 10px;
 
                 .icon {

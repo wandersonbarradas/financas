@@ -9,10 +9,15 @@ type Props = {
     colorTransaction: { solid: string; rgba: string };
 };
 export const Container = styled.div<Props>`
+    width: 100%;
+    max-width: 430px;
     padding: 16px 26px;
+    z-index: 30;
     border-radius: 16px;
     background-color: ${(props) => props.Theme.colorComponents};
     border: solid 1px ${(props) => props.Theme.colorBorder};
+    max-height: 100vh;
+    overflow-y: auto;
 
     .modalDatePicker {
         width: 100vw;
@@ -55,24 +60,23 @@ export const Container = styled.div<Props>`
     }
 
     .body {
-        display: flex;
         transition: all 0.3s ease;
-        overflow: hidden;
+        width: 100%;
 
         .warning {
             position: relative;
             &::after {
                 z-index: 1;
-                top: 42px;
                 left: 0;
                 right: 0;
-                bottom: 0;
+                bottom: -13px;
                 content: "Campo obrigatório";
                 position: absolute;
                 transition: border-bottom-color 300ms ease-in-out;
                 pointer-events: none;
                 font-size: 10px;
                 color: #ff9800;
+                width: 200px;
             }
 
             &.valueWarning {
@@ -80,17 +84,9 @@ export const Container = styled.div<Props>`
                     content: "Valor deve ser maior que 0";
                 }
             }
-
-            &.tf {
-                ::after {
-                    top: 62px;
-                }
-            }
         }
 
         .left-side {
-            width: 40vw;
-            max-width: 40vw;
             transition: all 0.3s ease;
         }
 
@@ -180,9 +176,11 @@ export const Container = styled.div<Props>`
                     font-family: "Inter", sans-serif;
                     font-weight: 400;
                     font-size: 20px;
+                    max-width: 200px;
 
                     &::placeholder {
                         color: ${(props) => props.colorTransaction.solid};
+                        opacity: 1;
                     }
                 }
             }
@@ -214,6 +212,7 @@ export const Container = styled.div<Props>`
             .content {
                 width: 100%;
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
                 margin-left: 32px;
 
@@ -395,7 +394,8 @@ export const Container = styled.div<Props>`
 
     .containerAccounts {
         padding: 12px 0;
-        width: 30vw;
+        width: 100%;
+        max-width: 400px;
         max-height: 400px;
         overflow-y: auto;
         background-color: ${(props) => props.Theme.colorComponents};

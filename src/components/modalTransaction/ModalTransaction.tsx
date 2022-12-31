@@ -322,17 +322,15 @@ export const ModalTransaction = (props: Props) => {
                     return
                 }
                 if (description === '') {
-                    a.parentElement?.parentElement?.classList.add('warning')
+                    a.parentElement?.classList.add('warning', 'colorWarning')
                     if (props.type === 'transfer') {
                         a.parentElement?.parentElement?.classList.add('tf')
                     }
-                    a.parentElement?.classList.add('colorWarning')
                 } else {
-                    a.parentElement?.parentElement?.classList.remove('warning')
+                    a.parentElement?.classList.remove('warning', 'colorWarning')
                     if (props.type === 'transfer') {
                         a.parentElement?.parentElement?.classList.remove('tf')
                     }
-                    a.parentElement?.classList.remove('colorWarning')
                 }
                 break;
             case 'value':
@@ -341,11 +339,9 @@ export const ModalTransaction = (props: Props) => {
                     return
                 }
                 if (valueExpense <= 0) {
-                    b.parentElement?.parentElement?.classList.add('warning', 'valueWarning')
-                    b.parentElement?.classList.add('colorWarning')
+                    b.parentElement?.classList.add('warning', 'colorWarning', 'valueWarning')
                 } else {
-                    b.parentElement?.parentElement?.classList.remove('warning', 'valueWarning')
-                    b.parentElement?.classList.remove('colorWarning')
+                    b.parentElement?.classList.remove('warning', 'colorWarning', 'valueWarning')
                 }
                 break;
             case 'category':
@@ -355,11 +351,9 @@ export const ModalTransaction = (props: Props) => {
                     return
                 }
                 if (category === null) {
-                    c.parentElement?.parentElement?.classList.add('warning')
-                    c.parentElement?.parentElement?.classList.add('colorWarning')
+                    c.parentElement?.parentElement?.classList.add('warning', 'colorWarning')
                 } else {
-                    c.parentElement?.parentElement?.classList.remove('warning')
-                    c.parentElement?.parentElement?.classList.remove('colorWarning')
+                    c.parentElement?.parentElement?.classList.remove('warning', 'colorWarning')
                 }
                 break;
             case 'account':
@@ -368,12 +362,10 @@ export const ModalTransaction = (props: Props) => {
                 if (!d) {
                     return
                 }
-                if (account === null) {
-                    d.parentElement?.parentElement?.classList.add('warning')
-                    d.parentElement?.parentElement?.classList.add('colorWarning')
+                if (category === null) {
+                    d.parentElement?.parentElement?.classList.add('warning', 'colorWarning')
                 } else {
-                    d.parentElement?.parentElement?.classList.remove('warning')
-                    d.parentElement?.parentElement?.classList.remove('colorWarning')
+                    d.parentElement?.parentElement?.classList.remove('warning', 'colorWarning')
                 }
                 break;
             case 'accountFor':
@@ -382,12 +374,10 @@ export const ModalTransaction = (props: Props) => {
                 if (!e) {
                     return
                 }
-                if (accountFor === null) {
-                    e.parentElement?.parentElement?.classList.add('warning')
-                    e.parentElement?.parentElement?.classList.add('colorWarning')
+                if (category === null) {
+                    e.parentElement?.parentElement?.classList.add('warning', 'colorWarning')
                 } else {
-                    e.parentElement?.parentElement?.classList.remove('warning')
-                    e.parentElement?.parentElement?.classList.remove('colorWarning')
+                    e.parentElement?.parentElement?.classList.remove('warning', 'colorWarning')
                 }
                 break;
         }
@@ -465,24 +455,20 @@ export const ModalTransaction = (props: Props) => {
                                 </div>
                                 <div className='content'>
                                     {subcategory && category &&
-                                        <>
-                                            <ModalExpenseCatItem colorPrimary={category.color} colorTitle={state.theme.theme.colorTitle} label={category.name} />
-                                            {' > '}
-                                            <ModalExpenseCatItem colorPrimary={subcategory.color} colorTitle={state.theme.theme.colorTitle} label={subcategory.name} />
-
-                                        </>
+                                        <ModalExpenseCatItem category={category} subcategory={subcategory} />
                                     }{!subcategory && category &&
-                                        <ModalExpenseCatItem colorPrimary={category.color} colorTitle={state.theme.theme.colorTitle} label={category.name} />
+                                        <ModalExpenseCatItem category={category} />
+                                    }{!category &&
+                                        <input
+                                            onBlur={() => handleVerificDescription('category')}
+                                            onFocus={() => setModalCategories(true)}
+                                            type="text"
+                                            placeholder={category ? '' : 'Categoria'} id='input-category-expense'
+                                            onKeyDown={handleInputCategory}
+                                            onChange={(e) => setValueCategory('')}
+                                            value={valueCategory}
+                                        />
                                     }
-                                    <input
-                                        onBlur={() => handleVerificDescription('category')}
-                                        onFocus={() => setModalCategories(true)}
-                                        type="text"
-                                        placeholder={category ? '' : 'Categoria'} id='input-category-expense'
-                                        onKeyDown={handleInputCategory}
-                                        onChange={(e) => setValueCategory('')}
-                                        value={valueCategory}
-                                    />
                                     <div className={modalCategories ? 'icon rot' : 'icon'}>
                                         <ExpandMoreOutlinedIcon />
                                     </div>
@@ -497,18 +483,19 @@ export const ModalTransaction = (props: Props) => {
                             </div>
                             <div className='content'>
                                 {account &&
-                                    <ModalExpenseCatItem colorPrimary={account.color} colorTitle={state.theme.theme.colorTitle} label={account.description} />
+                                    <ModalExpenseCatItem account={account} />
+                                }{!account &&
+                                    <input
+                                        onBlur={() => handleVerificDescription('account')}
+                                        onFocus={() => setModalAccount(true)}
+                                        type="text"
+                                        placeholder={account ? '' : props.type === 'transfer' ? 'De' : 'Account'}
+                                        id='input-account-expense'
+                                        onKeyDown={handleInputAccount}
+                                        onChange={(e) => setValueCategory('')}
+                                        value={valueCategory}
+                                    />
                                 }
-                                <input
-                                    onBlur={() => handleVerificDescription('account')}
-                                    onFocus={() => setModalAccount(true)}
-                                    type="text"
-                                    placeholder={account ? '' : props.type === 'transfer' ? 'De' : 'Account'}
-                                    id='input-account-expense'
-                                    onKeyDown={handleInputAccount}
-                                    onChange={(e) => setValueCategory('')}
-                                    value={valueCategory}
-                                />
                                 <div className={modalAccount ? 'icon rot' : 'icon'}>
                                     <ExpandMoreOutlinedIcon />
                                 </div>
@@ -523,18 +510,19 @@ export const ModalTransaction = (props: Props) => {
                                 </div>
                                 <div className='content'>
                                     {accountFor &&
-                                        <ModalExpenseCatItem colorPrimary={accountFor.color} colorTitle={state.theme.theme.colorTitle} label={accountFor.description} />
+                                        <ModalExpenseCatItem account={accountFor} />
+                                    }{!accountFor &&
+                                        < input
+                                            onBlur={() => handleVerificDescription('accountFor')}
+                                            onFocus={() => setModalAccountFor(true)}
+                                            type="text"
+                                            placeholder={accountFor ? '' : 'Para'}
+                                            id='input-account-for-expense'
+                                            onKeyDown={handleInputAccountFor}
+                                            onChange={() => setValueCategory('')}
+                                            value={valueCategory}
+                                        />
                                     }
-                                    <input
-                                        onBlur={() => handleVerificDescription('accountFor')}
-                                        onFocus={() => setModalAccountFor(true)}
-                                        type="text"
-                                        placeholder={accountFor ? '' : 'Para'}
-                                        id='input-account-for-expense'
-                                        onKeyDown={handleInputAccountFor}
-                                        onChange={() => setValueCategory('')}
-                                        value={valueCategory}
-                                    />
                                     <div className={modalAccount ? 'icon rot' : 'icon'}>
                                         <ExpandMoreOutlinedIcon />
                                     </div>
@@ -542,9 +530,6 @@ export const ModalTransaction = (props: Props) => {
                             </div>
                         </label>
                     }
-                </div>
-                <div className='right-side'>
-                    <h4>right-side</h4>
                 </div>
             </div>
             <div className='footerModalTransaction'>

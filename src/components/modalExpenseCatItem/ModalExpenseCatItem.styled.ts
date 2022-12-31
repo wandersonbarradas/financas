@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const Container = styled.div<Props>`
-    max-width: 200px;
+    max-width: 250px;
     padding: 6px 12px;
     border: solid 1px ${(props) => props.colorPrimary};
     border-radius: 20px;
@@ -18,4 +18,8 @@ export const Container = styled.div<Props>`
     color: ${(props) => props.colorTitle};
     font-size: 13px;
     margin-right: 5px;
+
+    p {
+        margin: 0;
+    }
 `;
