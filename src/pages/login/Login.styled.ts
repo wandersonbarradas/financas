@@ -13,10 +13,31 @@ export const Container = styled.div<Props>`
     transition: all 0.3s ease;
     padding: 0 20px;
     font-family: "Poppins", sans-serif;
-    min-height: 100vh;
+    height: 100vh;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
 
+    &.scroll {
+        &::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+            opacity: 0;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: transparent;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        &:hover {
+            &::-webkit-scrollbar-thumb {
+                background-color: ${(props) => props.Theme.colorOpacity};
+                border-radius: 5px;
+            }
+        }
+    }
     header {
         .logo {
             display: flex;

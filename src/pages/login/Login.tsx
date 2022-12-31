@@ -74,7 +74,7 @@ export const PageLogin = () => {
     }
 
     return (
-        <C.Container margin={margin} Theme={state.theme.theme}>
+        <C.Container className='scroll' margin={margin} Theme={state.theme.theme}>
             <header>
                 <div className='logo'>
                     <img src={Logo} alt="" />
