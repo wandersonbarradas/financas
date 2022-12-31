@@ -13,6 +13,7 @@ export const Container = styled.div<Props>`
     transition: all 0.3s ease;
     padding: 0 20px;
     font-family: "Poppins", sans-serif;
+    min-height: 100vh;
 
     header {
         .logo {
@@ -31,6 +32,7 @@ export const Container = styled.div<Props>`
             display: flex;
             flex-direction: column;
             align-items: center;
+
             h1 {
                 font-size: 2rem;
                 max-width: 500px;
@@ -38,13 +40,15 @@ export const Container = styled.div<Props>`
                 font-family: "Kanit", sans-serif;
                 font-weight: 700;
                 color: rgba(0, 0, 0, 0.9);
-                margin: 0;
+                margin: 20px 0 0 0;
             }
+
             img {
                 width: 100%;
                 max-width: 550px;
                 margin: 15px 0;
             }
+
             .btnStart {
                 font-family: "Poppins", sans-serif;
                 padding: 1.3em 3em;
@@ -60,6 +64,7 @@ export const Container = styled.div<Props>`
                 transition: all 0.3s ease 0s;
                 cursor: pointer;
                 outline: none;
+                margin: 20px 0;
 
                 &:hover {
                     background-color: #23c483;
@@ -117,8 +122,9 @@ export const Container = styled.div<Props>`
     }
 
     .contentLogin {
+        align-self: start;
         width: 470px;
-        margin: 0 20px;
+        margin: 200px 20px;
         background-color: #ffffff;
         padding: 16px 0;
         border-radius: 20px;
