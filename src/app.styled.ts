@@ -17,6 +17,7 @@ export const Container = styled.div<Props>`
         flex: 1;
         padding: 0 0 36px 0;
         overflow-y: scroll;
+        max-height: 100vh;
     }
 
     .container-modal-transactions {

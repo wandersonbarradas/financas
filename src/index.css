@@ -14,9 +14,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   justify-content: space-around;
-  /* max-height: 100vh;
-  overflow-y: hidden;
-  overflow-x: hidden; */
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 li:last-child code {
