@@ -14,6 +14,8 @@ export const Container = styled.div<Props>`
     padding: 0 20px;
     font-family: "Poppins", sans-serif;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 
     header {
         .logo {
@@ -25,6 +27,7 @@ export const Container = styled.div<Props>`
         flex: 1;
         width: 100%;
         display: flex;
+        align-items: center;
         justify-content: center;
 
         .content {
@@ -122,7 +125,6 @@ export const Container = styled.div<Props>`
     }
 
     .contentLogin {
-        align-self: start;
         width: 470px;
         margin: 200px 20px;
         background-color: #ffffff;
