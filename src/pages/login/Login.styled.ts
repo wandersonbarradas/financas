@@ -39,6 +39,10 @@ export const Container = styled.div<Props>`
         }
     }
     header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
         .logo {
             display: flex;
         }
@@ -72,34 +76,6 @@ export const Container = styled.div<Props>`
                 max-width: 550px;
                 margin: 15px 0;
             }
-
-            .btnStart {
-                font-family: "Poppins", sans-serif;
-                padding: 1.3em 3em;
-                font-size: 0.75rem;
-                text-transform: uppercase;
-                letter-spacing: 2.5px;
-                font-weight: 500;
-                color: #fff;
-                background-color: #4c49ed;
-                border: none;
-                border-radius: 45px;
-                box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-                transition: all 0.3s ease 0s;
-                cursor: pointer;
-                outline: none;
-                margin: 20px 0;
-
-                &:hover {
-                    background-color: #23c483;
-                    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
-                    color: #fff;
-                    transform: translateY(-7px);
-                }
-                &:active {
-                    transform: translateY(-1px);
-                }
-            }
             p {
                 font-family: "Poppins", sans-serif;
                 color: #7f8589;
@@ -109,6 +85,35 @@ export const Container = styled.div<Props>`
             }
         }
     }
+
+    .btnStart {
+        font-family: "Poppins", sans-serif;
+        padding: 1.3em 3em;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        font-weight: 500;
+        color: #fff;
+        background-color: #4c49ed;
+        border: none;
+        border-radius: 45px;
+        box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease 0s;
+        cursor: pointer;
+        outline: none;
+        margin: 20px 0;
+
+        &:hover {
+            background-color: #23c483;
+            box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+            color: #fff;
+            transform: translateY(-7px);
+        }
+        &:active {
+            transform: translateY(-1px);
+        }
+    }
+
     .rightSide,
     .leftSide {
         height: 100%;

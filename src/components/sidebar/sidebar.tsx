@@ -120,6 +120,12 @@ export const SideBar = ({ showLoader }: Props) => {
                         <ListItemSideBar menuOpen={openMenu} Icon={DashboardIcon} label='Dashboard' url="/dashboard" />
                         <ListItemSideBar menuOpen={openMenu} Icon={ArticleIcon} label='Fatura' url="/fatura" />
                         <ListItemSideBar menuOpen={openMenu} Icon={AccountBalanceIcon} label='Contas' url="/contas" />
+                        <div className='boxBtnAdd mobile'>
+                            <button onClick={() => setModalAdd(true)} className='cssbuttons-io-button'>
+                                <AddIcon />
+                                {openMenu && <span>Add</span>}
+                            </button>
+                        </div>
                         <ListItemSideBar menuOpen={openMenu} Icon={SignalCellularAltIcon} label='Relatórios' url="relatorios" />
                         <ListItemSideBar menuOpen={openMenu} Icon={ListIcon} label='Transações' url="transacoes" />
                         <ListItemSideBar menuOpen={openMenu} click={handelModalMore} Icon={MoreHorizIcon} label='Mais opções' />

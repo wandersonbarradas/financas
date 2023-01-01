@@ -22,6 +22,10 @@ export const PageLogin = () => {
         })
     }, [navigate])
 
+    useEffect(() => {
+        setMargin(false)
+    }, [modalLogin]);
+
     const showLoader = () => {
         dispatch({
             type: 'setLoader',
@@ -79,6 +83,7 @@ export const PageLogin = () => {
                 <div className='logo'>
                     <img src={Logo} alt="" />
                 </div>
+                <button onClick={() => setModalLogin(true)} className='btnStart'>Iniciar</button>
             </header>
             <main>
                 <div className='content'>

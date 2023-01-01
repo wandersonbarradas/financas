@@ -43,4 +43,24 @@ export const Container = styled.li<Props>`
             }
         }
     }
+
+    @media screen and (max-width: 992px) {
+        .link-item {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-decoration: none;
+            padding: 8px;
+            color: ${(props) => props.Theme.colorOpacity};
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 21px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    }
 `;

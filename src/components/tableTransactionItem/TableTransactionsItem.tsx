@@ -86,19 +86,19 @@ export const TableTransactionsItem = ({ item }: Props) => {
                 </td>
                 <td className='date'><p className='text-nowrap'>{date}</p></td>
                 <td className='description'>
-                    <p className='text-nowrap'>{item.description}</p>
+                    <p>{item.description}</p>
                 </td>
                 <td className='category'>
                     <div>
                         {item.type === 'transfer' &&
                             <>
                                 <span className='color'></span>
-                                <p className='text-nowrap'>Transferência</p>
+                                <p>Transferência</p>
                             </>
                         }{item.type !== 'transfer' &&
                             <>
                                 <span className='color '></span>
-                                <p className='text-nowrap'>{item.subcategory ? item.subcategory.name : item.category.name}</p>
+                                <p >{item.subcategory ? item.subcategory.name : item.category.name}</p>
                             </>
                         }
                     </div>
@@ -106,11 +106,11 @@ export const TableTransactionsItem = ({ item }: Props) => {
                 <td className='account'>
                     <div>
                         {item.type === 'transfer' &&
-                            <p className='text-nowrap'>{transfer?.account.description + ' > ' + transfer?.accountFor.description}</p>
+                            <p >{transfer?.account.description + ' > ' + transfer?.accountFor.description}</p>
                         }{item.type !== 'transfer' &&
                             <>
                                 <span className='color '></span>
-                                <p className='text-nowrap'>{item.account.description}</p>
+                                <p>{item.account.description}</p>
                             </>
                         }
                     </div>

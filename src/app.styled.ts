@@ -54,6 +54,9 @@ export const Container = styled.div<Props>`
             }
         }
     }
+    @media screen and (max-width: 992px) {
+        flex-direction: column-reverse;
+    }
 `;
 
 export const Loader = styled.div;

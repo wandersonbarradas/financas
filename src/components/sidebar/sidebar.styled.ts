@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -212,6 +211,55 @@ export const Container = styled.div<Props>`
                 &.tras {
                     color: #008dff;
                 }
+            }
+        }
+    }
+
+    @media screen and (max-width: 992px) {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: auto;
+        width: 100%;
+        overflow: visible;
+        border-right: 0;
+
+        .sidebar {
+            position: static;
+            width: 100%;
+            overflow: visible;
+            border-right: 0;
+            border-top: 1px solid ${(props) => props.Theme.colorBorder};
+            height: auto;
+
+            .box-logo {
+                display: none;
+            }
+
+            .boxBtnAdd {
+                display: none;
+            }
+            .mobile {
+                display: flex;
+                margin: 0 auto;
+
+                button {
+                }
+            }
+
+            .navigation {
+                margin: 0;
+            }
+            .list-navigation {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                padding: 0 24px;
+            }
+            .list-options {
+                flex-direction: row;
+                margin-top: 10px;
+                display: none;
             }
         }
     }
