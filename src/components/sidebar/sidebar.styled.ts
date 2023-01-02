@@ -16,6 +16,7 @@ export const Container = styled.div<Props>`
     transition: all 0.3s ease;
     overflow: hidden;
     border-right: 1px solid ${(props) => props.Theme.colorBorder};
+    z-index: 20;
 
     .sidebar {
         position: fixed;
