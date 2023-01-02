@@ -29,7 +29,7 @@ export const Container = styled.header<Props>`
         height: auto;
 
         .selectMonth {
-            width: auto;
+            width: 100%;
             border: solid 1px ${(props) => props.Theme.colorOpacity};
             padding: 5px 15px;
             border-radius: 20px;
@@ -46,7 +46,7 @@ export const Container = styled.header<Props>`
             }
 
             span {
-                width: auto;
+                flex: 1;
                 text-align: center;
                 font-size: 0.875rem;
             }
