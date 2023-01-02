@@ -6,13 +6,12 @@ import { Context } from '../../context/context';
 import dayjs from 'dayjs';
 
 type Props = {
-    dataCalendar: { display: boolean, left: number }
     Click: (date: Date) => void;
     dateCurrent: Date;
-    closeModal: () => void;
+    closeModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const MonthCalendar = ({ dataCalendar, Click, dateCurrent, closeModal }: Props) => {
+export const MonthCalendar = ({ Click, dateCurrent, closeModal }: Props) => {
     const { state } = useContext(Context)
     const [currentDate, setCurrentDate] = useState(dayjs(dateCurrent))
     const [month, setMonth] = useState(dayjs(dateCurrent).month())
@@ -56,11 +55,11 @@ export const MonthCalendar = ({ dataCalendar, Click, dateCurrent, closeModal }: 
 
     const handleCurrentMonth = () => {
         Click(new Date())
-        closeModal()
+        closeModal(false)
     }
 
     return (
-        <C.Container data={dataCalendar} Theme={state.theme.theme}>
+        <C.Container Theme={state.theme.theme}>
             <div className='header'>
                 <span onClick={() => handleYear('substract')} className='icon'><KeyboardArrowLeftIcon /></span>
                 <span className='year'>{currentDate.year()}</span>
@@ -81,7 +80,7 @@ export const MonthCalendar = ({ dataCalendar, Click, dateCurrent, closeModal }: 
                 <span onClick={handleMonth} id="11" className='itemMonth'>DEZ</span>
             </div>
             <div className='footer'>
-                <button onClick={closeModal}>CANCELAR</button>
+                <button onClick={() => closeModal(false)}>CANCELAR</button>
                 <button onClick={handleCurrentMonth}>MÊS ATUAL</button>
             </div>
         </C.Container>

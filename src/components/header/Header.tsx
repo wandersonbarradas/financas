@@ -12,6 +12,7 @@ import dayjs from 'dayjs';
 import DF from "../../helpers/DateFunctions";
 import LogoLight2 from '../../assets/Logo2Light.svg'
 import LogoDark2 from '../../assets/Logo2Dark.svg'
+import { Modal } from '../modais/Modais';
 type Props = {
     showLoader: (value: boolean) => void
 }
@@ -21,7 +22,7 @@ export const Header = ({ showLoader }: Props) => {
     const [containerDropdown, setContainerDropdown] = useState(false)
     const { state, dispatch } = useContext(Context)
     const [containerCalendar, setContainerCalendar] = useState(false)
-    const [dataCalendar, setDataCalendar] = useState({ left: 0, display: false })
+    const [calendar, setCalendar] = useState(false)
     const [dateExtense, setDateExtense] = useState(`${DF.getDateExtense(new Date())} | ${DF.getHoursExtense(new Date())}`)
 
     useEffect(() => {
@@ -51,23 +52,6 @@ export const Header = ({ showLoader }: Props) => {
         }, 1000)
     }
 
-    const closeContainerCalendar = (e: React.MouseEvent<HTMLElement>) => {
-        const element = e.target as HTMLElement
-        if (element.classList.contains('containerCalendar')) {
-            setDataCalendar({ ...dataCalendar, display: false })
-            setTimeout(() => {
-                setContainerCalendar(false)
-            }, 300)
-        }
-    }
-
-    const closeCalendar = () => {
-        setDataCalendar({ ...dataCalendar, display: false })
-        setTimeout(() => {
-            setContainerCalendar(false)
-        }, 300)
-    }
-
     const handleLogOut = () => {
         showLoader(true)
         Api.signOut()
@@ -77,21 +61,12 @@ export const Header = ({ showLoader }: Props) => {
         })
     }
 
-    const handleMonth = (e: React.MouseEvent<HTMLElement>) => {
-        let element = e.currentTarget
-        const data = element?.getBoundingClientRect() as DOMRect
-        setContainerCalendar(true)
-        setTimeout(() => {
-            setDataCalendar({ display: true, left: data.left - 95 })
-        }, 200)
-    }
-
     const onClickCalendar = (date: Date) => {
         dispatch({
             type: 'setSelectedDate',
             payload: { selectedDate: date }
         })
-        closeCalendar()
+        setCalendar(false)
     }
 
     const getMonthString = () => {
@@ -117,7 +92,7 @@ export const Header = ({ showLoader }: Props) => {
             </div>
             <div className='boxSelectMonth'>
                 {state.general.selectMonth &&
-                    <div onClick={handleMonth} className='selectMonth'>
+                    <div onClick={() => setCalendar(true)} className='selectMonth'>
                         <span>{getMonthString()}</span>
                         <div className='icon'>
                             <KeyboardArrowDownIcon />
@@ -157,13 +132,9 @@ export const Header = ({ showLoader }: Props) => {
                     </div>
                 </div>
             }
-            {containerCalendar &&
-                <div onClick={closeContainerCalendar} className='containerCalendar'>
-                    {dataCalendar.display &&
-                        <MonthCalendar Click={onClickCalendar} dateCurrent={state.user.selectedDate} dataCalendar={dataCalendar} closeModal={closeCalendar} />
-                    }
-                </div>
-            }
+            <Modal open={calendar} setOpen={setCalendar} clickAway={true} modalOpacity={0.5}>
+                <MonthCalendar Click={onClickCalendar} dateCurrent={state.user.selectedDate} closeModal={setCalendar} />
+            </Modal>
         </C.Container>
     )
 }

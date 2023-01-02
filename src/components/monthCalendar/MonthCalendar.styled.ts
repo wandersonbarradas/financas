@@ -3,13 +3,12 @@ import { ThemeValues } from "./../../reducers/ThemeReducer";
 import styled from "styled-components";
 type props = {
     Theme: ThemeValues;
-    data: { display: boolean; left: number };
 };
 export const Container = styled.div<props>`
     position: absolute;
-    height: ${(props) => (props.data.display ? "auto" : "0px")};
-    top: 90px;
-    left: ${(props) => props.data.left}px;
+    top: 100px;
+    left: 50%;
+    margin-left: -150px;
     background-color: ${(props) => props.Theme.colorComponents};
     width: 300px;
     border-radius: 20px;

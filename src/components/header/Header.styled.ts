@@ -19,7 +19,10 @@ export const Container = styled.header<Props>`
     position: relative;
 
     .boxSelectMonth {
-        flex: 1;
+        position: absolute;
+        left: 50%;
+        margin-left: -65px;
+        width: 130px;
         display: flex;
         align-items: center;
         justify-content: center;
