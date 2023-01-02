@@ -13,53 +13,22 @@ export const Container = styled.header<Props>`
     padding: 0 24px 0 36px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: ${(props) => props.Theme.colorSideBar};
     border-bottom: 1px solid ${(props) => props.Theme.colorBorder};
+    position: relative;
 
-    .leftSide {
-        width: 42%;
+    .boxSelectMonth {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        left: 0;
+        right: 0;
         display: flex;
         align-items: center;
+        justify-content: center;
+        height: 96px;
 
-        .InfoNameUser {
-            display: block;
-            font-size: 20px;
-            color: ${(props) => props.Theme.colorTitle};
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        .infoDate {
-            display: block;
-            font-size: 14px;
-            color: ${(props) => props.Theme.colorOpacity};
-            font-weight: 500;
-        }
-    }
-
-    .toogleMenu {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        cursor: pointer;
-        padding: 6px;
-        transition: all 0.3s ease;
-
-        &:hover {
-            background-color: ${(props) => props.Theme.colorBorder};
-        }
-
-        img {
-            width: 100%;
-            border-radius: 50%;
-        }
-    }
-
-    .rightSide {
-        flex: 1;
-        display: flex;
-        justify-content: ${(props) =>
-            props.selectMonth ? "space-between" : "flex-end"};
-        align-items: center;
         .selectMonth {
             width: 175px;
             border: solid 1px ${(props) => props.Theme.colorOpacity};
@@ -93,6 +62,63 @@ export const Container = styled.header<Props>`
             }
         }
     }
+
+    /* .leftSide,
+    .rightSide {
+        z-index: 10;
+        flex: 1;
+        display: flex;
+        align-items: center;
+    } */
+
+    /* .leftSide {
+    } */
+
+    .box-logo {
+        display: none;
+        width: 50px;
+        height: 77px;
+        justify-content: center;
+
+        .LogoClose {
+            width: 100%;
+        }
+    }
+    .InfoNameUser {
+        display: block;
+        font-size: 20px;
+        color: ${(props) => props.Theme.colorTitle};
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    .infoDate {
+        display: block;
+        font-size: 14px;
+        color: ${(props) => props.Theme.colorOpacity};
+        font-weight: 500;
+    }
+
+    .toogleMenu {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 6px;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: ${(props) => props.Theme.colorBorder};
+        }
+
+        img {
+            width: 100%;
+            border-radius: 50%;
+        }
+    }
+
+    /* .rightSide {
+        justify-content: flex-end;
+    } */
 
     .containerMenuDropDown {
         position: absolute;
@@ -163,5 +189,17 @@ export const Container = styled.header<Props>`
         height: 100vh;
         background-color: transparent;
         z-index: 50;
+    }
+
+    @media screen and (max-width: 840px) {
+        .infoUser {
+            display: none;
+        }
+
+        .box-logo {
+            display: flex;
+            .LogoClose {
+            }
+        }
     }
 `;

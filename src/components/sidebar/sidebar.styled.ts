@@ -1,3 +1,4 @@
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -54,6 +55,10 @@ export const Container = styled.div<Props>`
         width: 100%;
         display: flex;
         justify-content: center;
+
+        &.mobile {
+            display: none;
+        }
     }
 
     .cssbuttons-io-button {
@@ -224,8 +229,11 @@ export const Container = styled.div<Props>`
         width: 100%;
         overflow: visible;
         border-right: 0;
+        background-color: transparent;
 
         .sidebar {
+            border-radius: 24px 24px 0 0;
+            padding: 12px 0;
             position: static;
             width: 100%;
             overflow: visible;

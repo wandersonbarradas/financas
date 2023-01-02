@@ -10,6 +10,8 @@ import Api from '../../Api';
 import { MonthCalendar } from '../monthCalendar/MonthCalendar';
 import dayjs from 'dayjs';
 import DF from "../../helpers/DateFunctions";
+import LogoLight2 from '../../assets/Logo2Light.svg'
+import LogoDark2 from '../../assets/Logo2Dark.svg'
 type Props = {
     showLoader: (value: boolean) => void
 }
@@ -101,13 +103,19 @@ export const Header = ({ showLoader }: Props) => {
     }
     return (
         <C.Container selectMonth={state.general.selectMonth} dropdown={dropdown} Theme={state.theme.theme}>
-            <div className='leftSide'>
-                <div className='infoUser'>
-                    <span className='InfoNameUser'>Bem vindo, {state.user.data?.name.split(' ')[0]}</span>
-                    <span className='infoDate'>{dateExtense}</span>
-                </div>
+            <div className='box-logo'>
+                {state.theme.status === 'Dark' &&
+                    <img className='LogoClose' src={LogoDark2} alt="" />
+                }
+                {state.theme.status === 'Light' &&
+                    <img className='LogoClose' src={LogoLight2} alt="" />
+                }
             </div>
-            <div className='rightSide'>
+            <div className='infoUser'>
+                <span className='InfoNameUser'>Bem vindo, {state.user.data?.name.split(' ')[0]}</span>
+                <span className='infoDate'>{dateExtense}</span>
+            </div>
+            <div className='boxSelectMonth'>
                 {state.general.selectMonth &&
                     <div onClick={handleMonth} className='selectMonth'>
                         <span>{getMonthString()}</span>
@@ -116,10 +124,11 @@ export const Header = ({ showLoader }: Props) => {
                         </div>
                     </div>
                 }
-                <div onClick={handleDropdown} className='toogleMenu'>
-                    <img src={state.user.data?.photo} alt="" />
-                </div>
             </div>
+            <div onClick={handleDropdown} className='toogleMenu'>
+                <img src={state.user.data?.photo} alt="" />
+            </div>
+
             {containerDropdown &&
                 <div onClick={closeDropdown} className='containerMenuDropDown'>
                     <div className='dropdown'>

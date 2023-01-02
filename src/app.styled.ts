@@ -15,7 +15,7 @@ export const Container = styled.div<Props>`
 
     .main {
         flex: 1;
-        padding: 0 0 36px 0;
+        padding: 0;
         overflow-x: hidden;
         overflow-y: scroll;
         max-height: 100vh;
@@ -56,6 +56,10 @@ export const Container = styled.div<Props>`
     }
     @media screen and (max-width: 992px) {
         flex-direction: column-reverse;
+
+        .main {
+            padding-bottom: 86px;
+        }
     }
 `;
 
