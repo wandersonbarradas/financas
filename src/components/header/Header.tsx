@@ -82,7 +82,7 @@ export const Header = ({ showLoader }: Props) => {
         const data = element?.getBoundingClientRect() as DOMRect
         setContainerCalendar(true)
         setTimeout(() => {
-            setDataCalendar({ display: true, left: data.left - 67 })
+            setDataCalendar({ display: true, left: data.left - 95 })
         }, 200)
     }
 
@@ -112,7 +112,7 @@ export const Header = ({ showLoader }: Props) => {
                 }
             </div>
             <div className='infoUser'>
-                <span className='InfoNameUser'>Bem vindo, {state.user.data?.name.split(' ')[0]}</span>
+                <span className='infoNameUser'>Bem vindo, {state.user.data?.name.split(' ')[0]}</span>
                 <span className='infoDate'>{dateExtense}</span>
             </div>
             <div className='boxSelectMonth'>
@@ -125,8 +125,10 @@ export const Header = ({ showLoader }: Props) => {
                     </div>
                 }
             </div>
-            <div onClick={handleDropdown} className='toogleMenu'>
-                <img src={state.user.data?.photo} alt="" />
+            <div className='boxToggleMenu'>
+                <div onClick={handleDropdown} className='toggleMenu'>
+                    <img src={state.user.data?.photo} alt="" />
+                </div>
             </div>
 
             {containerDropdown &&

@@ -19,25 +19,21 @@ export const Container = styled.header<Props>`
     position: relative;
 
     .boxSelectMonth {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        left: 0;
-        right: 0;
+        flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 96px;
+        height: auto;
 
         .selectMonth {
-            width: 175px;
+            width: auto;
             border: solid 1px ${(props) => props.Theme.colorOpacity};
             padding: 5px 15px;
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            gap: 5px;
             color: ${(props) => props.Theme.colorTitle};
             cursor: pointer;
 
@@ -47,10 +43,9 @@ export const Container = styled.header<Props>`
             }
 
             span {
-                flex: 1;
-                width: 80px;
+                width: auto;
                 text-align: center;
-                font-size: 14px;
+                font-size: 0.875rem;
             }
 
             .icon {
@@ -75,16 +70,24 @@ export const Container = styled.header<Props>`
     } */
 
     .box-logo {
+        flex: 1;
         display: none;
         width: 50px;
         height: 77px;
-        justify-content: center;
+        justify-content: flex-start;
+        align-items: center;
 
         .LogoClose {
-            width: 100%;
+            width: 50px;
+            height: 77px;
         }
     }
-    .InfoNameUser {
+
+    .infoUser {
+        flex: 1;
+    }
+
+    .infoNameUser {
         display: block;
         font-size: 20px;
         color: ${(props) => props.Theme.colorTitle};
@@ -98,21 +101,27 @@ export const Container = styled.header<Props>`
         font-weight: 500;
     }
 
-    .toogleMenu {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        cursor: pointer;
-        padding: 6px;
-        transition: all 0.3s ease;
-
-        &:hover {
-            background-color: ${(props) => props.Theme.colorBorder};
-        }
-
-        img {
-            width: 100%;
+    .boxToggleMenu {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        .toggleMenu {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
+            cursor: pointer;
+            padding: 6px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: ${(props) => props.Theme.colorBorder};
+            }
+
+            img {
+                width: 100%;
+                border-radius: 50%;
+            }
         }
     }
 
@@ -198,7 +207,44 @@ export const Container = styled.header<Props>`
 
         .box-logo {
             display: flex;
+        }
+    }
+    @media screen and (max-width: 576px) {
+        .box-logo {
             .LogoClose {
+                width: 32px;
+                height: 32px;
+            }
+        }
+        .boxSelectMonth {
+            .selectMonth {
+                border: 0;
+                padding: 5px 10px;
+
+                .icon {
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+        }
+        .toggleMenu {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 6px;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: ${(props) => props.Theme.colorBorder};
+            }
+
+            img {
+                width: 100%;
+                border-radius: 50%;
             }
         }
     }
