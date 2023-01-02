@@ -8,7 +8,7 @@ type Props = {
 };
 
 export const Container = styled.div<Props>`
-    padding: 24px;
+    padding: 24px 24px 60px 24px;
     max-width: 1440px;
     margin: 0 auto;
     
