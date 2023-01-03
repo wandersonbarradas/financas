@@ -11,7 +11,9 @@ export const Container = styled.li<Props>`
     display: flex;
     align-items: center;
     justify-content: center;
+
     .link-item {
+        flex: 1;
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -28,7 +30,9 @@ export const Container = styled.li<Props>`
         border-radius: 4px;
         cursor: pointer;
 
-        &.activeLinkNavBar,
+        &.activeLinkNavBar {
+            color: ${(props) => props.Theme.colorPrimary};
+        }
         &:hover {
             color: #fff;
             background-color: ${(props) => props.Theme.colorPrimary};
@@ -49,9 +53,8 @@ export const Container = styled.li<Props>`
 
     @media screen and (max-width: 992px) {
         flex: 1;
+
         .link-item {
-            border-radius: 10px;
-            width: 100%;
             flex-direction: column;
             justify-content: center;
             padding: 8px 4px;
@@ -59,12 +62,15 @@ export const Container = styled.li<Props>`
             font-size: 14px;
             overflow: visible;
 
+            &.activeLinkNavBar,
+            &:hover {
+                color: ${(props) => props.Theme.colorPrimary};
+                background-color: transparent;
+            }
+
             .box-icon {
                 width: auto;
                 min-width: auto;
-                display: flex;
-                align-items: center;
-                justify-content: center;
 
                 svg {
                     margin-left: 0;

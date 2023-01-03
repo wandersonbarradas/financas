@@ -22,7 +22,7 @@ export const Container = styled.header<Props>`
         position: absolute;
         left: 50%;
         margin-left: -65px;
-        width: 130px;
+        width: auto;
         display: flex;
         align-items: center;
         justify-content: center;
