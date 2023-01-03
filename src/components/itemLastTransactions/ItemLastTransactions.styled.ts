@@ -30,6 +30,7 @@ export const Container = styled.li<Props>`
     .box-info {
         flex: 1;
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
         align-items: center;
 
@@ -42,6 +43,7 @@ export const Container = styled.li<Props>`
             font-size: 17px;
             line-height: 21px;
             letter-spacing: -0.02em;
+            max-width: 180px;
         }
 
         .categorie-transaction {
@@ -49,7 +51,9 @@ export const Container = styled.li<Props>`
             font-size: 14px;
             line-height: 18px;
             letter-spacing: -0.02em;
+            margin: 0;
             color: ${(props) => props.Theme.colorOpacity};
+            max-width: 180px;
         }
 
         .value {
@@ -61,5 +65,12 @@ export const Container = styled.li<Props>`
             letter-spacing: -0.02em;
             color: ${(props) => props.colorValue};
         }
+    }
+
+    @media screen and (max-width: 470px) {
+        /* .box-info {
+            flex-direction: column;
+            align-items: flex-start;
+        } */
     }
 `;

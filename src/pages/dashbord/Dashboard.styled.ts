@@ -184,6 +184,10 @@ export const Container = styled.div<Props>`
                     cursor: pointer;
                 }
             }
+
+            .chartPie {
+                width: 100% !important;
+            }
         }
 
         .content {

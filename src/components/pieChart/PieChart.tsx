@@ -17,6 +17,8 @@ export const PieChart = () => {
     useEffect(() => {
         setCate([])
         getValues()
+        const canvas = document.querySelector('.chartPie') as any
+        canvas.style = 'width: 100% !important;'
     }, [state.user.selectedDate, state.user.transactions]);
 
     const getValues = () => {
@@ -74,7 +76,7 @@ export const PieChart = () => {
     };
     return (
         <div>
-            <Doughnut options={options} data={data} />
+            <Doughnut className='chartPie' options={options} data={data} />
         </div>
     )
 }

@@ -30,16 +30,16 @@ export const ItemLastTransactions = ({ item }: Props) => {
             </div>
             <div className='box-info'>
                 <div className='info-transaction'>
-                    <h5 className='title-transaction'>{item.description}</h5>
+                    <h5 className='title-transaction text-nowrap'>{item.description}</h5>
                     {transfer &&
-                        <span className='categorie-transaction'>
+                        <p className='categorie-transaction text-nowrap'>
                             {transfer.account.description + ' > ' + transfer.accountFor.description}
-                        </span>
+                        </p>
                     }
                     {item.type !== 'transfer' &&
-                        <span className='categorie-transaction'>
-                            {item.subcategory !== null ? item.subcategory.name + ' | ' + item.account.description : item.category.name + ' | ' + item.account.description}
-                        </span>
+                        <p className='categorie-transaction text-nowrap'>
+                            {item.subcategory !== null ? item.subcategory.name : item.category.name}
+                        </p>
                     }
                 </div>
                 <div className='value'>
