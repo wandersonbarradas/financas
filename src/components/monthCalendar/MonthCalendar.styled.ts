@@ -104,6 +104,6 @@ export const Container = styled.div<props>`
     }
 
     @media screen and (max-width: 992px) {
-        margin-left: -150px;
+        margin-left: -150px !important;
     }
 `;
