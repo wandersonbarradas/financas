@@ -252,4 +252,32 @@ export const Container = styled.div<Props>`
         }  
     }
 
+     @media screen and (max-width: 576px) {
+        .row {
+            .balance-title {
+                font-size: 20px;
+            }
+            .last-transaction-value {
+                font-size: 18px;
+
+                svg {
+                    font-size: 1.3rem;
+                }
+            }
+            .balance-text-info {
+                font-size: 12px;
+            }
+            .balance-value {
+                font-size: 20px;
+            }
+
+        .last-transactions,
+        .chart-pie {
+                .title {
+                    font-size: 18px;
+                }
+        }
+        
+     }
+
 `;

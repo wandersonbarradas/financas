@@ -40,6 +40,19 @@ export const Container = styled.div<PropsContainer>`
             line-height: 23px;
         }
     }
+
+    @media screen and (max-width: 576px) {
+        .title {
+            font-size: 14px;
+        }
+
+        .value {
+            font-size: 18px;
+            span {
+                font-size: 16px;
+            }
+        }
+    }
 `;
 
 export const Percentagem = styled.div<Props>`

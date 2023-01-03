@@ -67,10 +67,17 @@ export const Container = styled.li<Props>`
         }
     }
 
-    @media screen and (max-width: 470px) {
-        /* .box-info {
-            flex-direction: column;
-            align-items: flex-start;
-        } */
+    @media screen and (max-width: 576px) {
+        .box-info {
+            .title-transaction {
+                font-size: 16px;
+            }
+            .categorie-transaction {
+                font-size: 12px;
+            }
+            .value {
+                font-size: 16px;
+            }
+        }
     }
 `;

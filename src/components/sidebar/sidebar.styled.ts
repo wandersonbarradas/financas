@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -266,6 +265,14 @@ export const Container = styled.div<Props>`
                         font-size: 1rem;
                         transform: scale(0.8);
                     }
+                }
+
+                .cssbuttons-io-button:hover {
+                    box-shadow: 0 0.7em 1.5em -0.5em #4c49ed;
+                }
+
+                .cssbuttons-io-button:active {
+                    box-shadow: 0 0.7em 1.5em -0.5em #4c49ed;
                 }
 
                 span {
