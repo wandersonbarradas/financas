@@ -59,7 +59,7 @@ export const MonthCalendar = ({ Click, dateCurrent, closeModal }: Props) => {
     }
 
     return (
-        <C.Container Theme={state.theme.theme}>
+        <C.Container className={state.general.sideBar ? 'hygsb' : ''} Theme={state.theme.theme}>
             <div className='header'>
                 <span onClick={() => handleYear('substract')} className='icon'><KeyboardArrowLeftIcon /></span>
                 <span className='year'>{currentDate.year()}</span>

@@ -1,3 +1,4 @@
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -7,7 +8,9 @@ type Props = {
 
 export const Container = styled.li<Props>`
     list-style: none;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
     .link-item {
         display: flex;
         justify-content: flex-start;
@@ -45,22 +48,41 @@ export const Container = styled.li<Props>`
     }
 
     @media screen and (max-width: 992px) {
+        flex: 1;
         .link-item {
+            border-radius: 10px;
+            width: 100%;
             flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            text-decoration: none;
-            padding: 8px;
-            color: ${(props) => props.Theme.colorOpacity};
-            font-weight: 500;
-            font-size: 16px;
-            line-height: 21px;
-            transition: all 0.3s ease;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            border-radius: 4px;
-            cursor: pointer;
+            justify-content: center;
+            padding: 8px 4px;
+            font-weight: 400;
+            font-size: 14px;
+            overflow: visible;
+
+            .box-icon {
+                width: auto;
+                min-width: auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                svg {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 700px) {
+        &.invoice,
+        &.report {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 460px) {
+        .link-item {
+            font-size: 12px;
         }
     }
 `;

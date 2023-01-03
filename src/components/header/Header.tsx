@@ -19,32 +19,13 @@ type Props = {
 
 export const Header = ({ showLoader }: Props) => {
     const [dropdown, setDropdown] = useState(false)
-    const [containerDropdown, setContainerDropdown] = useState(false)
     const { state, dispatch } = useContext(Context)
-    const [containerCalendar, setContainerCalendar] = useState(false)
     const [calendar, setCalendar] = useState(false)
     const [dateExtense, setDateExtense] = useState(`${DF.getDateExtense(new Date())} | ${DF.getHoursExtense(new Date())}`)
 
     useEffect(() => {
         handleDate()
     }, []);
-
-    const handleDropdown = () => {
-        setContainerDropdown(true)
-        setTimeout(() => {
-            setDropdown(true)
-        }, 25)
-    }
-
-    const closeDropdown = (e: React.MouseEvent<HTMLElement>) => {
-        const element = e.target as HTMLElement
-        if (element.classList.contains('containerMenuDropDown')) {
-            setDropdown(false)
-            setTimeout(() => {
-                setContainerDropdown(false)
-            }, 100)
-        }
-    }
 
     const handleDate = () => {
         setInterval(() => {
@@ -101,37 +82,34 @@ export const Header = ({ showLoader }: Props) => {
                 }
             </div>
             <div className='boxToggleMenu'>
-                <div onClick={handleDropdown} className='toggleMenu'>
+                <div onClick={() => setDropdown(true)} className='toggleMenu'>
                     <img src={state.user.data?.photo} alt="" />
                 </div>
             </div>
-
-            {containerDropdown &&
-                <div onClick={closeDropdown} className='containerMenuDropDown'>
-                    <div className='dropdown'>
-                        <ul>
-                            <li>
-                                <Link to='/perfil'>
-                                    <div className='icon'><PermIdentityIcon /></div>
-                                    Meu perfil
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to='/configuracoes'>
-                                    <div className='icon'><SettingsIcon /></div>
-                                    Configurações
-                                </Link>
-                            </li>
-                            <li>
-                                <Link onClick={handleLogOut} to='/login'>
-                                    <div className='icon'><LogoutIcon /></div>
-                                    Sair
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
+            <Modal open={dropdown} setOpen={setDropdown} clickAway={true} modalOpacity={0}>
+                <div className='dropdown'>
+                    <ul>
+                        <li>
+                            <Link to='/perfil'>
+                                <div className='icon'><PermIdentityIcon /></div>
+                                Meu perfil
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to='/configuracoes'>
+                                <div className='icon'><SettingsIcon /></div>
+                                Configurações
+                            </Link>
+                        </li>
+                        <li>
+                            <Link onClick={handleLogOut} to='/login'>
+                                <div className='icon'><LogoutIcon /></div>
+                                Sair
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
-            }
+            </Modal>
             <Modal open={calendar} setOpen={setCalendar} clickAway={true} modalOpacity={0.5}>
                 <MonthCalendar Click={onClickCalendar} dateCurrent={state.user.selectedDate} closeModal={setCalendar} />
             </Modal>

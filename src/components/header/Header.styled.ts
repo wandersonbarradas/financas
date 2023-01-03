@@ -9,14 +9,14 @@ type Props = {
 
 export const Container = styled.header<Props>`
     width: 100%;
-    height: 96px;
-    padding: 0 24px 0 36px;
+    padding: 0.75rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: ${(props) => props.Theme.colorSideBar};
     border-bottom: 1px solid ${(props) => props.Theme.colorBorder};
     position: relative;
+    z-index: 2;
 
     .boxSelectMonth {
         position: absolute;
@@ -35,8 +35,7 @@ export const Container = styled.header<Props>`
             border-radius: 20px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            gap: 5px;
+            justify-content: center;
             color: ${(props) => props.Theme.colorTitle};
             cursor: pointer;
 
@@ -46,8 +45,7 @@ export const Container = styled.header<Props>`
             }
 
             span {
-                flex: 1;
-                text-align: center;
+                text-align: end;
                 font-size: 0.875rem;
             }
 
@@ -76,13 +74,11 @@ export const Container = styled.header<Props>`
         flex: 1;
         display: none;
         width: 50px;
-        height: 77px;
         justify-content: flex-start;
         align-items: center;
 
         .LogoClose {
             width: 50px;
-            height: 77px;
         }
     }
 
@@ -92,7 +88,7 @@ export const Container = styled.header<Props>`
 
     .infoNameUser {
         display: block;
-        font-size: 20px;
+        font-size: 1.25rem;
         color: ${(props) => props.Theme.colorTitle};
         font-weight: 600;
         margin-bottom: 5px;
@@ -132,62 +128,51 @@ export const Container = styled.header<Props>`
         justify-content: flex-end;
     } */
 
-    .containerMenuDropDown {
+    .dropdown {
+        width: 250px;
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: transparent;
-        z-index: 50;
+        overflow: hidden;
+        transition: all 0.8s ease-in-out;
+        top: ${(props) => (props.dropdown ? "90px" : "-250px")};
+        right: ${(props) => (props.dropdown ? "24px" : "-250px")};
+        padding: 12px 0px;
+        background-color: ${(props) => props.Theme.colorComponents};
+        box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+            0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+        border-radius: 16px;
+        border: 1px solid ${(props) => props.Theme.colorBorder};
+        z-index: 1;
 
-        .dropdown {
-            width: 250px;
-            position: absolute;
-            overflow: hidden;
-            transition: all 0.1s ease-out;
-            top: 105px;
-            right: 30px;
-            padding: ${(props) => (props.dropdown ? "12px 0px" : "0px")};
-            background-color: ${(props) => props.Theme.colorComponents};
-            box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
-                0px 8px 10px 1px rgb(0 0 0 / 14%),
-                0px 3px 14px 2px rgb(0 0 0 / 12%);
-            border-radius: 16px;
-            border: 1px solid ${(props) => props.Theme.colorBorder};
-            height: ${(props) => (props.dropdown ? "auto" : "0px")};
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-            ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
+        li {
+            a {
                 display: flex;
-                flex-direction: column;
-                gap: 5px;
-            }
+                width: 100%;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 10px;
+                color: ${(props) => props.Theme.colorOpacity};
+                text-decoration: none;
+                padding: 12px 24px;
+                font-weight: 500;
+                transition: all 0.3s ease-in-out;
 
-            li {
-                a {
+                &:hover {
+                    background-color: ${(props) => props.Theme.colorBorder};
+                }
+
+                .icon {
                     display: flex;
-                    width: 100%;
-                    justify-content: flex-start;
+                    justify-content: center;
                     align-items: center;
-                    gap: 10px;
-                    color: ${(props) => props.Theme.colorOpacity};
-                    text-decoration: none;
-                    padding: 12px 24px;
-                    font-weight: 500;
-                    transition: all 0.3s ease-in-out;
-
-                    &:hover {
-                        background-color: ${(props) => props.Theme.colorBorder};
-                    }
-
-                    .icon {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
                 }
             }
         }
@@ -233,22 +218,19 @@ export const Container = styled.header<Props>`
                 }
             }
         }
-        .toggleMenu {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            cursor: pointer;
-            padding: 6px;
-            transition: all 0.3s ease;
-
-            &:hover {
-                background-color: ${(props) => props.Theme.colorBorder};
+        .boxToggleMenu {
+            .toggleMenu {
+                width: 44px;
+                height: 44px;
+                padding: 4px;
             }
+        }
 
-            img {
-                width: 100%;
-                border-radius: 50%;
-            }
+        .dropdown {
+            width: auto;
+            transition: all 0.8s ease-in-out;
+            top: ${(props) => (props.dropdown ? "75px" : "-250px")};
+            right: ${(props) => (props.dropdown ? "24px" : "-250px")};
         }
     }
 `;

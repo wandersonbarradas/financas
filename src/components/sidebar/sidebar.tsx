@@ -117,23 +117,23 @@ export const SideBar = ({ showLoader }: Props) => {
                 </div>
                 <nav className='navigation'>
                     <ul className='list-navigation'>
-                        <ListItemSideBar menuOpen={openMenu} Icon={DashboardIcon} label='Dashboard' url="/dashboard" />
-                        <ListItemSideBar menuOpen={openMenu} Icon={ArticleIcon} label='Fatura' url="/fatura" />
-                        <ListItemSideBar menuOpen={openMenu} Icon={AccountBalanceIcon} label='Contas' url="/contas" />
+                        <ListItemSideBar Class='dashboad' menuOpen={openMenu} Icon={DashboardIcon} label='Dashboard' url="/dashboard" />
+                        <ListItemSideBar Class='invoice' menuOpen={openMenu} Icon={ArticleIcon} label='Fatura' url="/fatura" />
+                        <ListItemSideBar Class='account' menuOpen={openMenu} Icon={AccountBalanceIcon} label='Contas' url="/contas" />
                         <div className='boxBtnAdd mobile'>
                             <button onClick={() => setModalAdd(true)} className='cssbuttons-io-button'>
                                 <AddIcon />
                                 {openMenu && <span>Add</span>}
                             </button>
                         </div>
-                        <ListItemSideBar menuOpen={openMenu} Icon={SignalCellularAltIcon} label='Relatórios' url="relatorios" />
-                        <ListItemSideBar menuOpen={openMenu} Icon={ListIcon} label='Transações' url="transacoes" />
-                        <ListItemSideBar menuOpen={openMenu} click={handelModalMore} Icon={MoreHorizIcon} label='Mais opções' />
+                        <ListItemSideBar Class='report' menuOpen={openMenu} Icon={SignalCellularAltIcon} label='Relatórios' url="relatorios" />
+                        <ListItemSideBar Class='transactions' menuOpen={openMenu} Icon={ListIcon} label='Transações' url="transacoes" />
+                        <ListItemSideBar Class='moreOptions' menuOpen={openMenu} click={handelModalMore} Icon={MoreHorizIcon} label='Mais' />
                     </ul>
                     <ul className='list-options'>
-                        <ListItemSideBar menuOpen={openMenu} Icon={SettingsIcon} label='Configurações' />
-                        <ListItemSideBar logout={handleTheme} menuOpen={openMenu} Icon={HelpIcon} label='Ajuda' url=' ' />
-                        <ListItemSideBar menuOpen={openMenu} Icon={ArrowBackIcon} logout={handleLogOut} label='Log Out' url='/login' />
+                        <ListItemSideBar Class='settings' menuOpen={openMenu} Icon={SettingsIcon} label='Configurações' />
+                        <ListItemSideBar Class='help' logout={handleTheme} menuOpen={openMenu} Icon={HelpIcon} label='Ajuda' url=' ' />
+                        <ListItemSideBar Class='LogOut' menuOpen={openMenu} Icon={ArrowBackIcon} logout={handleLogOut} label='Log Out' url='/login' />
                     </ul>
                 </nav>
                 <Modal clickAway={true} open={modalMore} setOpen={setModalMore} modalOpacity={0}>

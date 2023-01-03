@@ -12,9 +12,10 @@ type Props = {
     click?: (top: number, left: number) => void;
     menuOpen: boolean,
     logout?: () => void
+    Class: string;
 }
 
-export const ListItemSideBar = ({ Icon, label, click, url, menuOpen, logout }: Props) => {
+export const ListItemSideBar = ({ Icon, label, click, url, menuOpen, logout, Class }: Props) => {
     const { state } = useContext(Context)
 
     const handleBtn = (e: React.MouseEvent<HTMLElement>) => {
@@ -39,7 +40,7 @@ export const ListItemSideBar = ({ Icon, label, click, url, menuOpen, logout }: P
 
     if (url) {
         return (
-            <C.Container Theme={state.theme.theme} menuOpen={menuOpen} className='list-item-sideBar' onClick={handleBtn}>
+            <C.Container Theme={state.theme.theme} menuOpen={menuOpen} className={'list-item-sideBar ' + Class} onClick={handleBtn}>
                 <Link className='link-item' to={url}>
                     <div className='box-icon'>
                         <Icon />

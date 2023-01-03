@@ -8,7 +8,7 @@ export const Container = styled.div<props>`
     position: absolute;
     top: 100px;
     left: 50%;
-    margin-left: -150px;
+    margin-left: -107px;
     background-color: ${(props) => props.Theme.colorComponents};
     width: 300px;
     border-radius: 20px;
@@ -18,6 +18,9 @@ export const Container = styled.div<props>`
     transition: all 0.3s ease;
     box-shadow: 8px 13px 44px -6px rgba(0, 0, 0, 0.5);
 
+    &.hygsb {
+        margin-left: -25px;
+    }
     .header {
         width: 100%;
         display: flex;
@@ -98,5 +101,9 @@ export const Container = styled.div<props>`
                 background-color: rgba(76, 73, 237, 0.2);
             }
         }
+    }
+
+    @media screen and (max-width: 992px) {
+        margin-left: -150px;
     }
 `;

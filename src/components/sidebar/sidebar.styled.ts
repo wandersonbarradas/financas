@@ -234,7 +234,7 @@ export const Container = styled.div<Props>`
 
         .sidebar {
             border-radius: 24px 24px 0 0;
-            padding: 12px 0;
+            padding: 6px 0;
             position: static;
             width: 100%;
             overflow: visible;
@@ -250,10 +250,26 @@ export const Container = styled.div<Props>`
                 display: none;
             }
             .mobile {
+                width: 20px;
                 display: flex;
                 margin: 0 auto;
 
-                button {
+                .cssbuttons-io-button {
+                    margin-top: -5px;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    transform: scale(3.5);
+                    padding: 0;
+
+                    svg {
+                        font-size: 1rem;
+                        transform: scale(0.8);
+                    }
+                }
+
+                span {
+                    display: none;
                 }
             }
 
@@ -261,14 +277,29 @@ export const Container = styled.div<Props>`
                 margin: 0;
             }
             .list-navigation {
-                display: grid;
-                grid-template-columns: repeat(7, 1fr);
-                padding: 0 24px;
+                flex-direction: row;
+                justify-content: center;
+                padding: 0 12px;
             }
             .list-options {
                 flex-direction: row;
                 margin-top: 10px;
                 display: none;
+            }
+        }
+    }
+
+    @media screen and (max-width: 460px) {
+        .list-navigation {
+            padding: 0 8px;
+        }
+
+        .sidebar {
+            .mobile {
+                .cssbuttons-io-button {
+                    margin-top: -10px;
+                    transform: scale(3.1);
+                }
             }
         }
     }
