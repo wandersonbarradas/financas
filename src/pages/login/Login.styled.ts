@@ -68,13 +68,13 @@ export const Container = styled.div<Props>`
                 font-family: "Kanit", sans-serif;
                 font-weight: 700;
                 color: rgba(0, 0, 0, 0.9);
-                margin: 20px 0 0 0;
+                margin: 0;
             }
 
             img {
                 width: 100%;
                 max-width: 550px;
-                margin: 15px 0;
+                margin: 0;
             }
             p {
                 font-family: "Poppins", sans-serif;
@@ -82,6 +82,7 @@ export const Container = styled.div<Props>`
                 max-width: 500px;
                 text-align: center;
                 font-size: 1rem;
+                margin: 0;
             }
         }
     }
@@ -101,7 +102,7 @@ export const Container = styled.div<Props>`
         transition: all 0.3s ease 0s;
         cursor: pointer;
         outline: none;
-        margin: 20px 0;
+        margin: 0 0 10px 0;
 
         &:hover {
             background-color: #23c483;
