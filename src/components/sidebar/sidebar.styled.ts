@@ -327,7 +327,7 @@ export const Container = styled.div<Props>`
             background-color: ${(props) => props.Theme.colorSideBar};
 
             .headerBox {
-                padding: 20px 20px 40px 20px;
+                padding: 30px 20px 40px 20px;
                 display: flex;
                 align-items: center;
 
