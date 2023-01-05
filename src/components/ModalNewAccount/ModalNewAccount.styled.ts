@@ -192,6 +192,15 @@ export const Container = styled.div<Props>`
             }
         }
     }
+
+    @media screen and (max-width: 576px) {
+        .footerModalAccount {
+            button {
+                font-size: 14px;
+                min-width: 120px;
+            }
+        }
+    }
 `;
 
 type PropsModal = {
