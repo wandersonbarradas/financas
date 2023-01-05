@@ -10,6 +10,7 @@ export const Container = styled.div<Props>`
     left: 0;
     bottom: 0;
     right: 0;
+    height: 100vh;
     position: fixed;
     background-color: rgba(0, 0, 0, ${(props) => props.modalOpacity});
     opacity: ${(props) => props.opacity};
