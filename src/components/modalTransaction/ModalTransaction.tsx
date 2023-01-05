@@ -117,15 +117,18 @@ export const ModalTransaction = (props: Props) => {
             }
         })
         setSubcategories(resultSubcat.subcategories)
-        const resultAccount = await Api.getUserDocument(state.user.data.id, 'accounts') as { accounts: UserAccountType[] }
-        resultAccount.accounts.sort((a, b) => {
-            if (a.description < b.description) {
-                return -1
-            } else {
-                return 1
-            }
-        })
-        setAccounts(resultAccount.accounts)
+        if (state.user.accounts) {
+            const banks = state.user.accounts
+            banks.sort((a, b) => {
+                if (a.description < b.description) {
+                    return -1
+                } else {
+                    return 1
+                }
+            })
+            setAccounts(banks)
+        }
+
     }
 
     const getNewIdTransaction = () => {

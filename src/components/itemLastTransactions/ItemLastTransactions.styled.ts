@@ -32,7 +32,7 @@ export const Container = styled.li<Props>`
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        align-items: center;
+        align-items: start;
 
         .title-transaction {
             color: ${(props) => props.Theme.colorTitle};
@@ -43,7 +43,6 @@ export const Container = styled.li<Props>`
             font-size: 17px;
             line-height: 21px;
             letter-spacing: -0.02em;
-            max-width: 180px;
         }
 
         .categorie-transaction {
@@ -53,7 +52,6 @@ export const Container = styled.li<Props>`
             letter-spacing: -0.02em;
             margin: 0;
             color: ${(props) => props.Theme.colorOpacity};
-            max-width: 180px;
         }
 
         .value {
@@ -71,9 +69,11 @@ export const Container = styled.li<Props>`
         .box-info {
             .title-transaction {
                 font-size: 16px;
+                max-width: 180px;
             }
             .categorie-transaction {
                 font-size: 12px;
+                max-width: 180px;
             }
             .value {
                 font-size: 16px;

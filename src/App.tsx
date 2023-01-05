@@ -23,6 +23,10 @@ const App = () => {
         })
     }, [])
 
+    useEffect(() => {
+        console.log("🚀 ~ file: App.tsx:27 ~ getDataUser ~ accountsResult", state.user.accounts)
+    }, [state.user.accounts]);
+
     const showLoader = (value: boolean) => {
         dispatch({
             type: 'setLoader',
@@ -65,6 +69,7 @@ const App = () => {
         )) as {
             accounts: UserAccountType[];
         };
+        console.log(accountsResult)
         dispatch({
             type: 'setAccounts',
             payload: { accounts: accountsResult.accounts }

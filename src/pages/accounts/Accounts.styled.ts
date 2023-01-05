@@ -6,7 +6,7 @@ type Props = {
     Theme: ThemeValues;
 };
 export const Container = styled.div<Props>`
-    padding: 24px 24px 0 36px;
+    padding: 24px 24px 60px 24px;
     max-width: 1440px;
     margin: 0 auto;
     .header {
@@ -63,6 +63,12 @@ export const Container = styled.div<Props>`
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    @media screen and (max-width: 576px) {
+        .box-account {
+            justify-content: center;
+        }
     }
 `;
 

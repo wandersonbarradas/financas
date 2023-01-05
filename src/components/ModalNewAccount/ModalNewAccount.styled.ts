@@ -5,11 +5,14 @@ type Props = {
     Theme: ThemeValues;
 };
 export const Container = styled.div<Props>`
-    padding: 16px;
+    width: 100%;
+    max-width: 430px;
+    padding: 16px 26px;
+    z-index: 30;
     border-radius: 16px;
     background-color: ${(props) => props.Theme.colorComponents};
     border: solid 1px ${(props) => props.Theme.colorBorder};
-    width: 45vw;
+    max-height: 100vh;
 
     .headerModalAccount {
         display: flex;

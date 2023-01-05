@@ -22,7 +22,6 @@ export const Account = () => {
     const [open, setOpen] = useState(false)
 
     useEffect(() => {
-        handleValuesAccounts()
         getPublicAccounts()
         dispatch({
             type: 'setSelectMonth',
@@ -34,12 +33,31 @@ export const Account = () => {
         handleValuesAccounts()
     }, [state.user.transactions]);
 
+    useEffect(() => {
+        if (state.user.accounts && accounts !== state.user.accounts) {
+            setAccounts(
+                state.user.accounts?.sort((a, b) => {
+                    return b.id - a.id
+                })
+            )
+        }
+    }, [state.user.accounts]);
 
     const getAccounts = async () => {
-        const result = state.user.accounts
-        if (result) {
+        const accountsResult = (await Api.getUserDocument(
+            state.user.data?.id,
+            "accounts",
+        )) as {
+            accounts: UserAccountType[];
+        };
+        console.log(accountsResult)
+        if (accountsResult) {
+            dispatch({
+                type: 'setAccounts',
+                payload: { accounts: accountsResult.accounts }
+            })
             setAccounts(
-                result.sort((a, b) => {
+                accountsResult.accounts.sort((a, b) => {
                     return b.id - a.id
                 })
             )
@@ -79,7 +97,7 @@ export const Account = () => {
         //     attValueBank(list, item.account, item.value, item.type, item.accountFor)
         // })
         attBankFirebase(list)
-        getAccounts()
+        // getAccounts()
     }
 
     const attValueBank = async (listAccounts: ListAccount[], bank: UserAccountType, value: number, type: 'expense' | 'income' | 'transfer', bankFor?: UserAccountType) => {
@@ -126,10 +144,16 @@ export const Account = () => {
         const userId = state.user.data.id
         arr.map(async (item) => {
             const account = state.user.accounts?.find((el) => el.id === item.id)
-            if (account) {
+            if (account && state.user.accounts) {
                 await Api.removeUserAccount(userId, account)
-                account.value = item.value;
+                account.value = item.value
                 await Api.setUserAccount(userId, account)
+                const accountsCopy = state.user.accounts.filter(i => i.id !== account.id)
+                accountsCopy.push(account)
+                dispatch({
+                    type: 'setAccounts',
+                    payload: { accounts: accountsCopy }
+                })
             }
         })
     }
