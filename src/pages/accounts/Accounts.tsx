@@ -50,7 +50,6 @@ export const Account = () => {
         )) as {
             accounts: UserAccountType[];
         };
-        console.log(accountsResult)
         if (accountsResult) {
             dispatch({
                 type: 'setAccounts',
@@ -84,20 +83,7 @@ export const Account = () => {
                 attValueBank(list, item.account, item.value, item.type)
             }
         })
-        // const transactionsExpense = transactions.filter((item) => item.type === 'expense' && item.done);
-        // transactionsExpense.map(item => {
-        //     attValueBank(list, item.account, item.value, item.type)
-        // })
-        // const transactionsIncome = transactions.filter((item) => item.type === 'income' && item.done);
-        // transactionsIncome.map(item => {
-        //     attValueBank(list, item.account, item.value, item.type)
-        // })
-        // const transactionsTransfer = transactions.filter((item) => item.type === 'transfer') as unknown as TransferTansactionType[];
-        // transactionsTransfer.map(item => {
-        //     attValueBank(list, item.account, item.value, item.type, item.accountFor)
-        // })
         attBankFirebase(list)
-        // getAccounts()
     }
 
     const attValueBank = async (listAccounts: ListAccount[], bank: UserAccountType, value: number, type: 'expense' | 'income' | 'transfer', bankFor?: UserAccountType) => {

@@ -1,3 +1,5 @@
+import { SideBar } from "./sidebar";
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -220,6 +222,20 @@ export const Container = styled.div<Props>`
         }
     }
 
+    .boxModalTransaction {
+        height: auto;
+        width: 100%;
+        max-width: 430px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: ${(props) => props.Theme.colorSideBar};
+
+        .headerBox {
+            display: none;
+        }
+    }
+
     @media screen and (max-width: 992px) {
         position: fixed;
         bottom: 0;
@@ -296,6 +312,40 @@ export const Container = styled.div<Props>`
         }
     }
 
+    @media screen and (max-width: 576px) {
+        .boxModalTransaction {
+            height: 100vh;
+            width: 100%;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: start;
+            background-color: ${(props) => props.Theme.colorSideBar};
+
+            .headerBox {
+                padding: 20px 20px 40px 20px;
+                display: flex;
+                align-items: center;
+
+                .titleTransaction {
+                    margin: 0;
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: ${(i) => i.Theme.colorTitle};
+                }
+
+                .icon {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: ${(i) => i.Theme.colorTitle};
+                    margin-right: 15px;
+                }
+            }
+        }
+    }
     @media screen and (max-width: 460px) {
         .list-navigation {
             padding: 0 8px;

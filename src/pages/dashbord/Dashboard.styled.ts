@@ -269,6 +269,10 @@ export const Container = styled.div<Props>`
             }
             .balance-value {
                 font-size: 20px;
+
+                span {
+                    font-size: 18px;
+                }
             }
 
         .last-transactions,

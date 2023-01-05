@@ -92,43 +92,6 @@ export const PageLogin = () => {
                     <button onClick={() => setModalLogin(true)} className='btnStart'>Iniciar</button>
                     <p>“Uma jornada de mil quilômetros precisa começar com um simples passo.” - Lao Tzu</p>
                 </div>
-                {/* <div className='leftSide'>
-                    <h1>Dê o primeiro passo rumo a sua liberdade econômica.</h1>
-                    <img src={VectorIlustration} alt="" />
-                    <p>“Uma jornada de mil quilômetros precisa começar com um simples passo.” – Lao Tzu</p>
-                </div>
-                <div className='rightSide'>
-                    <div className='contentLogin'>
-                        <div className='headerLogin'>
-                            <button onClick={handleCardLogin} id='entrar' className='active'>Entrar</button>
-                            <button onClick={handleCardLogin} id='cadastrar'>Cadastrar</button>
-                        </div>
-                        <div className='content'>
-                            <div className='bodyLogin loginArea'>
-                                <button className='loginGoogle' onClick={handleLogin} >
-                                    <div className='icon'>
-                                        <img src={IconGoogle} alt="" />
-                                    </div>
-                                    Entrar com o Google
-                                </button>
-
-                                <label className="cont">
-                                    Continuar conectado.
-                                    <input onClick={handlePersistent} type="checkbox" />
-                                    <span></span>
-                                </label>
-                            </div>
-                            <div className='bodyLogin cadastroArea'>
-                                <button className='loginGoogle' onClick={handleLogin} >
-                                    <div className='icon'>
-                                        <img src={IconGoogle} alt="" />
-                                    </div>
-                                    Cadastre-se com o Google
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
             </main>
             <Modal open={modalLogin} setOpen={setModalLogin} clickAway={true} modalOpacity={.7}>
                 <div className='contentLogin'>

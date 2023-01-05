@@ -81,6 +81,7 @@ export const Container = styled.div<Props>`
 
                     &::placeholder {
                         color: ${(props) => props.Theme.colorPrimary};
+                        opacity: 1;
                     }
                 }
             }

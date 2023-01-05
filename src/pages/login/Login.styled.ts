@@ -261,14 +261,14 @@ export const Container = styled.div<Props>`
             content: "";
             display: block;
             height: 0.5rem;
-            width: 0.2rem;
+            width: 0.26rem;
             border-bottom: 0.31rem solid #afaefe;
             border-right: 0.31rem solid #afaefe;
             opacity: 0;
             transform: rotate(45deg) translate(-50%, -50%);
             position: absolute;
-            top: 45%;
-            left: 21%;
+            top: 50%;
+            left: 26%;
             transition: 0.25s ease;
         }
 

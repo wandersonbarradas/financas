@@ -164,7 +164,13 @@ export const SideBar = ({ showLoader }: Props) => {
                     </ul>
                 </Modal>
                 <Modal clickAway={false} modalOpacity={0.5} setOpen={setModalTransaction} open={modalTransaction}>
-                    <ModalTransaction setClose={setModalTransaction} type={typeTransaction} />
+                    <div className='boxModalTransaction'>
+                        <div className='headerBox'>
+                            <div onClick={() => setModalTransaction(false)} className='icon'><ArrowBackIcon fontSize='large' /></div>
+                            <h3 className='titleTransaction'>{typeTransaction === 'expense' ? 'Nova despesa' : typeTransaction === 'income' ? 'Nova receita' : 'Nova transferência'}</h3>
+                        </div>
+                        <ModalTransaction setClose={setModalTransaction} type={typeTransaction} />
+                    </div>
                 </Modal>
             </div>
         </C.Container>

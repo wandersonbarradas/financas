@@ -1,5 +1,4 @@
 import { display } from "@mui/system";
-import { Account } from "./../../pages/accounts/Accounts";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -376,7 +375,7 @@ export const Container = styled.div<Props>`
             background-color: ${(props) => props.Theme.colorPrimary};
             border-radius: 25px;
             font-size: 16px;
-            min-width: 175px;
+            width: 175px;
             outline: 0;
             border: 0;
             color: #ffffff;
@@ -401,6 +400,35 @@ export const Container = styled.div<Props>`
         background-color: ${(props) => props.Theme.colorComponents};
         border: 1px solid ${(props) => props.Theme.colorBorder};
         border-radius: 12px;
+    }
+
+    @media screen and (max-width: 576px) {
+        max-width: 100%;
+        border-radius: 40px 40px 0 0;
+        max-height: auto;
+        flex: 1;
+        position: relative;
+
+        .header {
+            display: none;
+        }
+
+        .body .input-area {
+            margin-top: 30px;
+        }
+
+        .footerModalTransaction {
+            position: fixed;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            button {
+                width: 120px;
+            }
+        }
     }
 `;
 

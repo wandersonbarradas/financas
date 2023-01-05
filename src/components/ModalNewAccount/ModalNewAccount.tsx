@@ -101,6 +101,7 @@ export const ModalNewAccount = ({ setOpen, accounts, id, getAccount, item }: Pro
             description: descriptionAccount,
             value: valueAccount,
         }
+        setDisabled(true)
         await Api.setUserAccount(state.user.data.id, account)
         getAccount()
         setOpen(false)
@@ -116,6 +117,7 @@ export const ModalNewAccount = ({ setOpen, accounts, id, getAccount, item }: Pro
         if (!item) {
             return
         }
+        setDisabled(true)
         await Api.removeUserAccount(state.user.data.id, item)
         const account: UserAccountType = {
             id: item.id,
