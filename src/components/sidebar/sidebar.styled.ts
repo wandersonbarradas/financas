@@ -314,8 +314,11 @@ export const Container = styled.div<Props>`
 
     @media screen and (max-width: 576px) {
         .boxModalTransaction {
-            height: 100vh;
-            width: 100%;
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
             max-width: 100%;
             display: flex;
             flex-direction: column;
