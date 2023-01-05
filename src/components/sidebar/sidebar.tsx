@@ -163,16 +163,16 @@ export const SideBar = ({ showLoader }: Props) => {
                         <li onClick={() => handleNewTransition('transfer')} className='listItem'> <div className='icon tras'><TransformOutlinedIcon /></div> <span>Transferência</span></li>
                     </ul>
                 </Modal>
-                <Modal clickAway={false} modalOpacity={0.5} setOpen={setModalTransaction} open={modalTransaction}>
-                    <div className='boxModalTransaction'>
-                        <div className='headerBox'>
-                            <div onClick={() => setModalTransaction(false)} className='icon'><ArrowBackIcon fontSize='large' /></div>
-                            <h3 className='titleTransaction'>{typeTransaction === 'expense' ? 'Nova despesa' : typeTransaction === 'income' ? 'Nova receita' : 'Nova transferência'}</h3>
-                        </div>
-                        <ModalTransaction setClose={setModalTransaction} type={typeTransaction} />
-                    </div>
-                </Modal>
             </div>
+            <Modal clickAway={false} modalOpacity={0.5} setOpen={setModalTransaction} open={modalTransaction}>
+                <div className='boxModalTransaction'>
+                    <div className='headerBox'>
+                        <div onClick={() => setModalTransaction(false)} className='icon'><ArrowBackIcon fontSize='large' /></div>
+                        <h3 className='titleTransaction'>{typeTransaction === 'expense' ? 'Nova despesa' : typeTransaction === 'income' ? 'Nova receita' : 'Nova transferência'}</h3>
+                    </div>
+                    <ModalTransaction setClose={setModalTransaction} type={typeTransaction} />
+                </div>
+            </Modal>
         </C.Container>
     )
 }
