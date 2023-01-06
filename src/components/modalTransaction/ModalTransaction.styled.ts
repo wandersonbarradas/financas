@@ -18,20 +18,6 @@ export const Container = styled.div<Props>`
     max-height: 100vh;
     overflow-y: auto;
 
-    .modalDatePicker {
-        width: 100vw;
-        height: 100vh;
-        max-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: absolute;
-        z-index: 20;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-
     .header {
         display: flex;
         align-items: center;
@@ -68,7 +54,7 @@ export const Container = styled.div<Props>`
                 z-index: 1;
                 left: 0;
                 right: 0;
-                bottom: -13px;
+                bottom: -15px;
                 content: "Campo obrigatório";
                 position: absolute;
                 transition: border-bottom-color 300ms ease-in-out;
@@ -184,6 +170,7 @@ export const Container = styled.div<Props>`
                 }
             }
 
+            input[type="button"],
             input[type="text"] {
                 width: 100%;
                 font-family: "Poppins", sans-serif;
@@ -191,7 +178,10 @@ export const Container = styled.div<Props>`
                 color: ${(props) => props.Theme.colorTitle};
 
                 &::placeholder {
+                    color: ${(props) => props.Theme.colorOpacity};
+                    opacity: 1;
                     font-size: 14px;
+                    font-weight: 400;
                 }
             }
 
@@ -204,8 +194,38 @@ export const Container = styled.div<Props>`
                 }
             }
 
+            &.category {
+                .content.empty {
+                    &::before {
+                        content: "Categoria";
+                    }
+                }
+            }
+
             &.account {
                 margin-bottom: 20px;
+                .content.empty {
+                    &::before {
+                        content: "Account";
+                    }
+                }
+
+                &.tr {
+                    .content.empty {
+                        &::before {
+                            content: "De";
+                        }
+                    }
+                }
+            }
+
+            &.accountFor {
+                margin-bottom: 20px;
+                .content.empty {
+                    &::before {
+                        content: "Para";
+                    }
+                }
             }
 
             .content {
@@ -214,9 +234,22 @@ export const Container = styled.div<Props>`
                 justify-content: space-between;
                 align-items: center;
                 margin-left: 32px;
+                position: relative;
 
                 input {
                     max-width: 100%;
+                }
+                &.empty {
+                    &::before {
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        content: "";
+                        position: absolute;
+                        color: ${(props) => props.Theme.colorOpacity};
+                        font-weight: 400;
+                        font-size: 14px;
+                    }
                 }
             }
         }
@@ -408,6 +441,9 @@ export const Container = styled.div<Props>`
         max-height: auto;
         flex: 1;
         position: relative;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
 
         .header {
             display: none;

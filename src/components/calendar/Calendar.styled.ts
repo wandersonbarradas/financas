@@ -28,4 +28,9 @@ export const Container = styled.div<Props>`
             }
         }
     }
+
+    @media screen and (max-width: 576px) {
+        position: absolute;
+        top: 100px;
+    }
 `;

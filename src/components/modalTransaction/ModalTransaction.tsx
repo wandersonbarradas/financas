@@ -350,12 +350,14 @@ export const ModalTransaction = (props: Props) => {
             case 'category':
                 setModalCategories(false)
                 let c = document.getElementById('input-category-expense') as HTMLInputElement;
+                console.log(c)
                 if (!c) {
                     return
                 }
                 if (category === null) {
                     c.parentElement?.parentElement?.classList.add('warning', 'colorWarning')
                 } else {
+                    console.log('remove')
                     c.parentElement?.parentElement?.classList.remove('warning', 'colorWarning')
                 }
                 break;
@@ -389,11 +391,9 @@ export const ModalTransaction = (props: Props) => {
 
     return (
         <C.Container colorTransaction={colorTransaction} extend={dateExtense} Theme={state.theme.theme}>
-            {modalDatePicker &&
-                <div className='modalDatePicker' onClick={handleContainerDatePiker}>
-                    <Calendario value={dateExpense} dateValue={handleDateExpense} handleModal={handleModalDatePicker} />
-                </div>
-            }
+            <Modal open={modalDatePicker} setOpen={setModalDatePiker} modalOpacity={0.5} clickAway={true}>
+                <Calendario value={dateExpense} dateValue={handleDateExpense} handleModal={handleModalDatePicker} />
+            </Modal>
             <div className='header'>
                 <h3>Nova {props.type === 'expense' ? 'Despesa' : props.type === 'income' ? 'Receita' : 'Transferência'}</h3>
                 <div onClick={() => props.setClose(false)} className='icon'>
@@ -456,7 +456,10 @@ export const ModalTransaction = (props: Props) => {
                                 <div className='icon'>
                                     <BookmarksOutlinedIcon />
                                 </div>
-                                <div className='content'>
+                                <div className={
+                                    category ? 'content' : subcategory ? 'content' : 'content empty'
+                                }
+                                >
                                     {subcategory && category &&
                                         <ModalExpenseCatItem category={category} subcategory={subcategory} />
                                     }{!subcategory && category &&
@@ -465,11 +468,8 @@ export const ModalTransaction = (props: Props) => {
                                         <input
                                             onBlur={() => handleVerificDescription('category')}
                                             onFocus={() => setModalCategories(true)}
-                                            type="text"
-                                            placeholder={category ? '' : 'Categoria'} id='input-category-expense'
-                                            onKeyDown={handleInputCategory}
-                                            onChange={(e) => setValueCategory('')}
-                                            value={valueCategory}
+                                            type="button"
+                                            id='input-category-expense'
                                         />
                                     }
                                     <div className={modalCategories ? 'icon rot' : 'icon'}>
@@ -480,23 +480,22 @@ export const ModalTransaction = (props: Props) => {
                         </label>
                     }
                     <label htmlFor="input-account-expense" onClick={() => setModalAccount(true)}>
-                        <div className='input-area account' onClick={handleFocusInputArea}>
+                        <div className={props.type === 'transfer' ? 'input-area account tr' : 'input-area account'} onClick={handleFocusInputArea}>
                             <div className='icon'>
                                 <AccountBalanceOutlinedIcon />
                             </div>
-                            <div className='content'>
+                            <div className={
+                                account ? 'content' : 'content empty'
+                            }
+                            >
                                 {account &&
                                     <ModalExpenseCatItem account={account} />
                                 }{!account &&
                                     <input
                                         onBlur={() => handleVerificDescription('account')}
                                         onFocus={() => setModalAccount(true)}
-                                        type="text"
-                                        placeholder={account ? '' : props.type === 'transfer' ? 'De' : 'Account'}
+                                        type="button"
                                         id='input-account-expense'
-                                        onKeyDown={handleInputAccount}
-                                        onChange={(e) => setValueCategory('')}
-                                        value={valueCategory}
                                     />
                                 }
                                 <div className={modalAccount ? 'icon rot' : 'icon'}>
@@ -507,23 +506,22 @@ export const ModalTransaction = (props: Props) => {
                     </label>
                     {props.type === 'transfer' &&
                         <label htmlFor="input-account-for-expense" onClick={() => setModalAccountFor(true)}>
-                            <div className='input-area account' onClick={handleFocusInputArea}>
+                            <div className='input-area accountFor' onClick={handleFocusInputArea}>
                                 <div className='icon'>
                                     <AccountBalanceOutlinedIcon />
                                 </div>
-                                <div className='content'>
+                                <div className={
+                                    accountFor ? 'content' : 'content empty'
+                                }>
                                     {accountFor &&
                                         <ModalExpenseCatItem account={accountFor} />
                                     }{!accountFor &&
                                         < input
                                             onBlur={() => handleVerificDescription('accountFor')}
                                             onFocus={() => setModalAccountFor(true)}
-                                            type="text"
-                                            placeholder={accountFor ? '' : 'Para'}
+                                            type="button"
                                             id='input-account-for-expense'
-                                            onKeyDown={handleInputAccountFor}
-                                            onChange={() => setValueCategory('')}
-                                            value={valueCategory}
+
                                         />
                                     }
                                     <div className={modalAccount ? 'icon rot' : 'icon'}>
