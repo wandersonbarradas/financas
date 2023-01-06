@@ -246,6 +246,7 @@ export const Container = styled.div<Props>`
         overflow: visible;
         border-right: 0;
         background-color: transparent;
+        z-index: 1;
 
         .sidebar {
             border-radius: 24px 24px 0 0;

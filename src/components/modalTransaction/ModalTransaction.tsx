@@ -506,7 +506,7 @@ export const ModalTransaction = (props: Props) => {
                         </div>
                     </label>
                     {props.type === 'transfer' &&
-                        <label htmlFor="input-account-for-expense" onClick={() => setModalAccount(true)}>
+                        <label htmlFor="input-account-for-expense" onClick={() => setModalAccountFor(true)}>
                             <div className='input-area account' onClick={handleFocusInputArea}>
                                 <div className='icon'>
                                     <AccountBalanceOutlinedIcon />
