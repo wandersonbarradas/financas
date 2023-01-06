@@ -16,7 +16,6 @@ export const Container = styled.header<Props>`
     background-color: ${(props) => props.Theme.colorSideBar};
     border-bottom: 1px solid ${(props) => props.Theme.colorBorder};
     position: relative;
-    z-index: 2;
 
     .boxSelectMonth {
         width: 170px;
