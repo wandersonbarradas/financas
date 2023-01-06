@@ -27,18 +27,17 @@ type Props = {
 
 export const ModalTransaction = (props: Props) => {
     const { state, dispatch } = useContext(Context)
-    const [valueExpense, setValueExpense] = useState<number>(0)
+    const [valueTransaction, setValueTransactions] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
     const [modalDatePicker, setModalDatePiker] = useState<boolean>(false)
     const [category, setCategory] = useState<CategoryType | null>(null)
     const [subcategory, setSubCategory] = useState<SubCategories | null>(null)
     const [account, setAccount] = useState<UserAccountType | null>(null)
     const [accountFor, setAccountFor] = useState<UserAccountType | null>(null)
-    const [dateExpense, setDateExpense] = useState<Date>(new Date())
+    const [dateTransaction, setDateTransaction] = useState<Date>(new Date())
     const [dateExtense, setDateExtense] = useState<boolean>(false)
     const [done, setDone] = useState<boolean>(true)
     const [colorTransaction, setColorTransaction] = useState({ solid: '', rgba: '' })
-    const [valueCategory, setValueCategory] = useState('')
     const [disabledBtn, setDisabeldBtn] = useState(true)
     const [categories, setCategories] = useState<CategoryType[]>([])
     const [subcategories, setSubcategories] = useState<SubCategories[]>([])
@@ -62,9 +61,9 @@ export const ModalTransaction = (props: Props) => {
             case 'outros':
                 backgroundBtnDate(2)
                 setDateExtense(true)
-                dateExpense > new Date() ? setDone(false) : setDone(true)
+                dateTransaction > new Date() ? setDone(false) : setDone(true)
         }
-    }, [dateExpense])
+    }, [dateTransaction])
 
     useEffect(() => {
         if (props.type === 'expense') {
@@ -79,20 +78,34 @@ export const ModalTransaction = (props: Props) => {
 
     useEffect(() => {
         if (props.type === 'transfer') {
-            if (valueExpense !== 0 && description !== '' && account !== null && accountFor !== null) {
+            if (valueTransaction !== 0 && description !== '' && account !== null && accountFor !== null) {
                 setDisabeldBtn(false)
             } else {
                 setDisabeldBtn(true)
             }
         } else {
-            if (valueExpense !== 0 && description !== '' && category !== null && account !== null) {
+            if (valueTransaction !== 0 && description !== '' && category !== null && account !== null) {
                 setDisabeldBtn(false)
             } else {
                 setDisabeldBtn(true)
             }
         }
-
-    }, [valueExpense, description, category, account, accountFor]);
+        if (category !== null) {
+            verificDescription('category')
+        }
+        if (valueTransaction > 0) {
+            verificDescription('value')
+        }
+        if (description !== '') {
+            verificDescription('description')
+        }
+        if (account !== null) {
+            verificDescription('account')
+        }
+        if (accountFor !== null) {
+            verificDescription('accountFor')
+        }
+    }, [valueTransaction, description, category, account, accountFor]);
 
     const getCategory = async () => {
         if (state.user.data === null) {
@@ -154,8 +167,8 @@ export const ModalTransaction = (props: Props) => {
             const transaction = {
                 id,
                 type: props.type,
-                value: valueExpense,
-                date: dateExpense,
+                value: valueTransaction,
+                date: dateTransaction,
                 description: description,
                 account,
                 accountFor,
@@ -171,8 +184,8 @@ export const ModalTransaction = (props: Props) => {
             const transaction = {
                 id,
                 type: props.type,
-                value: valueExpense,
-                date: dateExpense,
+                value: valueTransaction,
+                date: dateTransaction,
                 description: description,
                 category,
                 subcategory,
@@ -191,7 +204,7 @@ export const ModalTransaction = (props: Props) => {
     }
 
     const handleDateExpense = (date: Date) => {
-        setDateExpense(date)
+        setDateTransaction(date)
     }
 
     const handleModalDatePicker = (value: 'open' | 'close') => {
@@ -199,13 +212,6 @@ export const ModalTransaction = (props: Props) => {
             setModalDatePiker(true)
         } else {
             setModalDatePiker(false)
-        }
-    }
-
-    const handleContainerDatePiker = (e: React.MouseEvent<HTMLElement>) => {
-        const el = e.target as HTMLElement
-        if (el.classList.contains('modalDatePicker')) {
-            handleModalDatePicker('close')
         }
     }
 
@@ -223,16 +229,16 @@ export const ModalTransaction = (props: Props) => {
         let element = e.target as HTMLElement
         const ontem = dayjs().subtract(1, 'day')
         if (element.innerText === 'Hoje') {
-            setDateExpense(new Date())
+            setDateTransaction(new Date())
         } else if (element.innerText === 'Ontem') {
-            setDateExpense(new Date(ontem.year(), ontem.month(), ontem.date()))
+            setDateTransaction(new Date(ontem.year(), ontem.month(), ontem.date()))
         } else {
             handleModalDatePicker('open')
         }
     }
 
     const checkDate = () => {
-        const date = dayjs(dateExpense).format('DD/MM/YYY')
+        const date = dayjs(dateTransaction).format('DD/MM/YYY')
         const hj = dayjs(new Date()).format('DD/MM/YYY')
         const ontem = dayjs(new Date()).subtract(1, 'day').format('DD/MM/YYY')
         if (date === hj) {
@@ -258,7 +264,7 @@ export const ModalTransaction = (props: Props) => {
     }
 
     const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValueExpense(+e.currentTarget.value)
+        setValueTransactions(+e.currentTarget.value)
     }
 
     const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -266,24 +272,6 @@ export const ModalTransaction = (props: Props) => {
             setDone(true)
         } else {
             setDone(false)
-        }
-    }
-
-    const handleInputCategory = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.code === 'Backspace') {
-            setCategory(null)
-        }
-    }
-
-    const handleInputAccount = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.code === 'Backspace') {
-            setAccount(null)
-        }
-    }
-
-    const handleInputAccountFor = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.code === 'Backspace') {
-            setAccountFor(null)
         }
     }
 
@@ -320,62 +308,56 @@ export const ModalTransaction = (props: Props) => {
     const verificDescription = (item: string) => {
         switch (item) {
             case 'description':
-                let a = document.getElementById('input-description-expense') as HTMLInputElement
+                let a = document.querySelector('.input-area.description') as HTMLDivElement
                 if (!a) {
                     return
                 }
                 if (description === '') {
-                    a.parentElement?.classList.add('warning', 'colorWarning')
-                    if (props.type === 'transfer') {
-                        a.parentElement?.parentElement?.classList.add('tf')
-                    }
+                    a.classList.add('warning', 'colorWarning')
                 } else {
-                    a.parentElement?.classList.remove('warning', 'colorWarning')
-                    if (props.type === 'transfer') {
-                        a.parentElement?.parentElement?.classList.remove('tf')
-                    }
+                    a.classList.remove('warning', 'colorWarning')
                 }
                 break;
             case 'value':
-                let b = document.getElementById('input-value-expense') as HTMLInputElement;
+                let b = document.querySelector('.input-area.value') as HTMLDivElement;
                 if (!b) {
                     return
                 }
-                if (valueExpense <= 0) {
-                    b.parentElement?.classList.add('warning', 'colorWarning', 'valueWarning')
+                if (valueTransaction <= 0) {
+                    b.classList.add('warning', 'colorWarning', 'valueWarning')
                 } else {
-                    b.parentElement?.classList.remove('warning', 'colorWarning', 'valueWarning')
+                    b.classList.remove('warning', 'colorWarning', 'valueWarning')
                 }
                 break;
             case 'category':
                 setModalCategories(false)
-                let c = document.getElementById('input-category-expense') as HTMLInputElement;
+                let c = document.querySelector('.input-area.category') as HTMLDivElement;
                 console.log(c)
                 if (!c) {
                     return
                 }
                 if (category === null) {
-                    c.parentElement?.parentElement?.classList.add('warning', 'colorWarning')
+                    c.classList.add('warning', 'colorWarning')
                 } else {
                     console.log('remove')
-                    c.parentElement?.parentElement?.classList.remove('warning', 'colorWarning')
+                    c.classList.remove('warning', 'colorWarning')
                 }
                 break;
             case 'account':
                 setModalAccount(false)
-                let d = document.getElementById('input-account-expense') as HTMLInputElement;
+                let d = document.querySelector('.input-area.account') as HTMLDivElement;
                 if (!d) {
                     return
                 }
                 if (category === null) {
-                    d.parentElement?.parentElement?.classList.add('warning', 'colorWarning')
+                    d.classList.add('warning', 'colorWarning')
                 } else {
-                    d.parentElement?.parentElement?.classList.remove('warning', 'colorWarning')
+                    d.classList.remove('warning', 'colorWarning')
                 }
                 break;
             case 'accountFor':
                 setModalAccountFor(false)
-                let e = document.getElementById('input-account-for-expense') as HTMLInputElement;
+                let e = document.querySelector('.input-area.accounFor') as HTMLDivElement;
                 if (!e) {
                     return
                 }
@@ -392,7 +374,7 @@ export const ModalTransaction = (props: Props) => {
     return (
         <C.Container colorTransaction={colorTransaction} extend={dateExtense} Theme={state.theme.theme}>
             <Modal open={modalDatePicker} setOpen={setModalDatePiker} modalOpacity={0.5} clickAway={true}>
-                <Calendario value={dateExpense} dateValue={handleDateExpense} handleModal={handleModalDatePicker} />
+                <Calendario value={dateTransaction} dateValue={handleDateExpense} handleModal={handleModalDatePicker} />
             </Modal>
             <div className='header'>
                 <h3>Nova {props.type === 'expense' ? 'Despesa' : props.type === 'income' ? 'Receita' : 'Transferência'}</h3>
@@ -409,7 +391,7 @@ export const ModalTransaction = (props: Props) => {
                         <button className='btn-date' >Hoje</button>
                         <button className='btn-date' >Ontem</button>
                         <button className='btn-date' onClick={() => handleModalDatePicker('open')} >Outro...</button>
-                        <span className='date-extense'>{DF.getDateExtense(dateExpense)}</span>
+                        <span className='date-extense'>{DF.getDateExtense(dateTransaction)}</span>
                     </div>
                     <label htmlFor="input-value-expense">
                         <div className='input-area value' onClick={handleFocusInputArea}>
