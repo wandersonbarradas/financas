@@ -42,6 +42,7 @@ export const SideBar = ({ showLoader }: Props) => {
     const [modalTransaction, setModalTransaction] = useState(false)
     const [typeTransaction, setTypeTransaction] = useState<'expense' | 'income' | 'transfer'>('expense')
     const { state, dispatch } = useContext(Context)
+    const [addTransactionMobile, setAddTransactionMobile] = useState(false)
     useEffect(() => {
         setOpenMenu(state.general.sideBar)
     }, [state.general.sideBar]);
@@ -94,6 +95,7 @@ export const SideBar = ({ showLoader }: Props) => {
 
     const handleNewTransition = (type: 'expense' | 'income' | 'transfer') => {
         setModalAdd(false)
+        setAddTransactionMobile(false)
         setTypeTransaction(type)
         setModalTransaction(true)
     }
@@ -121,7 +123,7 @@ export const SideBar = ({ showLoader }: Props) => {
                         <ListItemSideBar Class='invoice' menuOpen={openMenu} Icon={ArticleIcon} label='Fatura' url="/fatura" />
                         <ListItemSideBar Class='account' menuOpen={openMenu} Icon={AccountBalanceIcon} label='Contas' url="/contas" />
                         <div className='boxBtnAdd mobile'>
-                            <button onClick={() => setModalAdd(true)} className='cssbuttons-io-button'>
+                            <button onClick={() => setAddTransactionMobile(true)} className='cssbuttons-io-button'>
                                 <AddIcon />
                                 {openMenu && <span>Add</span>}
                             </button>
@@ -171,6 +173,26 @@ export const SideBar = ({ showLoader }: Props) => {
                         <h3 className='titleTransaction'>{typeTransaction === 'expense' ? 'Nova despesa' : typeTransaction === 'income' ? 'Nova receita' : 'Nova transferência'}</h3>
                     </div>
                     <ModalTransaction setClose={setModalTransaction} type={typeTransaction} />
+                </div>
+            </Modal>
+            <Modal modalOpacity={0.5} open={addTransactionMobile} setOpen={setAddTransactionMobile} clickAway={true}>
+                <div className='containerModalAdd'>
+                    <div className='row'>
+                        <button className='itemAdd' onClick={() => handleNewTransition('expense')}>
+                            <div className='icon des'><TrendingDownOutlinedIcon /></div>
+                            Despesa
+                        </button>
+                    </div>
+                    <div className='row'>
+                        <button className='itemAdd' onClick={() => handleNewTransition('income')}>
+                            <div className='icon res'><TrendingUpOutlinedIcon /></div>
+                            Receita
+                        </button>
+                        <button className='itemAdd' onClick={() => handleNewTransition('transfer')}>
+                            <div className='icon tras'><TransformOutlinedIcon /></div>
+                            Transferência
+                        </button>
+                    </div>
                 </div>
             </Modal>
         </C.Container>

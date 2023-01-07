@@ -208,15 +208,15 @@ export const Container = styled.div<Props>`
                 justify-content: center;
 
                 &.des {
-                    color: #f02927;
+                    color: ${(props) => props.Theme.expenseColor};
                 }
 
                 &.res {
-                    color: #4fd18b;
+                    color: ${(props) => props.Theme.incomeColor};
                 }
 
                 &.tras {
-                    color: #008dff;
+                    color: ${(props) => props.Theme.transferColor};
                 }
             }
         }
@@ -309,6 +309,61 @@ export const Container = styled.div<Props>`
                 flex-direction: row;
                 margin-top: 10px;
                 display: none;
+            }
+        }
+        .containerModalAdd {
+            width: 100%;
+            position: absolute;
+            bottom: 100px;
+
+            .row {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 100px;
+
+                .itemAdd {
+                    background-color: transparent;
+                    border: 0;
+                    outline: 0;
+                    width: 100px;
+                    display: grid;
+                    place-items: center;
+                    gap: 5px;
+                    color: ${(i) => i.Theme.colorTitle};
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    font-family: "Poppins", sans-serif;
+                    font-size: 14px;
+
+                    &:hover {
+                        .icon {
+                            background-color: ${(i) => i.Theme.colorBorder};
+                            transition: all 0.3s ease;
+                        }
+                    }
+
+                    .icon {
+                        width: 50px;
+                        height: 50px;
+                        background-color: ${(i) => i.Theme.colorComponents};
+                        border-radius: 50%;
+                        display: grid;
+                        place-items: center;
+
+                        &.des {
+                            color: ${(props) => props.Theme.expenseColor};
+                        }
+
+                        &.res {
+                            color: ${(props) => props.Theme.incomeColor};
+                        }
+
+                        &.tras {
+                            color: ${(props) => props.Theme.transferColor};
+                        }
+                    }
+                }
             }
         }
     }
