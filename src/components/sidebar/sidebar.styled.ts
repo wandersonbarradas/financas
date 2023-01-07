@@ -314,7 +314,7 @@ export const Container = styled.div<Props>`
         .containerModalAdd {
             width: 100%;
             position: absolute;
-            bottom: 100px;
+            bottom: 150px;
 
             .row {
                 display: flex;
