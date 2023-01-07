@@ -175,7 +175,7 @@ export const SideBar = ({ showLoader }: Props) => {
                     <ModalTransaction setClose={setModalTransaction} type={typeTransaction} />
                 </div>
             </Modal>
-            <Modal modalOpacity={0.5} open={addTransactionMobile} setOpen={setAddTransactionMobile} clickAway={true}>
+            <Modal modalOpacity={0.8} open={addTransactionMobile} setOpen={setAddTransactionMobile} clickAway={true}>
                 <div className='containerModalAdd'>
                     <div className='row'>
                         <button className='itemAdd' onClick={() => handleNewTransition('expense')}>
