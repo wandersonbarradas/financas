@@ -30,9 +30,7 @@ export const Container = styled.li<Props>`
         border-radius: 4px;
         cursor: pointer;
 
-        &.activeLinkNavBar {
-            color: ${(props) => props.Theme.colorPrimary};
-        }
+        &.activeLinkNavBar,
         &:hover {
             color: #fff;
             background-color: ${(props) => props.Theme.colorPrimary};

@@ -1,5 +1,3 @@
-import { SideBar } from "./sidebar";
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -9,6 +7,7 @@ type Props = {
         top: number;
         left: number;
     };
+    modalAddMobile: boolean;
 };
 
 export const Container = styled.div<Props>`
@@ -47,8 +46,19 @@ export const Container = styled.div<Props>`
         display: flex;
         justify-content: center;
 
-        .LogoClose {
-            width: 50%;
+        .logo {
+            width: 156px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+                width: 100%;
+            }
+
+            &.close {
+                width: 50%;
+            }
         }
     }
 
@@ -75,13 +85,12 @@ export const Container = styled.div<Props>`
         color: white;
         background-color: #4c49ed;
         background-image: linear-gradient(0deg, #4c49ed 36%, #8383ea 100%);
-
         border: none;
         box-shadow: 0 0.5em 1.5em -0.5em #4c49ed;
         letter-spacing: 0.05em;
         border-radius: 20em;
         cursor: pointer;
-        transition: all 0.15s ease;
+        transition: all 0.3s ease;
     }
 
     .cssbuttons-io-button:hover {
@@ -275,7 +284,11 @@ export const Container = styled.div<Props>`
                     width: 20px;
                     height: 20px;
                     border-radius: 50%;
-                    transform: scale(3.5);
+                    transform: ${(i) =>
+                        i.modalAddMobile
+                            ? "scale(3.5) rotate(45deg)"
+                            : "scale(3.5)"};
+                    z-index: ${(i) => (i.modalAddMobile ? 1001 : 1)};
                     padding: 0;
 
                     svg {
@@ -415,7 +428,10 @@ export const Container = styled.div<Props>`
             .mobile {
                 .cssbuttons-io-button {
                     margin-top: -10px;
-                    transform: scale(3.1);
+                    transform: ${(i) =>
+                        i.modalAddMobile
+                            ? "scale(3.1) rotate(45deg)"
+                            : "scale(3.1)"};
                 }
             }
         }

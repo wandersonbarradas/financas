@@ -76,6 +76,12 @@ export const Container = styled.header<Props>`
         justify-content: flex-start;
         align-items: center;
 
+        a {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .LogoClose {
             width: 50px;
         }

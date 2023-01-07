@@ -60,12 +60,14 @@ export const Header = ({ showLoader }: Props) => {
     return (
         <C.Container selectMonth={state.general.selectMonth} dropdown={dropdown} Theme={state.theme.theme}>
             <div className='box-logo'>
-                {state.theme.status === 'Dark' &&
-                    <img className='LogoClose' src={LogoDark2} alt="" />
-                }
-                {state.theme.status === 'Light' &&
-                    <img className='LogoClose' src={LogoLight2} alt="" />
-                }
+                <Link to={'/'}>
+                    {state.theme.status === 'Dark' &&
+                        <img className='LogoClose' src={LogoDark2} alt="" />
+                    }
+                    {state.theme.status === 'Light' &&
+                        <img className='LogoClose' src={LogoLight2} alt="" />
+                    }
+                </Link>
             </div>
             <div className='infoUser'>
                 <span className='infoNameUser'>Bem vindo, {state.user.data?.name.split(' ')[0]}</span>

@@ -101,15 +101,17 @@ export const SideBar = ({ showLoader }: Props) => {
     }
 
     return (
-        <C.Container modalMore={{ top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
+        <C.Container modalAddMobile={addTransactionMobile} modalMore={{ top: cordenadas.top, left: cordenadas.left }} Theme={state.theme.theme} menu={openMenu}>
             <div className='sidebar scroll'>
                 <div className='box-logo' onClick={handleSideBar}>
-                    {state.theme.status === 'Dark' &&
-                        <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoDark : LogoDark2} alt="" />
-                    }
-                    {state.theme.status === 'Light' &&
-                        <img className={openMenu ? '' : 'LogoClose'} src={openMenu ? LogoLight : LogoLight2} alt="" />
-                    }
+                    <Link className={openMenu ? 'logo' : 'logo close'} to='/'>
+                        {state.theme.status === 'Dark' &&
+                            <img src={openMenu ? LogoDark : LogoDark2} alt="" />
+                        }
+                        {state.theme.status === 'Light' &&
+                            <img src={openMenu ? LogoLight : LogoLight2} alt="" />
+                        }
+                    </Link>
                 </div>
                 <div className='boxBtnAdd'>
                     <button onClick={() => setModalAdd(true)} className='cssbuttons-io-button'>
@@ -123,7 +125,7 @@ export const SideBar = ({ showLoader }: Props) => {
                         <ListItemSideBar Class='invoice' menuOpen={openMenu} Icon={ArticleIcon} label='Fatura' url="/fatura" />
                         <ListItemSideBar Class='account' menuOpen={openMenu} Icon={AccountBalanceIcon} label='Contas' url="/contas" />
                         <div className='boxBtnAdd mobile'>
-                            <button onClick={() => setAddTransactionMobile(true)} className='cssbuttons-io-button'>
+                            <button onClick={() => setAddTransactionMobile(addTransactionMobile ? false : true)} className='cssbuttons-io-button'>
                                 <AddIcon />
                                 {openMenu && <span>Add</span>}
                             </button>
