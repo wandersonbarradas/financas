@@ -334,7 +334,7 @@ export const Container = styled.div<Props>`
                     cursor: pointer;
                     transition: all 0.3s ease;
                     font-family: "Poppins", sans-serif;
-                    font-size: 14px;
+                    font-size: 12px;
 
                     &:hover {
                         .icon {
