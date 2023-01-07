@@ -330,7 +330,7 @@ export const Container = styled.div<Props>`
                     display: grid;
                     place-items: center;
                     gap: 5px;
-                    color: ${(i) => i.Theme.colorTitle};
+                    color: #fff;
                     cursor: pointer;
                     transition: all 0.3s ease;
                     font-family: "Poppins", sans-serif;
