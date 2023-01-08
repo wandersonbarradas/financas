@@ -1,3 +1,4 @@
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -6,6 +7,7 @@ type Props = {
     modalMore: {
         top: number;
         left: number;
+        active: boolean;
     };
     modalAddMobile: boolean;
 };
@@ -124,60 +126,48 @@ export const Container = styled.div<Props>`
         }
     }
 
-    .containerModalMore {
+    .modalMore {
+        width: 250px;
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: transparent;
-        z-index: 50;
-        transition: all 0.2s ease;
+        top: ${(props) => props.modalMore.top}px;
+        left: ${(props) => props.modalMore.left}px;
+        padding: 12px 0;
+        background-color: ${(props) => props.Theme.colorComponents};
+        box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+            0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+        border-radius: 16px;
+        border: 1px solid ${(props) => props.Theme.colorBorder};
 
-        .modalMore {
-            width: 250px;
-            position: absolute;
-            top: ${(props) => props.modalMore.top}px;
-            left: ${(props) => props.modalMore.left}px;
-            padding: 12px 0;
-            background-color: ${(props) => props.Theme.colorComponents};
-            box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
-                0px 8px 10px 1px rgb(0 0 0 / 14%),
-                0px 3px 14px 2px rgb(0 0 0 / 12%);
-            border-radius: 16px;
-            border: 1px solid ${(props) => props.Theme.colorBorder};
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-            ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
+        li {
+            a {
                 display: flex;
-                flex-direction: column;
-                gap: 5px;
-            }
+                width: 100%;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 10px;
+                color: ${(props) => props.Theme.colorOpacity};
+                text-decoration: none;
+                padding: 12px 24px;
+                font-weight: 500;
+                transition: all 0.3s ease-in-out;
 
-            li {
-                a {
+                &:hover {
+                    background-color: ${(props) => props.Theme.colorBorder};
+                }
+
+                .icon {
                     display: flex;
-                    width: 100%;
-                    justify-content: flex-start;
+                    justify-content: center;
                     align-items: center;
-                    gap: 10px;
-                    color: ${(props) => props.Theme.colorOpacity};
-                    text-decoration: none;
-                    padding: 12px 24px;
-                    font-weight: 500;
-                    transition: all 0.3s ease-in-out;
-
-                    &:hover {
-                        background-color: ${(props) => props.Theme.colorBorder};
-                    }
-
-                    .icon {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                    }
                 }
             }
         }
@@ -243,6 +233,10 @@ export const Container = styled.div<Props>`
         .headerBox {
             display: none;
         }
+    }
+
+    .containerModalAdd {
+        display: none;
     }
 
     @media screen and (max-width: 992px) {
@@ -327,6 +321,7 @@ export const Container = styled.div<Props>`
         .containerModalAdd {
             width: 100%;
             position: absolute;
+            display: block;
             bottom: 150px;
 
             .row {
@@ -379,6 +374,63 @@ export const Container = styled.div<Props>`
                 }
             }
         }
+        .modalMore {
+            width: 400px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: auto;
+            right: ${(i) => (i.modalMore.active ? "0" : "-400")}px;
+            bottom: 0;
+            border-radius: 0px;
+            transition: all 1s ease;
+
+            .headerModalMore {
+                display: block;
+                padding: 0 12px;
+
+                .icon {
+                    display: inline-flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    color: ${(i) => i.Theme.colorOpacity};
+                    cursor: pointer;
+                    svg {
+                        font-size: 2rem;
+                    }
+                }
+            }
+            ul {
+                gap: 0;
+                margin-top: 30px;
+            }
+
+            li {
+                padding: 0 12px;
+                transition: all 0.3s ease-in-out;
+
+                &:hover {
+                    background-color: ${(i) => i.Theme.colorBorder};
+                }
+                a {
+                    width: auto;
+                    gap: 20px;
+                    color: ${(props) => props.Theme.colorOpacity};
+                    padding: 16px 0;
+                    font-weight: 400;
+                    border-bottom: 1px solid ${(i) => i.Theme.colorBorder};
+
+                    &:hover {
+                        background-color: transparent;
+                    }
+                }
+
+                &.moreInvoice,
+                &.moreReport {
+                    display: none;
+                }
+            }
+        }
     }
 
     @media screen and (max-width: 576px) {
@@ -415,6 +467,15 @@ export const Container = styled.div<Props>`
                     justify-content: center;
                     color: ${(i) => i.Theme.colorTitle};
                     margin-right: 15px;
+                }
+            }
+        }
+
+        .modalMore {
+            li {
+                &.moreInvoice,
+                &.moreReport {
+                    display: block;
                 }
             }
         }

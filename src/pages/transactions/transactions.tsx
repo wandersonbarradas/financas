@@ -10,6 +10,7 @@ import { NormalTansactionType, TransferTansactionType } from '../../types/Transa
 import { TableTransactionsItem } from '../../components/tableTransactionItem/TableTransactionsItem';
 import DF from '../../helpers/DateFunctions'
 import dayjs from 'dayjs';
+import { activeSidebarItem } from '../../helpers/helpers';
 
 type TypeTransactions = {
     color: string;
@@ -25,6 +26,7 @@ export const Transactions = () => {
     const [type, setType] = useState<TypeTransactions>({ name: 'Transações', color: state.theme.theme.colorPrimary })
 
     useEffect(() => {
+        activeSidebarItem('activeLinkNavBar', 'transactions')
         dispatch({
             type: 'setSelectMonth',
             payload: { selectMonth: true }

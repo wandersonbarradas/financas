@@ -51,7 +51,7 @@ export const ListItemSideBar = ({ Icon, label, click, url, menuOpen, logout, Cla
         )
     } else {
         return (
-            <C.Container Theme={state.theme.theme} menuOpen={menuOpen} className='list-item-sideBar' onClick={handleClick}>
+            <C.Container Theme={state.theme.theme} menuOpen={menuOpen} className={'list-item-sideBar ' + Class} onClick={handleClick}>
                 <div className='link-item'>
                     <div className='box-icon'>
                         <Icon />

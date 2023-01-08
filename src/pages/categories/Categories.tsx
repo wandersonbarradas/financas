@@ -8,6 +8,7 @@ import { CategoryType, SubCategories } from '../../types/UserType';
 import Api from '../../Api';
 import * as C from './Categories.styled'
 import { AlertAviso } from '../../components/alertAviso/AlertAviso';
+import { activeSidebarItem } from '../../helpers/helpers';
 
 export const Categories = () => {
     const { state, dispatch } = useContext(Context)
@@ -30,6 +31,7 @@ export const Categories = () => {
     const [displayAlert, setDisplayAlert] = useState(false)
 
     useEffect(() => {
+        activeSidebarItem('activeLinkNavBar', 'moreOptions')
         dispatch({
             type: 'setSelectMonth',
             payload: { selectMonth: false }

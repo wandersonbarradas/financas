@@ -13,6 +13,7 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import dayjs from 'dayjs';
 import DF from '../../helpers/DateFunctions';
 import FormattedPrice from '../../helpers/FormattedPrice';
+import { activeSidebarItem } from '../../helpers/helpers';
 
 type LastMonth = {
     firstMonth: Date,
@@ -38,6 +39,7 @@ export const Dashboard = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
+        activeSidebarItem('activeLinkNavBar', 'dashboad')
         navigate('/dashboard')
         dispatch({
             type: 'setSelectMonth',

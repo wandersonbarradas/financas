@@ -8,6 +8,7 @@ import { AccountType, UserAccountType } from '../../types/AccountsType';
 import { Modal } from '../../components/modais/Modais';
 import { ModalNewAccount } from '../../components/ModalNewAccount/ModalNewAccount';
 import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
+import { activeSidebarItem } from '../../helpers/helpers'
 
 type ListAccount = {
     name: string,
@@ -27,6 +28,7 @@ export const Account = () => {
             type: 'setSelectMonth',
             payload: { selectMonth: false }
         })
+        activeSidebarItem('activeLinkNavBar', 'account')
     }, []);
 
     useEffect(() => {
