@@ -472,6 +472,8 @@ export const Container = styled.div<Props>`
         }
 
         .modalMore {
+            width: 100%;
+
             li {
                 &.moreInvoice,
                 &.moreReport {
