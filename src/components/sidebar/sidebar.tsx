@@ -78,13 +78,6 @@ export const SideBar = ({ showLoader }: Props) => {
         setModalMore(true)
     }
 
-    const handleClickModalMore = (e: React.MouseEvent<HTMLElement>) => {
-        const element = e.target as HTMLElement
-        if (element.classList.contains('containerModalMore')) {
-            setModalMore(false)
-        }
-    }
-
     const handleSideBar = () => {
         setOpenMenu(openMenu ? false : true)
         dispatch({
@@ -99,6 +92,11 @@ export const SideBar = ({ showLoader }: Props) => {
         setAddTransactionMobile(false)
         setTypeTransaction(type)
         setModalTransaction(true)
+    }
+
+    const handleLogOutMore = () => {
+        setModalMore(false)
+        handleLogOut()
     }
 
     return (
@@ -194,7 +192,7 @@ export const SideBar = ({ showLoader }: Props) => {
                             </Link>
                         </li>
                         <li className='moreLogOut'>
-                            <Link onClick={() => setModalMore(false)} to='/login'>
+                            <Link onClick={handleLogOutMore} to='/login'>
                                 <div className='icon'><ArrowBackIcon /></div>
                                 Log Out
                             </Link>

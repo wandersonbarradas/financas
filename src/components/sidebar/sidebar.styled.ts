@@ -138,6 +138,10 @@ export const Container = styled.div<Props>`
         border-radius: 16px;
         border: 1px solid ${(props) => props.Theme.colorBorder};
 
+        .headerModalMore {
+            display: none;
+        }
+
         ul {
             list-style: none;
             padding: 0;
@@ -169,6 +173,14 @@ export const Container = styled.div<Props>`
                     justify-content: center;
                     align-items: center;
                 }
+            }
+
+            &.moreInvoice,
+            &.moreReport,
+            &.moreSettings,
+            &.moreHelp,
+            &.moreLogOut {
+                display: none;
             }
         }
     }
@@ -425,9 +437,10 @@ export const Container = styled.div<Props>`
                     }
                 }
 
-                &.moreInvoice,
-                &.moreReport {
-                    display: none;
+                &.moreSettings,
+                &.moreHelp,
+                &.moreLogOut {
+                    display: block;
                 }
             }
         }
