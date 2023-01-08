@@ -416,7 +416,7 @@ export const Container = styled.div<Props>`
                     width: auto;
                     gap: 20px;
                     color: ${(props) => props.Theme.colorOpacity};
-                    padding: 16px 0;
+                    padding: 20px 0;
                     font-weight: 400;
                     border-bottom: 1px solid ${(i) => i.Theme.colorBorder};
 
