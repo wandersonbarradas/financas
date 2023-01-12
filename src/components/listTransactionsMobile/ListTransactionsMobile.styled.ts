@@ -8,6 +8,11 @@ type Props = {
 };
 export const Container = styled.div<Props>`
     display: flex;
+    padding: 0 20px;
+
+    &:hover {
+        background-color: ${(i) => i.Theme.colorBorder};
+    }
     .transactionColor {
         display: flex;
         align-items: center;
