@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const Container = styled.div<Props>`
-    padding: 0 24px 0 36px;
+    padding: 24px 24px 60px 24px;
     overflow-x: hidden;
     max-width: 1440px;
     margin: 0 auto;
@@ -133,38 +133,6 @@ export const Container = styled.div<Props>`
             background-color: ${(props) => props.Theme.colorBorder};
         }
 
-        tr {
-            /* .done {
-                max-width: 10%;
-                max-width: 10px;
-            }
-            .date {
-                width: 10%;
-                max-width: 10px;
-            }
-            .description {
-                width: 19%;
-                max-width: 10px;
-            }
-            .category {
-                width: 19%;
-                max-width: 10px;
-            }
-            .account {
-                width: 19%;
-                max-width: 10px;
-            }
-            .value {
-                width: 12%;
-                max-width: 10px;
-            }
-            .actionArea {
-                width: 10%;
-                max-width: 10px;
-            } */
-            transition: all 0.3s ease;
-        }
-
         th {
             padding: 15px;
             text-align: start;
@@ -179,6 +147,18 @@ export const Container = styled.div<Props>`
                 padding-left: 20px;
             }
             transition: all 0.3s ease;
+        }
+
+        .tableMobile {
+            padding: 20px;
+            .listMobile {
+                display: flex;
+                flex-direction: column;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                gap: 20px;
+            }
         }
     }
 
@@ -233,6 +213,13 @@ export const Container = styled.div<Props>`
                     background-color: ${(props) => props.Theme.colorBorder};
                 }
             }
+        }
+    }
+
+    @media screen and (max-width: 780px) {
+        padding: 12px 16px 60px 16px;
+        .body .tableTransactions {
+            display: none;
         }
     }
 `;

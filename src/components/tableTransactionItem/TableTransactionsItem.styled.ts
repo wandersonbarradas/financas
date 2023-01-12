@@ -94,12 +94,9 @@ export const Container = styled.tr<Props>`
                     &:hover {
                         background-color: ${(props) => props.Theme.colorBorder};
                     }
-                    }                    
                 }
             }
         }
-
-        
     }
     .center {
         display: flex;

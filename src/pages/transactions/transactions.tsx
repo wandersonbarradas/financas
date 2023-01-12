@@ -6,11 +6,12 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import { useState, useContext, useEffect } from 'react';
 import { Context } from '../../context/context';
 import { Modal } from '../../components/modais/Modais';
-import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
+import { NormalTansactionType } from '../../types/TransactionType';
 import { TableTransactionsItem } from '../../components/tableTransactionItem/TableTransactionsItem';
 import DF from '../../helpers/DateFunctions'
 import dayjs from 'dayjs';
 import { activeSidebarItem } from '../../helpers/helpers';
+import { ListTransactionsMobile } from '../../components/listTransactionsMobile/ListTransactionsMobile';
 
 type TypeTransactions = {
     color: string;
@@ -139,6 +140,15 @@ export const Transactions = () => {
                         }
                     </tbody>
                 </table>
+                <div className='tableMobile'>
+                    <ul className='listMobile'>
+                        {
+                            transactions.map((item, index) => (
+                                <ListTransactionsMobile key={index} item={item} />
+                            ))
+                        }
+                    </ul>
+                </div>
             </div>
             <Modal clickAway={true} modalOpacity={0} open={modalType} setOpen={setModalType}>
                 <div className='containerToggle'>
