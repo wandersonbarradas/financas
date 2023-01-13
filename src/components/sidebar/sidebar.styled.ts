@@ -1,3 +1,4 @@
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -15,9 +16,9 @@ export const Container = styled.div<Props>`
     background-color: ${(props) => props.Theme.colorSideBar};
     width: ${(props) => (props.menu ? "247px" : "88px")};
     transition: all 0.3s ease;
-    overflow: hidden;
     border-right: 1px solid ${(props) => props.Theme.colorBorder};
     z-index: 20;
+    position: relative;
 
     .sidebar {
         position: fixed;
@@ -39,14 +40,39 @@ export const Container = styled.div<Props>`
                 height: 4px;
             }
         }
+
+        .boxSwitchMenu {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .iconSwitchMenu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                transition: all 0.3s ease;
+                color: ${(i) => i.Theme.colorOpacity};
+                svg {
+                    font-size: 2rem;
+                    transform: rotate(${(i) => (i.menu ? 0 : "180")}deg);
+                }
+                &:hover {
+                    background-color: ${(i) => i.Theme.colorBorder};
+                }
+            }
+        }
     }
 
     .box-logo {
         width: 100%;
-        height: 77px;
+        height: ${(i) => (i.menu ? 77 : 42)}px;
         display: flex;
         justify-content: center;
-
+        margin-bottom: ${(i) => (i.menu ? 0 : 20)}px;
+        margin-top: ${(i) => (i.menu ? 0 : 18)}px;
         .logo {
             width: 156px;
             display: flex;

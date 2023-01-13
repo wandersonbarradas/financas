@@ -14,6 +14,7 @@ import HelpIcon from '@mui/icons-material/Help';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
+import KeyboardArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardArrowLeftOutlined';
 import TagIcon from '@mui/icons-material/Tag';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -101,8 +102,9 @@ export const SideBar = ({ showLoader }: Props) => {
 
     return (
         <C.Container modalAddMobile={addTransactionMobile} modalMore={{ top: cordenadas.top, left: cordenadas.left, active: modalMore }} Theme={state.theme.theme} menu={openMenu}>
+
             <div className='sidebar scroll'>
-                <div className='box-logo' onClick={handleSideBar}>
+                <div className='box-logo'>
                     <Link className={openMenu ? 'logo' : 'logo close'} to='/'>
                         {state.theme.status === 'Dark' &&
                             <img src={openMenu ? LogoDark : LogoDark2} alt="" />
@@ -111,6 +113,11 @@ export const SideBar = ({ showLoader }: Props) => {
                             <img src={openMenu ? LogoLight : LogoLight2} alt="" />
                         }
                     </Link>
+                </div>
+                <div className='boxSwitchMenu'>
+                    <div onClick={handleSideBar} className='iconSwitchMenu'>
+                        <KeyboardArrowLeftOutlinedIcon />
+                    </div>
                 </div>
                 <div className='boxBtnAdd'>
                     <button onClick={() => setModalAdd(true)} className='cssbuttons-io-button'>

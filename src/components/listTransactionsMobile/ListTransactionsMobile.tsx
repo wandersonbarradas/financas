@@ -12,10 +12,6 @@ type Props = {
 
 export const ListTransactionsMobile = ({ item }: Props) => {
     const { state } = useContext(Context)
-
-    useEffect(() => {
-        console.log(item.subcategory)
-    }, []);
     return (
         <C.Container color='' ColorCategory={item.type === 'transfer' ? state.theme.theme.transferColor : item.category.color} Theme={state.theme.theme}>
             <div className='transactionColor'>

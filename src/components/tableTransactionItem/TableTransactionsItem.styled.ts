@@ -42,6 +42,9 @@ export const Container = styled.tr<Props>`
             }
         }
 
+        &.description {
+            max-width: 350px;
+        }
         &.category {
             div {
                 display: flex;

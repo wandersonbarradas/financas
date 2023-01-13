@@ -56,6 +56,12 @@ export const Dashboard = () => {
         valueCharts()
     }, [state.user.transactions, state.user.selectedDate])
 
+    const sizeChartPie = () => {
+        const canvas = document.querySelector('.chart-pie canvas') as any
+        canvas.style = ''
+        canvas.style.width = '100%'
+    }
+
     const getValueTransactions = () => {
         const transactions = state.user.transactions as NormalTansactionType[];
         if (transactions.length > 0) {

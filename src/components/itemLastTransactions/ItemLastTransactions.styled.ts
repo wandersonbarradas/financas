@@ -30,9 +30,9 @@ export const Container = styled.li<Props>`
     .box-info {
         flex: 1;
         display: flex;
-        flex-wrap: wrap;
+        /* flex-wrap: wrap; */
         justify-content: space-between;
-        align-items: start;
+        align-items: center;
 
         .title-transaction {
             color: ${(props) => props.Theme.colorTitle};
@@ -67,13 +67,20 @@ export const Container = styled.li<Props>`
 
     @media screen and (max-width: 576px) {
         .box-info {
+            flex-wrap: wrap;
             .title-transaction {
                 font-size: 16px;
-                max-width: 180px;
+                max-width: 130px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
             .categorie-transaction {
                 font-size: 12px;
-                max-width: 180px;
+                max-width: 130px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
             .value {
                 font-size: 16px;

@@ -107,6 +107,10 @@ export const Container = styled.div<Props>`
             color: ${(props) => props.Theme.colorSecundary};
         }
     }
+
+    @media screen and (max-width: 576px) {
+        width: 100%;
+    }
 `;
 
 type PropsToggleMenu = {

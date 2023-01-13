@@ -65,7 +65,7 @@ export const Container = styled.div<Props>`
         align-items: center;
     }
 
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: 683px) {
         .box-account {
             justify-content: center;
         }

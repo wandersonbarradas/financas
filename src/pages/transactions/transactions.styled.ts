@@ -150,6 +150,7 @@ export const Container = styled.div<Props>`
         }
 
         .tableMobile {
+            display: none;
             padding: 10px 0;
             .listMobile {
                 display: flex;
@@ -220,6 +221,9 @@ export const Container = styled.div<Props>`
         padding: 12px 16px 60px 16px;
         .body .tableTransactions {
             display: none;
+        }
+        .body .tableMobile {
+            display: block;
         }
     }
 `;
