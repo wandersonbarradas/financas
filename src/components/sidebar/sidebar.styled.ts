@@ -354,6 +354,10 @@ export const Container = styled.div<Props>`
                 margin-top: 10px;
                 display: none;
             }
+
+            .boxSwitchMenu {
+                display: none;
+            }
         }
         .containerModalAdd {
             width: 100%;
