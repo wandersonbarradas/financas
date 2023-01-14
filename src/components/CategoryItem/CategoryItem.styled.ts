@@ -10,7 +10,7 @@ type Props = {
 
 export const Container = styled.tr<Props>`
     td {
-        &.nameCategory {
+        .nameCategory {
             display: flex;
             align-items: center;
             gap: 10px;

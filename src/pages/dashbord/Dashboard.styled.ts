@@ -252,6 +252,10 @@ export const Container = styled.div<Props>`
         }  
     }
 
+    @media screen and (max-width: 780px) {
+        padding: 12px 16px 60px 16px;
+    }
+
      @media screen and (max-width: 576px) {
         .row {
             .balance-title {
@@ -274,14 +278,12 @@ export const Container = styled.div<Props>`
                     font-size: 18px;
                 }
             }
-
-        .last-transactions,
-        .chart-pie {
-                .title {
-                    font-size: 18px;
-                }
+            .last-transactions,
+            .chart-pie {
+                    .title {
+                        font-size: 18px;
+                    }
+            } 
         }
-        
-     }
-
+    }
 `;

@@ -1,3 +1,4 @@
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -289,6 +290,12 @@ export const Container = styled.div<Props>`
                     }
                 }
             }
+        }
+    }
+
+    @media screen and (max-width: 780px) {
+        .tableCategoria {
+            display: none;
         }
     }
 `;

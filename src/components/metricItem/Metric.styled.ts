@@ -30,13 +30,13 @@ export const Container = styled.div<PropsContainer>`
     .value {
         font-family: "Inter", sans-serif;
         font-weight: 700;
-        font-size: 20px;
+        font-size: 18px;
         line-height: 28px;
         color: ${(props) => props.Theme.colorTitle};
         transition: all 0.3s ease;
 
         span {
-            font-size: 18px;
+            font-size: 16px;
             line-height: 23px;
         }
     }
@@ -47,9 +47,9 @@ export const Container = styled.div<PropsContainer>`
         }
 
         .value {
-            font-size: 18px;
+            font-size: 16px;
             span {
-                font-size: 16px;
+                font-size: 14px;
             }
         }
     }

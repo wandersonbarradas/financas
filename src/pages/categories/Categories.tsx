@@ -313,7 +313,6 @@ export const Categories = () => {
                     <thead>
                         <tr>
                             <th scope='col'>Nome</th>
-                            <th scope='col'>Ícone</th>
                             <th scope='col'>Cor</th>
                             <th scope='col'>Ações</th>
                         </tr>
@@ -332,6 +331,13 @@ export const Categories = () => {
                     </tbody>
                 </table>
                 <div className='footerTable'></div>
+                <div className='tableCategoryMobile'>
+                    <ul className='listCategoryMobile'>
+                        {
+
+                        }
+                    </ul>
+                </div>
             </div>
             {modalContainer.display &&
                 <div onClick={handleModal} className='containerModal'>

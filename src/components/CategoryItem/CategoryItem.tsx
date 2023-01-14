@@ -50,18 +50,15 @@ export const CategoryItem = ({ category, isCategory, type, removeCategory, remov
 
     return (
         <C.Container Type={type} Color={category.color} Theme={state.theme.theme}>
-            <td className={isCategory ? '' : 'nameCategory'}>
-                {!isCategory &&
-                    <div className='icon'>
-                        <SubdirectoryArrowRightIcon />
-                    </div>
-                }
-                <span>{category.name}</span>
-            </td>
             <td>
-                {isCategory &&
-                    <ShoppingCartIcon />
-                }
+                <div className={isCategory ? '' : 'nameCategory'} >
+                    {!isCategory &&
+                        <div className='icon'>
+                            <SubdirectoryArrowRightIcon />
+                        </div>
+                    }
+                    <span>{category.name}</span>
+                </div>
             </td>
             <td>
                 <div className={isCategory ? 'colorCategory' : 'colorCategory small'}></div>

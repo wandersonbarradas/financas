@@ -55,10 +55,13 @@ export const Container = styled.div<Props>`
                 border-radius: 50%;
                 transition: all 0.3s ease;
                 color: ${(i) => i.Theme.colorOpacity};
+                cursor: pointer;
+
                 svg {
                     font-size: 2rem;
                     transform: rotate(${(i) => (i.menu ? 0 : "180")}deg);
                 }
+
                 &:hover {
                     background-color: ${(i) => i.Theme.colorBorder};
                 }
