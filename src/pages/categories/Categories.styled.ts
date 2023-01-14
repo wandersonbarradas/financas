@@ -346,6 +346,7 @@ export const Container = styled.div<Props>`
     }
 
     @media screen and (max-width: 780px) {
+        padding: 0 16px;
         .header {
             .leftSide {
                 flex: 0;
