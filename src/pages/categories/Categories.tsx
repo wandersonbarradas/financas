@@ -9,6 +9,7 @@ import Api from '../../Api';
 import * as C from './Categories.styled'
 import { AlertAviso } from '../../components/alertAviso/AlertAviso';
 import { activeSidebarItem } from '../../helpers/helpers';
+import { ListCategoryMobile } from '../../components/listCategoryMobile/ListCategoryMobile';
 
 export const Categories = () => {
     const { state, dispatch } = useContext(Context)
@@ -291,6 +292,19 @@ export const Categories = () => {
         setColorCategory('')
     }
 
+    const handleTypeCategory = () => {
+        const items = document.querySelectorAll('.typeCategoriaMobile .option')
+        if (typeCategory === 'expense') {
+            items[0]?.classList.remove('activeExpense')
+            items[1]?.classList.add('activeIncome')
+            setTypeCategory('income')
+        } else {
+            items[1]?.classList.remove('activeIncome')
+            items[0]?.classList.add('activeExpense')
+            setTypeCategory('expense')
+        }
+    }
+
     return (
         <C.Container inputSearch={inputSearch} Type={typeCategory} Modal={modalContainer} Theme={state.theme.theme}>
             <div className='header'>
@@ -301,43 +315,58 @@ export const Categories = () => {
                             <SearchIcon />
                             <input onChange={getSearch} value={valueSearch} className='inputSearch' type="text" placeholder='Digite o nome da categoria' />
                         </span>
-
                     </div>
                 </div>
                 <div className='rightSide'>
                     <div onClick={openModalType} className='typeCategoria'>Categorias de Despesa<KeyboardArrowDownIcon /></div>
+                    <div className='typeCategoriaMobile'>
+                        <div onClick={handleTypeCategory} className="option activeExpense">Despesas</div>
+                        <div onClick={handleTypeCategory} className="option">Receitas</div>
+                    </div>
                 </div>
             </div>
             <div className='body'>
-                <table className="tableCategoria">
-                    <thead>
-                        <tr>
-                            <th scope='col'>Nome</th>
-                            <th scope='col'>Cor</th>
-                            <th scope='col'>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            category.sort().map((item, index) => (
-                                <>
-                                    <CategoryItem newSub={openModalCategory} removeCategory={removeCategory} type={typeCategory} edit={handleModalEdit} setId={handleIdCategory} key={index} category={item} isCategory={true} />
-                                    {subcategory.filter(i => i.category === item.id).map((value, valueIndex) => (
-                                        <CategoryItem edit={handleModalEdit} removeSubCategory={removeSubCategory} type={typeCategory} key={valueIndex + 1} category={value} isCategory={false} />
-                                    ))}
-                                </>
-                            ))
-                        }
-                    </tbody>
-                </table>
-                <div className='footerTable'></div>
-                <div className='tableCategoryMobile'>
-                    <ul className='listCategoryMobile'>
-                        {
-
-                        }
-                    </ul>
-                </div>
+                {category.length > 0 &&
+                    <>
+                        <table className="tableCategoria">
+                            <thead>
+                                <tr>
+                                    <th scope='col'>Nome</th>
+                                    <th scope='col'>Cor</th>
+                                    <th scope='col'>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    category.sort().map((item, index) => (
+                                        <>
+                                            <CategoryItem newSub={openModalCategory} removeCategory={removeCategory} type={typeCategory} edit={handleModalEdit} setId={handleIdCategory} key={index} category={item} isCategory={true} />
+                                            {subcategory.filter(i => i.category === item.id).map((value, valueIndex) => (
+                                                <CategoryItem edit={handleModalEdit} removeSubCategory={removeSubCategory} type={typeCategory} key={valueIndex + 1} category={value} isCategory={false} />
+                                            ))}
+                                        </>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                        <div className='tableCategoryMobile'>
+                            <ul className='listCategoryMobile'>
+                                {
+                                    category.sort().map((item, index) => (
+                                        <>
+                                            <ListCategoryMobile type={typeCategory} key={index} item={item} isCategory={true} />
+                                            {subcategory.filter(i => i.category === item.id).map((value, valueIndex) => (
+                                                <ListCategoryMobile type={typeCategory} key={valueIndex + 1} item={value} isCategory={false} />
+                                            ))}
+                                        </>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                    </>
+                }{category.length === 0 &&
+                    <h4 className='emptyCategories'>Sem Categorias 😥 </h4>
+                }
             </div>
             {modalContainer.display &&
                 <div onClick={handleModal} className='containerModal'>

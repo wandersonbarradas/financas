@@ -1,7 +1,6 @@
 import * as C from './CategoryItem.styled'
 import { useContext } from 'react'
 import { Context } from '../../context/context'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';

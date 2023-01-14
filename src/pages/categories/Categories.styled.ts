@@ -14,6 +14,8 @@ export const Container = styled.div<Props>`
     overflow-x: hidden;
     max-width: 1440px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 
     .header {
         width: 100%;
@@ -95,7 +97,7 @@ export const Container = styled.div<Props>`
                 width: 245px;
                 height: 48px;
                 font-weight: 500;
-                border-radius: 30px;
+                border-radius: 24px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -106,6 +108,36 @@ export const Container = styled.div<Props>`
                 &:hover {
                     background-color: ${(props) =>
                         props.Type === "expense" ? "#fb0400" : "#14F07B"};
+                }
+            }
+
+            .typeCategoriaMobile {
+                width: 50%;
+                min-width: 200px;
+                height: 48px;
+                background-color: ${(i) => i.Theme.colorComponents};
+                border-radius: 24px;
+                display: none;
+
+                .option {
+                    flex: 1;
+                    height: 48px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 24px;
+                    font-weight: 500;
+                    font-size: 16px;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    color: ${(i) => i.Theme.colorTitle};
+
+                    &.activeExpense {
+                        background-color: ${(i) => i.Theme.expenseColor};
+                    }
+                    &.activeIncome {
+                        background-color: ${(i) => i.Theme.incomeColor};
+                    }
                 }
             }
         }
@@ -122,6 +154,8 @@ export const Container = styled.div<Props>`
         .tableCategoria {
             width: 100%;
             border-spacing: 0;
+            padding-bottom: 20px;
+            transition: all 0.3s ease;
         }
 
         thead {
@@ -148,6 +182,24 @@ export const Container = styled.div<Props>`
         .footerTable {
             height: 30px;
             width: 100%;
+        }
+
+        .tableCategoryMobile {
+            display: none;
+            padding: 10px 0;
+            .listCategoryMobile {
+                display: flex;
+                flex-direction: column;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+        }
+
+        .emptyCategories {
+            text-align: center;
+            font-weight: 600;
+            margin: 15px 0;
         }
     }
     .containerModal {
@@ -294,8 +346,43 @@ export const Container = styled.div<Props>`
     }
 
     @media screen and (max-width: 780px) {
-        .tableCategoria {
-            display: none;
+        .header {
+            .leftSide {
+                flex: 0;
+            }
+            .rightSide {
+                justify-content: center;
+                .typeCategoria {
+                    display: none;
+                }
+                .typeCategoriaMobile {
+                    display: flex;
+
+                    .option {
+                        font-size: 14px;
+                    }
+                }
+            }
+            .boxOptions {
+                .btn-search {
+                    display: none;
+                }
+                .add {
+                    width: 62px;
+                    height: 62px;
+                    position: fixed;
+                    right: 24px;
+                    bottom: 100px;
+                }
+            }
+        }
+        .body {
+            .tableCategoria {
+                display: none;
+            }
+            .tableCategoryMobile {
+                display: block;
+            }
         }
     }
 `;

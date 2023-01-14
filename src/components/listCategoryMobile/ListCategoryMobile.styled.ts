@@ -4,87 +4,102 @@ import { ThemeValues } from "../../reducers/ThemeReducer";
 
 type Props = {
     Theme: ThemeValues;
-    ColorCategory: string;
+    CategoryColor: string;
+    Type: string;
 };
 export const Container = styled.div<Props>`
     display: flex;
-    padding: 0 20px;
+    padding: 20px;
+    align-items: center;
 
     &:hover {
         background-color: ${(i) => i.Theme.colorBorder};
     }
-    .transactionColor {
+
+    .categoryColor {
         display: flex;
         align-items: center;
-        .transactionBoxColor {
+        gap: 5px;
+        .colorCategory {
             display: block;
-            width: 32px;
-            height: 32px;
-            background-color: ${(i) => i.ColorCategory};
+            width: 30px;
+            height: 30px;
+            background-color: ${(i) => i.CategoryColor};
             border-radius: 50%;
+
+            &.small {
+                width: 15px;
+                height: 15px;
+            }
         }
     }
-    .transactionInfo {
+    .categoryName {
         flex: 1;
         padding: 10px 20px;
 
-        .transactionDescription {
+        p {
             margin: 0;
             font-size: 14px;
             color: ${(i) => i.Theme.colorTitle};
         }
-        .transactionAC {
-            color: ${(i) => i.Theme.colorOpacity};
-            font-size: 12px;
-        }
     }
 
-    .transactionValueAction {
-        align-items: end;
-        gap: 5px;
-        .transactionValue {
-            font-size: 12px;
-
-            &.transfer {
-                color: ${(props) => props.Theme.transferColor};
-            }
-
-            &.expense {
-                color: ${(props) => props.Theme.expenseColor};
-            }
-
-            &.income {
-                color: ${(props) => props.Theme.incomeColor};
-            }
-        }
-
-        .transactionDone {
-            .icon {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border-radius: 50%;
-                color: ${(props) => props.Theme.colorTitle};
-                padding: 1px;
-
-                svg {
-                    font-size: 1.1rem;
-                }
-
-                &.true {
-                    background-color: ${(i) => i.Theme.incomeColor};
-                }
-
-                &.false {
-                    background-color: ${(i) => i.Theme.expenseColor};
-                }
-            }
-        }
-    }
-
-    .flex-column {
+    .categoryActionArea {
         display: flex;
-        flex-direction: column;
+        gap: 20px;
+
+        .icon {
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &.add {
+                background-color: ${(i) =>
+                    i.Type === "expense"
+                        ? i.Theme.expenseColor
+                        : i.Theme.incomeColor};
+                &:hover {
+                    background-color: #fb0400;
+                }
+            }
+
+            &:hover {
+                background-color: ${(i) => i.Theme.colorOpacity};
+            }
+        }
+    }
+
+    .more {
+        display: none;
         justify-content: center;
+        align-items: center;
+
+        .icon {
+            padding: 5px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+
+            &:hover {
+                background-color: ${(i) => i.Theme.colorOpacity};
+            }
+        }
+    }
+
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: ${(i) => i.Theme.colorTitle};
+    }
+
+    @media screen and (max-width: 576px) {
+        .categoryActionArea {
+            display: none;
+        }
+        .more {
+            display: flex;
+        }
     }
 `;
