@@ -198,8 +198,9 @@ export const Container = styled.div<Props>`
 
         .emptyCategories {
             text-align: center;
-            font-weight: 600;
+            font-weight: 500;
             margin: 15px 0;
+            color: ${(i) => i.Theme.colorTitle};
         }
     }
     .containerModal {
