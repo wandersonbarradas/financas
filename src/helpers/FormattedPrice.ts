@@ -1,12 +1,7 @@
-const formattedPrice = (price: number) => {
-    let formattedPrice: string = price.toFixed(2);
-    const centIndex = formattedPrice.lastIndexOf(".");
-    if (centIndex !== -1) {
-        const formattedPriceArr = formattedPrice.split("");
-        formattedPriceArr[centIndex] = ",";
-        formattedPrice = formattedPriceArr.join("");
-    }
-    return `${formattedPrice}`;
-};
+const formatted = Intl.NumberFormat("pt-BR", {
+    compactDisplay: "long",
+    currency: "BRL",
+    style: "currency",
+});
 
-export default formattedPrice;
+export default formatted;

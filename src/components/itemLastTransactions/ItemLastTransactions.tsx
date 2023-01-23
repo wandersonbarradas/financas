@@ -3,7 +3,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Context } from '../../context/context';
 import { useContext, useEffect, useState } from 'react'
 import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
-import FormattedPrice from '../../helpers/FormattedPrice'
+import Formatted from '../../helpers/FormattedPrice'
 type Props = {
     item: NormalTansactionType | TransferTansactionType;
 }
@@ -43,7 +43,7 @@ export const ItemLastTransactions = ({ item }: Props) => {
                     }
                 </div>
                 <div className='value'>
-                    R$ {FormattedPrice(item.value)}
+                    {Formatted.format(item.value)}
                 </div>
             </div>
         </C.Container>

@@ -9,11 +9,28 @@ html {
 }
 
 body {
+  background-color: #f4f3fa;
   margin: 0;
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   justify-content: space-around;
+}
+
+body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  opacity: 0;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+body:hover::-webkit-scrollbar-thumb {
+  background-color: #7C7C7C;
 }
 
 li:last-child code {

@@ -2,7 +2,7 @@ import { NormalTansactionType } from '../../types/TransactionType';
 import * as C from './ListTransactionsMobile.styled'
 import { Context } from '../../context/context';
 import { useContext, useEffect } from 'react';
-import formattedPrice from '../../helpers/FormattedPrice';
+import formatted from '../../helpers/FormattedPrice';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -28,7 +28,7 @@ export const ListTransactionsMobile = ({ item }: Props) => {
                 }
             </div>
             <div className='transactionValueAction flex-column'>
-                <span className={`transactionValue ` + item.type}>R$ {formattedPrice(item.value)}</span>
+                <span className={`transactionValue ` + item.type}>{formatted.format(item.value)}</span>
                 <div className='transactionDone' >
                     {item.done &&
                         <div className='icon true'>

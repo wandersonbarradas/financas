@@ -12,30 +12,27 @@ import TrendingDownIcon from '@mui/icons-material/TrendingDown';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import dayjs from 'dayjs';
 import DF from '../../helpers/DateFunctions';
-import FormattedPrice from '../../helpers/FormattedPrice';
+import Formatted from '../../helpers/FormattedPrice';
 import { activeSidebarItem } from '../../helpers/helpers';
 
-type LastMonth = {
-    firstMonth: Date,
-    secondMonth: Date,
-    thirdMonth: Date,
-    fourthMonth: Date
+type currentMonthValueType = {
+    valueExpense: number,
+    valueIncome: number,
+    valueExpensePending: number,
+    balance: number,
 }
 
 export const Dashboard = () => {
     const { state, dispatch } = useContext(Context)
-    const [valueExpenseMonth, setValueExpenseMonth] = useState(0)
-    const [valueIncomeMonth, setValueIncomeMonth] = useState(0)
-    const [valueBalanceMonth, setValueBalanceMonth] = useState(0)
-    const [valuePendingMonth, setValuePendingMonth] = useState(0)
-    const [expensePercentage, setExpensePercentage] = useState(0)
-    const [incomePercentage, setIncomePercentage] = useState(0)
-    const [balancePercentage, setBalancePercentage] = useState(0)
-    const [pendingPercentage, setPendingPercentage] = useState(0)
+    const [currentMonthValues, setCurrentMonthValues] = useState<currentMonthValueType>({
+        valueExpense: 0,
+        valueIncome: 0,
+        valueExpensePending: 0,
+        balance: 0,
+    })
     const [lastTransaction, setLastTransaction] = useState<NormalTansactionType | null>(null)
     const [lastTransactions, setLastTransactions] = useState<NormalTansactionType[]>([])
     const [amount, setAmount] = useState({ value: '0', decimals: '00' })
-    const [lastMonth, setLastMonth] = useState<LastMonth | null>(null)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -49,18 +46,13 @@ export const Dashboard = () => {
             type: 'setSelectedDate',
             payload: { selectedDate: new Date() }
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
         getValueTransactions()
-        valueCharts()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.user.transactions, state.user.selectedDate])
-
-    const sizeChartPie = () => {
-        const canvas = document.querySelector('.chart-pie canvas') as any
-        canvas.style = ''
-        canvas.style.width = '100%'
-    }
 
     const getValueTransactions = () => {
         const transactions = state.user.transactions as NormalTansactionType[];
@@ -72,32 +64,13 @@ export const Dashboard = () => {
         }
         const allTheExpenses = getValuesForType('expense', true, transactions)
         const allTheIncome = getValuesForType('income', true, transactions)
-        const [value, decimals] = FormattedPrice(allTheIncome - allTheExpenses).split(',')
+        const [value, decimals] = Formatted.format(allTheIncome - allTheExpenses).split(',')
         setAmount({ value, decimals })
 
         //Values SelectMonth
         const transactionsSelectedMonth = DF.getTransactionsSelectDate(transactions, dayjs(state.user.selectedDate))
-        const valueExpense = getValuesForType('expense', true, transactionsSelectedMonth)
-        setValueExpenseMonth(valueExpense)
-        const valueIncome = getValuesForType('income', true, transactionsSelectedMonth)
-        setValueIncomeMonth(valueIncome)
-        setValueBalanceMonth(valueIncome - valueExpense)
-        const valueExpensePending = getValuesForType('expense', false, transactionsSelectedMonth)
-        setValuePendingMonth(valueExpensePending)
-
-        //Values last month 
-        const transactionsLastMonth = DF.getTransactionsSelectDate(transactions, dayjs(state.user.selectedDate).subtract(1, 'month'))
-        const valueExpenseLastMonth = getValuesForType('expense', true, transactionsLastMonth)
-        setExpensePercentage(valueExpenseLastMonth === 1 ? 0 : ((valueExpense / valueExpenseLastMonth - 1) * 100))
-        const valueIncomeLastMonth = getValuesForType('income', true, transactionsLastMonth)
-        setIncomePercentage(valueIncomeLastMonth === 1 ? 0 : ((valueIncome / valueIncomeLastMonth - 1) * 100))
-        const valueExpensePedingLastMonth = getValuesForType('expense', false, transactionsLastMonth)
-        setPendingPercentage(valueExpensePedingLastMonth === 0 ? 0 : ((valueExpensePending / valueExpensePedingLastMonth - 1) * 100))
-        const balanceMonth = valueIncome - valueExpense;
-        const balanceLastMonth = valueIncomeLastMonth - valueExpenseLastMonth;
-        setBalancePercentage(balanceLastMonth === 0 ? 0 : ((balanceMonth / balanceLastMonth - 1) * 100))
-
-
+        const newCurrentMonthValues = getMonthlySummary(transactionsSelectedMonth)
+        setCurrentMonthValues(newCurrentMonthValues)
     }
 
     const getValuesForType = (type: 'expense' | 'income', done: boolean, transactions: NormalTansactionType[]) => {
@@ -106,18 +79,17 @@ export const Dashboard = () => {
         return valueExpense;
     }
 
-    const valueCharts = () => {
-        const currentDate = state.user.selectedDate;
-        const secondMonth = DF.getMonthAndYear(dayjs(currentDate).subtract(1, 'month'))
-        const thirdMonth = DF.getMonthAndYear(dayjs(currentDate).subtract(2, 'month'))
-        const fourthMonth = DF.getMonthAndYear(dayjs(currentDate).subtract(3, 'month'))
-        const obj = {
-            firstMonth: currentDate,
-            secondMonth: new Date(secondMonth.year, secondMonth.month),
-            thirdMonth: new Date(thirdMonth.year, thirdMonth.month),
-            fourthMonth: new Date(fourthMonth.year, fourthMonth.month)
+    const getMonthlySummary = (transactions: NormalTansactionType[]) => {
+        const valueExpense = getValuesForType('expense', true, transactions)
+        const valueIncome = getValuesForType('income', true, transactions)
+        const valueExpensePending = getValuesForType('expense', false, transactions)
+        const balance = valueIncome - valueExpense;
+        return {
+            valueExpense,
+            valueIncome,
+            valueExpensePending,
+            balance
         }
-        setLastMonth(obj)
     }
 
     return (
@@ -130,17 +102,16 @@ export const Dashboard = () => {
                             {lastTransaction &&
                                 <div className={lastTransaction.type === 'income' ? 'last-transaction-value po' : 'last-transaction-value ne'}>
                                     {lastTransaction.type === 'income' ? <TrendingUpIcon /> : <TrendingDownIcon />}
-                                    R$ {FormattedPrice(lastTransaction.value)}
+                                    {Formatted.format(lastTransaction.value)}
                                 </div>
                             }{!lastTransaction &&
                                 <div className="last-transaction-value po">R$ 0,00</div>
                             }
-                            <div className='balance-text-info'>
-                                Última Transação</div>
+                            <div className='balance-text-info'>Última Transação</div>
                         </div>
                         <div className={Number(amount.value) < 0 && Number(amount.decimals) < 0 ? 'balance-total ne' : 'balance-total po'}>
                             <div className="balance-value">
-                                R$ {amount.value}<span>,{amount.decimals}</span>
+                                {amount.value}<span>,{amount.decimals}</span>
                             </div>
                             <div className='info'>SALDO ATUAL</div>
                         </div>
@@ -148,14 +119,14 @@ export const Dashboard = () => {
                     </div>
                     <div className='report'>
                         <h4 className='report-title'>Relatório</h4>
-                        <ChartReport months={lastMonth} />
+                        <ChartReport />
                     </div>
                 </div>
                 <div className={state.general.sideBar ? 'row response metric' : 'row metric'}>
-                    <MetricItem title="Saldo Total" value={valueBalanceMonth} percentage={balancePercentage} />
-                    <MetricItem title="Total Receitas" value={valueIncomeMonth} percentage={incomePercentage} />
-                    <MetricItem title="Total Despesas" value={valueExpenseMonth} percentage={expensePercentage} />
-                    <MetricItem title="Pendente" value={valuePendingMonth} percentage={pendingPercentage} />
+                    <MetricItem title="Saldo Total" value={currentMonthValues.balance} />
+                    <MetricItem title="Total Receitas" value={currentMonthValues.balance} />
+                    <MetricItem title="Total Despesas" value={currentMonthValues.valueExpense} />
+                    <MetricItem title="Pendente" value={currentMonthValues.valueExpensePending} />
                 </div>
             </div>
             <div className='bottom-metrics'>
@@ -175,7 +146,7 @@ export const Dashboard = () => {
                             </ul>
                         </div>
                     }
-                    {valueExpenseMonth > 0 &&
+                    {currentMonthValues.valueExpense > 0 &&
                         <div className='chart-pie'>
                             <div className='header'>
                                 <h4 className='title'>Gastos este mês</h4>

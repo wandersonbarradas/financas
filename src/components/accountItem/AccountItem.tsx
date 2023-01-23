@@ -8,7 +8,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Api from '../../Api';
 import { ModalNewAccount } from '../ModalNewAccount/ModalNewAccount';
-import FormattedPrice from '../../helpers/FormattedPrice';
+import Formatted from '../../helpers/FormattedPrice';
 
 type Props = {
     Account: UserAccountType;
@@ -47,6 +47,10 @@ export const AccountItem = ({ Account, getAccounts, publicAccounts }: Props) => 
         setModalEdit(true)
     }
 
+    // const attAccount = () => {
+    //     item = 
+    // }
+
     return (
         <C.Container Theme={state.theme.theme}>
             <div className='headerAccount'>
@@ -62,8 +66,9 @@ export const AccountItem = ({ Account, getAccounts, publicAccounts }: Props) => 
             </div>
             <div className='rowResume'>
                 <span className='label'>Saldo atual</span>
-                <span className={Account.value >= 0 ? 'value more' : 'value less'}>R$ {FormattedPrice(Account.value)}</span>
+                <span className={Account.value >= 0 ? 'value more' : 'value less'}>{Formatted.format(Account.value)}</span>
             </div>
+            <button>Att</button>
             {/* <div className='rowResume'>
                 <span className='label'>Saldo previsto</span>
                 <span className='value less'>R$ -63,90</span>

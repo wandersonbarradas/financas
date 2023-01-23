@@ -1,3 +1,4 @@
+import { Account } from "./pages/accounts/Accounts";
 import {
     NormalTansactionType,
     TransferTansactionType,
@@ -23,6 +24,8 @@ import {
     getFirestore,
     setDoc,
     updateDoc,
+    collection,
+    addDoc,
 } from "firebase/firestore";
 import { DataType, CategoryType, SubCategories } from "./types/UserType";
 const app = initializeApp(firebaseConfig);
@@ -58,61 +61,58 @@ const Api = {
                     user = newUser;
                 }
             }
-            const transactionsResult = (await Api.getUserDocument(
-                result.user.uid,
-                "transactions",
-            )) as {
-                transactions: NormalTansactionType[] | TransferTansactionType[];
-            };
-            if (transactionsResult.transactions) {
-                transactions = transactionsResult.transactions;
-            }
-            const categoriesResult = (await Api.getUserDocument(
-                result.user.uid,
-                "categories",
-            )) as {
-                categories: CategoryType[];
-            };
-            if (categoriesResult.categories) {
-                categories = categoriesResult.categories;
-            }
-            const subcategoriesResult = (await Api.getUserDocument(
-                result.user.uid,
-                "subcategories",
-            )) as {
-                subcategories: SubCategories[];
-            };
-            if (subcategoriesResult.subcategories) {
-                subcategories = subcategoriesResult.subcategories;
-            }
-            const accountsResult = (await Api.getUserDocument(
-                result.user.uid,
-                "accounts",
-            )) as {
-                accounts: UserAccountType[];
-            };
-            if (accountsResult.accounts) {
-                accounts = accountsResult.accounts;
-            }
+            // const transactionsResult = (await Api.getUserDocument(
+            //     result.user.uid,
+            //     "transactions",
+            // )) as {
+            //     transactions: NormalTansactionType[] | TransferTansactionType[];
+            // };
+            // if (transactionsResult.transactions) {
+            //     transactions = transactionsResult.transactions;
+            // }
+            // const categoriesResult = (await Api.getUserDocument(
+            //     result.user.uid,
+            //     "categories",
+            // )) as {
+            //     categories: CategoryType[];
+            // };
+            // if (categoriesResult.categories) {
+            //     categories = categoriesResult.categories;
+            // }
+            // const subcategoriesResult = (await Api.getUserDocument(
+            //     result.user.uid,
+            //     "subcategories",
+            // )) as {
+            //     subcategories: SubCategories[];
+            // };
+            // if (subcategoriesResult.subcategories) {
+            //     subcategories = subcategoriesResult.subcategories;
+            // }
+            // const accountsResult = (await Api.getUserDocument(
+            //     result.user.uid,
+            //     "accounts",
+            // )) as {
+            //     accounts: UserAccountType[];
+            // };
+            // if (accountsResult.accounts) {
+            //     accounts = accountsResult.accounts;
+            // }
         } catch (error: any) {
             const errorCode = error.code;
             console.log(
-                "🚀 ~ file: Api.ts ~ line 49 ~ getLogin: ~ errorCode",
+                "🚀 ~ file: Api.ts:102 ~ getLogin: ~ errorCode",
                 errorCode,
             );
             const errorMessage = error.message;
             console.log(
-                "🚀 ~ file: Api.ts ~ line 51 ~ getLogin: ~ errorMessage",
+                "🚀 ~ file: Api.ts:107 ~ getLogin: ~ errorMessage",
                 errorMessage,
             );
             const email = error.customData.email;
-            console.log(
-                "🚀 ~ file: Api.ts ~ line 53 ~ getLogin: ~ email",
-                email,
-            );
+            console.log("🚀 ~ file: Api.ts:106 ~ getLogin: ~ email", email);
             const credential = GoogleAuthProvider.credentialFromError(error);
             console.log(
-                "🚀 ~ file: Api.ts ~ line 55 ~ getLogin: ~ credential",
+                "🚀 ~ file: Api.ts:108 ~ getLogin: ~ credential",
                 credential,
             );
         }
@@ -120,28 +120,28 @@ const Api = {
     },
 
     createUser: async (user: User) => {
-        await setDoc(
-            doc(db, user.uid, "data"),
-            {
-                name: user.displayName,
-                email: user.email,
-                photo: user.photoURL,
-                id: user.uid,
-            },
-            { merge: true },
-        );
-        await setDoc(doc(db, user.uid, "categories"), {
-            categories: [],
-        });
-        await setDoc(doc(db, user.uid, "subcategories"), {
-            subcategories: [],
-        });
-        await setDoc(doc(db, user.uid, "accounts"), {
-            accounts: [],
-        });
-        await setDoc(doc(db, user.uid, "transactions"), {
-            transactions: [],
-        });
+        // await setDoc(
+        //     doc(db, user.uid, "data"),
+        //     {
+        //         name: user.displayName,
+        //         email: user.email,
+        //         photo: user.photoURL,
+        //         id: user.uid,
+        //     },
+        //     { merge: true },
+        // );
+        // await setDoc(doc(db, user.uid, "categories"), {
+        //     categories: [],
+        // });
+        // await setDoc(doc(db, user.uid, "subcategories"), {
+        //     subcategories: [],
+        // });
+        // await setDoc(doc(db, user.uid, "accounts"), {
+        //     accounts: [],
+        // });
+        // await setDoc(doc(db, user.uid, "transactions"), {
+        //     transactions: [],
+        // });
         const newUser = await Api.checkUser(user.uid);
         return newUser;
     },
@@ -228,6 +228,17 @@ const Api = {
         await updateDoc(userAccountRef, {
             accounts: arrayUnion(account),
         });
+    },
+
+    attUserAccount: async (id: string, account: UserAccountType) => {
+        const userAccountRef = doc(db, id, "accounts");
+        try {
+            await updateDoc(userAccountRef, {
+                accounts: arrayUnion(account),
+            });
+        } catch (error) {
+            console.log(error);
+        }
     },
 
     removeUserAccount: async (id: string, account: UserAccountType) => {

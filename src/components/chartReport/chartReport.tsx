@@ -9,21 +9,12 @@ import {
     Title,
     Tooltip,
     Legend,
-    ScriptableContext,
 } from 'chart.js';
 import { NormalTansactionType } from '../../types/TransactionType';
 import DF from '../../helpers/DateFunctions';
+import dayjs from 'dayjs';
 
-type Props = {
-    months: {
-        firstMonth: Date,
-        secondMonth: Date,
-        thirdMonth: Date,
-        fourthMonth: Date
-    } | null;
-}
-
-export const ChartReport = ({ months }: Props) => {
+export const ChartReport = () => {
     const { state } = useContext(Context)
     const [firstMonth, setFirstMonth] = useState({ month: '', expense: 0, income: 0 })
     const [secondMonth, setSecondMonth] = useState({ month: '', expense: 0, income: 0 })
@@ -31,14 +22,19 @@ export const ChartReport = ({ months }: Props) => {
     const [fourthMonth, setFourthMonth] = useState({ month: '', expense: 0, income: 0 })
 
     useEffect(() => {
-        if (months === null) {
-            return
-        }
-        setFirstMonth(getValuesMonth(months.firstMonth))
-        setSecondMonth(getValuesMonth(months.secondMonth))
-        setThirdMonth(getValuesMonth(months.thirdMonth))
-        setFourthMonth(getValuesMonth(months.fourthMonth))
-    }, [months]);
+        searchLastFourMonths()
+    }, [state.user.selectedDate, state.user.transactions]);
+
+    const searchLastFourMonths = () => {
+        const currentDate = state.user.selectedDate;
+        const secondMonth = DF.getMonthAndYear(dayjs(currentDate).subtract(1, 'month'))
+        const thirdMonth = DF.getMonthAndYear(dayjs(currentDate).subtract(2, 'month'))
+        const fourthMonth = DF.getMonthAndYear(dayjs(currentDate).subtract(3, 'month'))
+        setFirstMonth(getValuesMonth(currentDate))
+        setSecondMonth(getValuesMonth(new Date(secondMonth.year, secondMonth.month)))
+        setThirdMonth(getValuesMonth(new Date(thirdMonth.year, thirdMonth.month)))
+        setFourthMonth(getValuesMonth(new Date(fourthMonth.year, fourthMonth.month)))
+    }
 
     const getValuesMonth = (mesRef: Date) => {
         const transactionsGeneral = state.user.transactions as NormalTansactionType[];
@@ -51,10 +47,8 @@ export const ChartReport = ({ months }: Props) => {
         })
         const expense = transactionsSelectedMonth.filter(item => item.type === 'expense' && item.done).reduce((previousValue, currentValue) => previousValue + currentValue.value, 0)
         const income = transactionsSelectedMonth.filter(item => item.type === 'income' && item.done).reduce((previousValue, currentValue) => previousValue + currentValue.value, 0)
-
         return { month: DF.getMonthString(mesRef.getMonth()).slice(0, 3), expense, income }
     }
-
 
     ChartJS.register(
         CategoryScale,
@@ -122,30 +116,6 @@ export const ChartReport = ({ months }: Props) => {
             },
         },
     };
-
-    let width: number, height: number, gradient: any;
-    function getGradient(ctx: any, chartArea: any, color1: string, color2: string) {
-        const chartWidth = chartArea.right - chartArea.left;
-        const chartHeight = chartArea.bottom - chartArea.top;
-        if (!gradient || width !== chartWidth || height !== chartHeight) {
-            // Create the gradient because this is either the first render
-            // or the size of the chart has changed
-            width = chartWidth;
-            height = chartHeight;
-            gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-            gradient.addColorStop(1, color1);
-            gradient.addColorStop(0.2, color1);
-            gradient.addColorStop(0, '#4c49ed');
-        }
-        return gradient;
-    }
-
-    function teste(canvas: any, color1: string, color2: string) {
-        const ctx = canvas.getContext('2d')
-        const graditent = ctx.createGradient()
-
-    }
-
 
     return (
         <div>

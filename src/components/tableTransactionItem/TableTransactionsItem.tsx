@@ -7,7 +7,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DF from '../../helpers/DateFunctions'
-import formattedPrice from '../../helpers/FormattedPrice';
+import formatted from '../../helpers/FormattedPrice';
 import { Modal } from '../modais/Modais';
 import Api from '../../Api';
 
@@ -116,7 +116,7 @@ export const TableTransactionsItem = ({ item }: Props) => {
                     </div>
                 </td>
                 <td className='value'>
-                    <p className={item.type + ' text-nowrap'}>R$ {formattedPrice(item.value)}</p>
+                    <p className={item.type + ' text-nowrap'}>{formatted.format(item.value)}</p>
                 </td>
                 <td className='actionArea'>
                     <div>
@@ -135,7 +135,7 @@ export const TableTransactionsItem = ({ item }: Props) => {
                         </div>
                         <div className='content'>
                             <p className='title'>Valor</p>
-                            <span>R$ {formattedPrice(item.value)}</span>
+                            <span>{formatted.format(item.value)}</span>
                         </div>
                     </div>
                     <div className='btnArea'>

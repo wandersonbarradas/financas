@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -13,8 +12,7 @@ export const Container = styled.div<Props>`
     transition: all 0.3s ease;
     padding: 0 20px;
     font-family: "Poppins", sans-serif;
-    height: 100vh;
-    overflow-y: scroll;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 
@@ -54,6 +52,7 @@ export const Container = styled.div<Props>`
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 0px 0 20px 0;
 
         .content {
             max-width: 1440px;

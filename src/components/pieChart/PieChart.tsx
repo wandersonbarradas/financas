@@ -34,7 +34,7 @@ export const PieChart = () => {
         if (state.user.categories === null) {
             return;
         }
-        state.user.categories.map(item => {
+        state.user.categories.forEach(item => {
             const index = categories.findIndex(i => i.name === item.name)
             if (index < 0) {
                 const transitionsCat = transactions.filter(el => el.category.id === item.id)
@@ -79,8 +79,4 @@ export const PieChart = () => {
             <Doughnut className='chartPie' options={options} data={data} />
         </div>
     )
-}
-
-function useSate(): [any, any] {
-    throw new Error('Function not implemented.');
 }
