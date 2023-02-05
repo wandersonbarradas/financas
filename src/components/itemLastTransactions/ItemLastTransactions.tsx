@@ -10,23 +10,27 @@ type Props = {
 export const ItemLastTransactions = ({ item }: Props) => {
     const { state } = useContext(Context)
     const [color, setColor] = useState('')
+    const [colorCategory, setColorCategory] = useState("");
     const [transfer, setTransfer] = useState<TransferTansactionType | null>(null)
     useEffect(() => {
         if (item.type === 'expense') {
             setColor(state.theme.theme.expenseColor)
+            setColorCategory(item.category.color)
         } else if (item.type === 'income') {
             setColor(state.theme.theme.incomeColor)
+            setColorCategory(item.category.color)
         } else {
-            const transfer = item as TransferTansactionType
+            const transfer = item as TransferTansactionType;
+            setColorCategory(state.theme.theme.transferColor)
             setTransfer(transfer)
             setColor(state.theme.theme.transferColor)
         }
     }, []);
 
     return (
-        <C.Container Theme={state.theme.theme} colorValue={color}>
+        <C.Container Theme={state.theme.theme} colorCategory={colorCategory} colorValue={color}>
             <div className='profile'>
-                <AccountCircleIcon />
+
             </div>
             <div className='box-info'>
                 <div className='info-transaction'>

@@ -3,14 +3,15 @@ import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
     colorValue: string;
     Theme: ThemeValues;
+    colorCategory: string;
 };
 
 export const Container = styled.li<Props>`
     display: flex;
     align-items: center;
-    padding: 8px 0px;
+    padding: 0.5rem 0px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     transition: all 0.3s ease;
 
     &:hover {
@@ -18,19 +19,16 @@ export const Container = styled.li<Props>`
     }
 
     .profile {
-        color: ${(props) => props.Theme.colorPrimary};
-        font-size: 30px;
-        width: 42px;
-        height: 42px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        background-color: ${(props) => props.colorCategory};
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
     }
 
     .box-info {
         flex: 1;
         display: flex;
-        /* flex-wrap: wrap; */
         justify-content: space-between;
         align-items: center;
 
@@ -40,15 +38,15 @@ export const Container = styled.li<Props>`
             font-family: "Mulish", sans-serif;
             font-style: normal;
             font-weight: 500;
-            font-size: 17px;
-            line-height: 21px;
+            font-size: 1rem;
+            line-height: 1.3125rem;
             letter-spacing: -0.02em;
         }
 
         .categorie-transaction {
             font-weight: 500;
-            font-size: 14px;
-            line-height: 18px;
+            font-size: 0.875rem;
+            line-height: 1.125rem;
             letter-spacing: -0.02em;
             margin: 0;
             color: ${(props) => props.Theme.colorOpacity};
@@ -57,34 +55,11 @@ export const Container = styled.li<Props>`
         .value {
             white-space: nowrap;
             font-weight: 500;
-            font-size: 18px;
-            line-height: 23px;
+            font-size: 1.125rem;
+            line-height: 1.4375rem;
             text-align: right;
             letter-spacing: -0.02em;
             color: ${(props) => props.colorValue};
-        }
-    }
-
-    @media screen and (max-width: 576px) {
-        .box-info {
-            flex-wrap: wrap;
-            .title-transaction {
-                font-size: 16px;
-                max-width: 130px;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-            .categorie-transaction {
-                font-size: 12px;
-                max-width: 130px;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-            }
-            .value {
-                font-size: 16px;
-            }
         }
     }
 `;

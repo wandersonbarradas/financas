@@ -127,6 +127,7 @@ export const Container = styled.div<Props>`
                 margin: 0;
                 color: ${(props) => props.Theme.colorTitle};
                 font-weight: 600;
+                font-size: 1.2rem;
             }
             div {
                 flex: 1;
