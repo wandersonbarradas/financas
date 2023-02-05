@@ -20,7 +20,7 @@ export const PageLogin = () => {
             type: 'setSelectMonth',
             payload: { selectMonth: false }
         })
-    }, [navigate])
+    }, [navigate, dispatch])
 
     useEffect(() => {
         setMargin(false)
@@ -37,23 +37,23 @@ export const PageLogin = () => {
         const resultUser = await Api.getLogin(persistent, showLoader)
         dispatch({
             type: 'setData',
-            payload: { data: resultUser.user }
+            payload: { data: resultUser?.data }
         })
         dispatch({
             type: 'setTransactions',
-            payload: { transactions: resultUser.transactions }
+            payload: { transactions: resultUser?.transactions }
         })
         dispatch({
             type: 'setCategories',
-            payload: { categories: resultUser.categories }
+            payload: { categories: resultUser?.categories }
         })
         dispatch({
             type: 'setSubCategories',
-            payload: { subcategories: resultUser.subcategories }
+            payload: { subcategories: resultUser?.subcategories }
         })
         dispatch({
             type: 'setAccounts',
-            payload: { accounts: resultUser.accounts }
+            payload: { accounts: resultUser?.accounts }
         })
         dispatch({
             type: 'setLoader',

@@ -124,7 +124,7 @@ export const Dashboard = () => {
                 </div>
                 <div className={state.general.sideBar ? 'row response metric' : 'row metric'}>
                     <MetricItem title="Saldo Total" value={currentMonthValues.balance} />
-                    <MetricItem title="Total Receitas" value={currentMonthValues.balance} />
+                    <MetricItem title="Total Receitas" value={currentMonthValues.valueIncome} />
                     <MetricItem title="Total Despesas" value={currentMonthValues.valueExpense} />
                     <MetricItem title="Pendente" value={currentMonthValues.valueExpensePending} />
                 </div>

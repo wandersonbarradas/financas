@@ -66,6 +66,10 @@ export const ModalTransaction = (props: Props) => {
     }, [dateTransaction])
 
     useEffect(() => {
+        console.log(state.user)
+    }, [state.user]);
+
+    useEffect(() => {
         if (props.type === 'expense') {
             setColorTransaction({ solid: state.theme.theme.expenseColor, rgba: 'rgba(240, 41, 39, 0.38)' })
         } else if (props.type === 'income') {
@@ -111,8 +115,8 @@ export const ModalTransaction = (props: Props) => {
         if (state.user.data === null) {
             return;
         }
-        const resultCat = await Api.getUserDocument(state.user.data.id, 'categories') as { categories: CategoryType[] }
-        const catFilter = resultCat.categories.filter(item => item.type === props.type)
+        const resultCat = await Api.getUserDocument(state.user.data.id, 'categories') as CategoryType[];
+        const catFilter = resultCat.filter(item => item.type === props.type)
         catFilter.sort((a, b) => {
             if (a.name < b.name) {
                 return -1
@@ -121,15 +125,15 @@ export const ModalTransaction = (props: Props) => {
             }
         })
         setCategories(catFilter)
-        const resultSubcat = await Api.getUserDocument(state.user.data.id, 'subcategories') as { subcategories: SubCategories[] }
-        resultSubcat.subcategories.sort((a, b) => {
+        const resultSubcat = await Api.getUserDocument(state.user.data.id, 'subcategories') as SubCategories[]
+        resultSubcat.sort((a, b) => {
             if (a.name < b.name) {
                 return -1
             } else {
                 return 1
             }
         })
-        setSubcategories(resultSubcat.subcategories)
+        setSubcategories(resultSubcat)
         if (state.user.accounts) {
             const banks = state.user.accounts
             banks.sort((a, b) => {
@@ -195,10 +199,10 @@ export const ModalTransaction = (props: Props) => {
             await Api.setTransaction(userId, transaction)
             // attValueBank(account, valueExpense, props.type)
         }
-        const transactionsResult = await Api.getUserDocument(userId, 'transactions') as { transactions: NormalTansactionType[] | TransferTansactionType[] }
+        const transactionsResult = await Api.getUserDocument(userId, 'transactions') as NormalTansactionType[] | TransferTansactionType[]
         dispatch({
             type: 'setTransactions',
-            payload: { transactions: transactionsResult.transactions }
+            payload: { transactions: transactionsResult }
         })
         props.setClose(false)
     }

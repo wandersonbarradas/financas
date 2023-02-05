@@ -10,18 +10,18 @@ import * as C from './Categories.styled'
 import { AlertAviso } from '../../components/alertAviso/AlertAviso';
 import { activeSidebarItem } from '../../helpers/helpers';
 import { ListCategoryMobile } from '../../components/listCategoryMobile/ListCategoryMobile';
+import { Modal } from '../../components/modais/Modais';
+import { ModalNewCategory } from '../../components/modalNewCategory/ModalNewCategory';
 
 export const Categories = () => {
     const { state, dispatch } = useContext(Context)
     const [category, setCategory] = useState<CategoryType[]>([])
     const [subcategory, setSubcategory] = useState<SubCategories[]>([])
     const [typeCategory, setTypeCategory] = useState<"expense" | "income">('expense')
-    const [actionModal, setActionModal] = useState(false)
+    const [toEdit, setToEdit] = useState(false)
     const [modalContainer, setModalContainer] = useState({ display: false, opacity: 0 });
     const [modalType, setModalType] = useState(false)
     const [modalCategory, setModalCategory] = useState(false)
-    const [nameCategory, setNameCategory] = useState('')
-    const [colorCategory, setColorCategory] = useState(state.theme.theme.colorPrimary)
     const [typeModal, setTypeModal] = useState<'category' | 'subcategory'>('category')
     const [idCategory, setIdCategory] = useState(0)
     const [inputSearch, setInputSearch] = useState(false)
@@ -37,59 +37,33 @@ export const Categories = () => {
             type: 'setSelectMonth',
             payload: { selectMonth: false }
         })
-        getData()
+        // getData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (!modalCategory) setSelectCategory(null)
+    }, [modalCategory]);
 
     useEffect(() => {
         filterCategory(typeCategory)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.user.categories, typeCategory]);
-
-    const getData = async () => {
-        if (state.user.data) {
-            const categoriesData: { categories: CategoryType[] } = await Api.getUserDocument(state.user.data.id, 'categories')
-            const subCategoriesData: { subcategories: SubCategories[] } = await Api.getUserDocument(state.user.data.id, 'subcategories')
-            if (categoriesData) {
-                dispatch({
-                    type: 'setCategories',
-                    payload: { categories: categoriesData.categories }
-                })
-            }
-            if (subCategoriesData) {
-                dispatch({
-                    type: 'setSubCategories',
-                    payload: { subcategories: subCategoriesData.subcategories }
-                })
-            }
-        }
-    }
+    }, [state.user.categories, state.user.subcategories, typeCategory]);
 
     const filterCategory = (filter: "expense" | "income") => {
         const resultCategories = state.user.categories?.filter((item) => item.type === filter)
         if (resultCategories) {
-            resultCategories.sort((a, b) => {
-                if (a.name < b.name) {
-                    return -1
-                } else {
-                    return 1
-                }
-            })
+            resultCategories.sort((a, b) => a.name < b.name ? -1 : 1)
             setCategory(resultCategories)
             const subcategories: SubCategories[] = []
-            resultCategories.map(item => {
-                state.user.subcategories?.map(value => {
+            resultCategories.forEach(item => {
+                state.user.subcategories?.forEach(value => {
                     if (value.category === item.id) {
                         subcategories.push(value)
                     }
                 })
             })
-            subcategories.sort((a, b) => {
-                if (a.name < b.name) {
-                    return -1
-                } else {
-                    return 1
-                }
-            })
+            subcategories.sort((a, b) => a.name < b.name ? -1 : 1)
             setSubcategory(subcategories)
         }
     }
@@ -108,7 +82,6 @@ export const Categories = () => {
             setModalContainer({ display: false, opacity: 0 })
             setModalType(false)
             setModalCategory(false)
-            clearValue()
         }, 200)
     }
 
@@ -124,98 +97,67 @@ export const Categories = () => {
         closeModalType()
     }
 
-    const setNewCategory = async (category: CategoryType) => {
-        if (state.user.data === null) {
-            return;
-        }
-        const t = state.user.categories?.filter(item => item.id === category.id)
-        if (t && t.length > 0) {
-            console.log('entrou')
-            await Api.removeCategory(state.user.data.id, t[0])
-        }
-        await Api.setCategory(state.user.data.id, category)
-        getData()
-    }
-
     const openModalCategory = (type: 'category' | 'subcategory', edit: boolean) => {
-        setColorCategory(state.theme.theme.colorPrimary)
         setTypeModal(type)
-        setActionModal(edit)
-        setModalContainer({ display: true, opacity: 0 })
+        setToEdit(edit)
         setModalCategory(true)
-        setTimeout(() => {
-            setModalContainer({ display: true, opacity: 1 })
-        }, 100)
     }
 
     const removeCategory = async (category: CategoryType,) => {
         if (!state.user.data) {
             return
         }
-        await Api.removeCategory(state.user.data.id, category)
-        getData()
-        handleAlert('#f02927', 'Categoria removida com sucesso!')
+        const userId = state.user.data.id;
+        try {
+            await Api.removeCategory(userId, category)
+            const newList = state.user.categories?.filter(i => i.id !== category.id)
+            if (newList) {
+                dispatch({
+                    type: 'setCategories',
+                    payload: { categories: newList }
+                })
+            }
+            const subCategories = state.user.subcategories?.filter(item => item.category === category.id)
+            if (subCategories) {
+                subCategories.forEach(async (i) => await Api.removeSubCategory(userId, i))
+            }
+            const newListSubcategories = state.user.subcategories?.filter(item => item.category !== category.id)
+            if (newListSubcategories) {
+                dispatch({
+                    type: 'setSubCategories',
+                    payload: { subcategories: newListSubcategories }
+                })
+            }
+            handleAlert('#f02927', 'Categoria removida com sucesso!')
+        } catch (error: any) {
+            handleAlert('#f02927', error.message)
+        }
     }
 
     const removeSubCategory = async (subCategory: SubCategories,) => {
         if (!state.user.data) {
             return
         }
-        await Api.removeSubCategory(state.user.data.id, subCategory)
-        getData()
-        handleAlert('#f02927', 'Subcategoria removida com sucesso!')
-    }
+        try {
+            await Api.removeSubCategory(state.user.data.id, subCategory)
+            const newList = state.user.subcategories?.filter(i => i.id !== subCategory.id)
+            if (newList) {
+                dispatch({
+                    type: 'setSubCategories',
+                    payload: { subcategories: newList }
+                })
+            } else {
+                dispatch({
+                    type: 'setSubCategories',
+                    payload: { subcategories: [] }
+                })
+            }
+            handleAlert('#f02927', 'Subcategoria removida com sucesso!')
+        } catch (error: any) {
+            handleAlert('#f02927', error.message)
+        }
 
-    const addCategory = async () => {
-        const t = state.user.categories?.sort((a, b) => {
-            return b.id - a.id
-        })
-        if (t === undefined) {
-            return;
-        }
-        const cat: CategoryType = {
-            id: t.length > 0 ? t[0].id + 1 : 1,
-            color: colorCategory,
-            name: nameCategory,
-            type: typeCategory
-        }
-        await setNewCategory(cat)
-        closeModalType()
-        handleAlert('#4FD18B', 'Categoria adicionada com sucesso!')
-    }
 
-    const addSubCategory = async () => {
-        //verificando se existe usuario logado
-        if (!state.user.data) {
-            return
-        }
-        //buscando a categoria que estamos adicionando um subcategoria
-        const cat = state.user.categories?.filter(item => item.id === idCategory)[0]
-        //verificando se existe essa categoria
-        if (!cat) {
-            return
-        }
-        //ordenanado ads subcategorias por id decrecente
-        const subCats = state.user.subcategories?.sort((a, b) => {
-            return b.id - a.id
-        })
-        if (!subCats) {
-            return
-        }
-        //criando nova subcategoria
-        const newsubcat: SubCategories = {
-            id: subCats.length > 0 ? subCats[0].id + 1 : 1,
-            color: cat.color,
-            name: nameCategory,
-            category: idCategory
-        }
-        //adicinando a nova subcategoria criada a categoria
-        await Api.setSubCategory(state.user.data.id, newsubcat)
-        await getData()
-        setNameCategory('')
-        setColorCategory('')
-        closeModalType()
-        handleAlert('#4FD18B', 'Subcategoria adicionada com sucesso!')
     }
 
     const handleIdCategory = (id: number) => {
@@ -257,39 +199,8 @@ export const Categories = () => {
     }
 
     const handleModalEdit = async (type: 'category' | 'subcategory', category: CategoryType | SubCategories) => {
-        setNameCategory(category.name)
-        openModalCategory(type, true)
-        setColorCategory(category.color)
         setSelectCategory(category)
-    }
-
-    const editCategory = async () => {
-        if (selectCategory === null || state.user.data === null) {
-            return;
-        }
-        if (typeModal === 'category') {
-            const editCategory = selectCategory as CategoryType
-            await Api.removeCategory(state.user.data.id, editCategory)
-            editCategory.name = nameCategory;
-            editCategory.color = colorCategory
-            await Api.setCategory(state.user.data.id, editCategory)
-        } else {
-            const editSubcategory = selectCategory as SubCategories
-            await Api.removeSubCategory(state.user.data.id, editSubcategory)
-            editSubcategory.name = nameCategory;
-            editSubcategory.color = colorCategory
-            await Api.setSubCategory(state.user.data.id, editSubcategory)
-        }
-        setNameCategory('')
-        setColorCategory('')
-        setSelectCategory(null)
-        closeModalType()
-        handleAlert('#4FD18B', 'Categoria editada com sucesso!')
-    }
-
-    const clearValue = () => {
-        setNameCategory('')
-        setColorCategory('')
+        openModalCategory(type, true)
     }
 
     const handleTypeCategory = () => {
@@ -303,6 +214,185 @@ export const Categories = () => {
             items[0]?.classList.add('activeExpense')
             setTypeCategory('expense')
         }
+    }
+
+    const setNewCategory = async (category: CategoryType) => {
+        if (state.user.data === null) {
+            return;
+        }
+        try {
+            console.log("Iniciando requisição de alteração da categoria")
+            await Api.setCategory(state.user.data.id, category)
+            console.log("Requisição da categoria Concluida")
+            const newList = state.user.categories?.filter(i => i.id !== category.id)
+            if (newList) {
+                console.log("Adicionando Categoria editada ao contexto")
+                newList.push(category)
+                dispatch({
+                    type: 'setCategories',
+                    payload: { categories: newList }
+                })
+            } else {
+                console.log("Adicionando Categoria editada ao contexto")
+                dispatch({
+                    type: 'setCategories',
+                    payload: { categories: [category] }
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const setNewSubcategory = async (subcategory: SubCategories) => {
+        if (state.user.data === null) {
+            return;
+        }
+        try {
+            console.log("Iniciando requisição de alteração da subcategoria")
+            await Api.setSubCategory(state.user.data.id, subcategory)
+            console.log("Requisição da subcategoria Concluida")
+            const newList = state.user.subcategories?.filter(i => i.id !== subcategory.id)
+            if (newList) {
+                console.log("Adicionando subcategoria editada ao contexto")
+                newList.push(subcategory)
+                dispatch({
+                    type: 'setSubCategories',
+                    payload: { subcategories: newList }
+                })
+                console.log("pos dispatch dentro do if")
+                console.log(state.user.subcategories)
+            } else {
+                console.log("Adicionando subcategoria editada ao contexto")
+                dispatch({
+                    type: 'setSubCategories',
+                    payload: { subcategories: [subcategory] }
+                })
+                console.log("pos dispatch fora do if")
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const addCategory = async (name: string, color?: string) => {
+        if (!name || !color) {
+            Promise.reject(new Error("Nenhum dado foi encontrado para criação da categoria!"))
+            return
+        }
+        const t = state.user.categories?.sort((a, b) => {
+            return b.id - a.id
+        })
+        if (t === undefined) {
+            return;
+        }
+        const newCategory: CategoryType = {
+            id: t.length > 0 ? t[0].id + 1 : 1,
+            color: color,
+            name: name,
+            type: typeCategory
+        }
+        await setNewCategory(newCategory)
+        setModalCategory(false)
+        handleAlert('#4FD18B', 'Categoria adicionada com sucesso!')
+    }
+
+    const addSubCategory = async (name: string) => {
+        //verificando se existe usuario logado
+        if (name.length < 2) {
+            return Promise.reject(new Error("Nome da subcategoria precisa ter pelo menos 2 caracteres!"))
+
+        }
+        //buscando a categoria que estamos adicionando um subcategoria
+        const cat = state.user.categories?.filter(item => item.id === idCategory)[0]
+        //verificando se existe essa categoria
+        if (!cat) {
+            return
+        }
+        //ordenanado as subcategorias por id decrecente
+        const subCats = state.user.subcategories?.sort((a, b) => {
+            return b.id - a.id
+        })
+        if (!subCats) {
+            return
+        }
+        //criando nova subcategoria
+        const newsubcat: SubCategories = {
+            id: subCats.length > 0 ? subCats[0].id + 1 : 1,
+            color: cat.color,
+            name: name,
+            category: idCategory
+        }
+        //adicinando a nova subcategoria criada a categoria
+        await setNewSubcategory(newsubcat)
+        setModalCategory(false)
+        handleAlert('#4FD18B', 'Subcategoria adicionada com sucesso!')
+    }
+
+    const editCategory = async (name: string, color?: string) => {
+        console.log("Entrando na função editar...")
+        if (!selectCategory) {
+            Promise.reject(new Error("Categoria não encontrada"))
+            return;
+        }
+        if (!name && !color) {
+            Promise.reject(new Error("Dados da edição não encontrados"))
+            return;
+        }
+        if (typeModal === 'category') {
+            console.log("Fazendo alterações da categoria...")
+            const editCategory = selectCategory as CategoryType
+            editCategory.name = name ? name : editCategory.name;
+            editCategory.color = color ? color : editCategory.color
+            await setNewCategory(editCategory)
+            const subCategories = state.user.subcategories?.filter(i => i.category === editCategory.id)
+            if (subCategories && color) {
+                console.log("Fazendo alterações da Subcategoria...")
+                subCategories.forEach(async (i) => {
+                    const item = i
+                    item.color = color;
+                    await setNewSubcategory(item)
+                })
+            }
+        } else {
+            console.log("Editando Subcategoria...")
+            if (!name) {
+                Promise.reject(new Error("Dados da edição não encontrados"))
+                return
+            }
+            const editSubcategory = selectCategory as SubCategories
+            editSubcategory.name = name;
+            await setNewSubcategory(editSubcategory)
+        }
+        setSelectCategory(null)
+        setModalCategory(false)
+        handleAlert('#4FD18B', `${typeModal === 'category' ? 'Categoria' : "Subcategoria"} editada com sucesso!`)
+    }
+
+    const OnClickModalNewCategory = async (name: string, color?: string) => {
+        if (toEdit) {
+            try {
+                await editCategory(name, color)
+            } catch (error: any) {
+                console.log(error)
+                setSelectCategory(null)
+            }
+
+        } else {
+            try {
+                if (typeModal === 'category') {
+                    await addCategory(name, color)
+                } else {
+                    await addSubCategory(name)
+                }
+            } catch (error: any) {
+                handleAlert('#cc1b1b', error.message)
+                setSelectCategory(null)
+            }
+
+        }
+        setSelectCategory(null)
+        filterCategory(typeCategory)
     }
 
     return (
@@ -378,45 +468,12 @@ export const Categories = () => {
                             </ul>
                         </div>
                     }
-                    {modalCategory &&
-                        <div className='modalNewCategory'>
-                            <h4>Cadastrar nova {typeModal === 'category' ? 'categoria' : 'subcategoria'}</h4>
-                            <div className='form'>
-                                <div className='inptu-item'>
-                                    <input
-                                        value={nameCategory}
-                                        placeholder='Nome'
-                                        type="text"
-                                        onChange={
-                                            (e: React.ChangeEvent<HTMLInputElement>) => setNameCategory(e.currentTarget.value)
-                                        } />
-                                </div>
-                                {typeModal === 'category' &&
-                                    <div className='otherFields'>
-                                        <div className='field'>
-                                            <label htmlFor="">Cor da Categoria</label>
-                                            <input type="color"
-                                                value={colorCategory}
-                                                onChange={
-                                                    (e: React.ChangeEvent<HTMLInputElement>) => setColorCategory(e.currentTarget.value)
-                                                } />
-                                        </div>
-
-                                    </div>
-                                }
-                                <div className='footer'>
-                                    {!actionModal &&
-                                        <button onClick={typeModal === 'category' ? addCategory : addSubCategory}>Adicionar</button>
-                                    }{actionModal &&
-                                        <button onClick={editCategory}>Editar</button>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    }
                 </div>
             }
-
+            <Modal modalOpacity={0.5} clickAway={true} open={modalCategory} setOpen={setModalCategory}>
+                <ModalNewCategory toEdit={toEdit} typeContent={typeModal} selectCategory={selectCategory}
+                    submit={OnClickModalNewCategory} type={typeCategory} />
+            </Modal>
             <div className='box-alert'>
                 <AlertAviso color={colorAlert} label={textAlert} display={displayAlert} />
             </div>

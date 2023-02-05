@@ -49,16 +49,14 @@ export const Account = () => {
         const accountsResult = (await Api.getUserDocument(
             state.user.data?.id,
             "accounts",
-        )) as {
-            accounts: UserAccountType[];
-        };
+        )) as UserAccountType[];
         if (accountsResult) {
             dispatch({
                 type: 'setAccounts',
-                payload: { accounts: accountsResult.accounts }
+                payload: { accounts: accountsResult }
             })
             setAccounts(
-                accountsResult.accounts.sort((a, b) => {
+                accountsResult.sort((a, b) => {
                     return b.id - a.id
                 })
             )
@@ -133,7 +131,7 @@ export const Account = () => {
         arr.map(async (item) => {
             const account = state.user.accounts?.find((el) => el.id === item.id)
             if (account && state.user.accounts) {
-                await Api.removeUserAccount(userId, account)
+                // await Api.removeUserAccount(userId, account)
                 account.value = item.value
                 await Api.setUserAccount(userId, account)
                 const accountsCopy = state.user.accounts.filter(i => i.id !== account.id)

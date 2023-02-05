@@ -68,7 +68,6 @@ export const AccountItem = ({ Account, getAccounts, publicAccounts }: Props) => 
                 <span className='label'>Saldo atual</span>
                 <span className={Account.value >= 0 ? 'value more' : 'value less'}>{Formatted.format(Account.value)}</span>
             </div>
-            <button>Att</button>
             {/* <div className='rowResume'>
                 <span className='label'>Saldo previsto</span>
                 <span className='value less'>R$ -63,90</span>

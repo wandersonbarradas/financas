@@ -1,4 +1,3 @@
-import { Account } from "./pages/accounts/Accounts";
 import {
     NormalTansactionType,
     TransferTansactionType,
@@ -17,30 +16,31 @@ import {
     setPersistence,
 } from "firebase/auth";
 import {
-    arrayRemove,
-    arrayUnion,
     doc,
     getDoc,
     getFirestore,
     setDoc,
-    updateDoc,
     collection,
-    addDoc,
+    query,
+    getDocs,
+    deleteDoc,
 } from "firebase/firestore";
 import { DataType, CategoryType, SubCategories } from "./types/UserType";
+
+export type AllDataType = {
+    transactions?: NormalTansactionType[] | TransferTansactionType[];
+    categories?: CategoryType[];
+    subcategories?: SubCategories[];
+    accounts?: UserAccountType[];
+};
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const Api = {
     getLogin: async (persistent: boolean, showLoader: () => void) => {
         const auth = getAuth();
-        let user: DataType | null = null;
-        let transactions:
-            | NormalTansactionType[]
-            | TransferTansactionType[]
-            | null = null;
-        let categories: CategoryType[] | null = null;
-        let subcategories: SubCategories[] | null = null;
-        let accounts: UserAccountType[] | null = null;
+        let data: DataType | null = null;
+        let allData: AllDataType = {};
         try {
             const provider = new GoogleAuthProvider();
             await setPersistence(
@@ -49,54 +49,19 @@ const Api = {
                     ? browserLocalPersistence
                     : browserSessionPersistence,
             );
-            const result = await signInWithPopup(auth, provider);
+            const resultAuth = await signInWithPopup(auth, provider);
             showLoader();
-            const dateUser = result.user;
-            const userExists = await Api.checkUser(dateUser.uid);
+            const dataUser = resultAuth.user;
+            const userExists = await Api.checkUser(dataUser.uid);
             if (userExists) {
-                user = userExists;
+                data = userExists;
             } else {
-                const newUser = await Api.createUser(dateUser);
+                const newUser = await Api.createUser(dataUser);
                 if (newUser) {
-                    user = newUser;
+                    data = newUser;
                 }
             }
-            // const transactionsResult = (await Api.getUserDocument(
-            //     result.user.uid,
-            //     "transactions",
-            // )) as {
-            //     transactions: NormalTansactionType[] | TransferTansactionType[];
-            // };
-            // if (transactionsResult.transactions) {
-            //     transactions = transactionsResult.transactions;
-            // }
-            // const categoriesResult = (await Api.getUserDocument(
-            //     result.user.uid,
-            //     "categories",
-            // )) as {
-            //     categories: CategoryType[];
-            // };
-            // if (categoriesResult.categories) {
-            //     categories = categoriesResult.categories;
-            // }
-            // const subcategoriesResult = (await Api.getUserDocument(
-            //     result.user.uid,
-            //     "subcategories",
-            // )) as {
-            //     subcategories: SubCategories[];
-            // };
-            // if (subcategoriesResult.subcategories) {
-            //     subcategories = subcategoriesResult.subcategories;
-            // }
-            // const accountsResult = (await Api.getUserDocument(
-            //     result.user.uid,
-            //     "accounts",
-            // )) as {
-            //     accounts: UserAccountType[];
-            // };
-            // if (accountsResult.accounts) {
-            //     accounts = accountsResult.accounts;
-            // }
+            allData = await Api.fetchAllData(dataUser.uid);
         } catch (error: any) {
             const errorCode = error.code;
             console.log(
@@ -116,32 +81,21 @@ const Api = {
                 credential,
             );
         }
-        return { user, transactions, categories, subcategories, accounts };
+        return { data, ...allData };
     },
 
     createUser: async (user: User) => {
-        // await setDoc(
-        //     doc(db, user.uid, "data"),
-        //     {
-        //         name: user.displayName,
-        //         email: user.email,
-        //         photo: user.photoURL,
-        //         id: user.uid,
-        //     },
-        //     { merge: true },
-        // );
-        // await setDoc(doc(db, user.uid, "categories"), {
-        //     categories: [],
-        // });
-        // await setDoc(doc(db, user.uid, "subcategories"), {
-        //     subcategories: [],
-        // });
-        // await setDoc(doc(db, user.uid, "accounts"), {
-        //     accounts: [],
-        // });
-        // await setDoc(doc(db, user.uid, "transactions"), {
-        //     transactions: [],
-        // });
+        const ref = doc(db, "users", user.uid, "private", "data");
+        await setDoc(
+            ref,
+            {
+                name: user.displayName,
+                email: user.email,
+                photo: user.photoURL,
+                id: user.uid,
+            },
+            { merge: true },
+        );
         const newUser = await Api.checkUser(user.uid);
         return newUser;
     },
@@ -150,7 +104,7 @@ const Api = {
         if (id === undefined) {
             return;
         }
-        const ref = doc(db, id, "data");
+        const ref = doc(db, "users", id, "private", "data");
         if (ref.id) {
             const res = await getDoc(ref);
             const dados = res.data() as DataType;
@@ -182,90 +136,117 @@ const Api = {
         if (!id) {
             return;
         }
-        let result: any;
-        const docRef = doc(db, id, document);
+        let result: any = [];
+        const userRef = doc(db, "users", id);
+        const documentRef = collection(userRef, document);
         try {
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                result = docSnap.data();
-            }
+            const q = query(documentRef);
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                result.push(doc.data());
+            });
         } catch (error: any) {
             console.log(error.message);
         }
-        return result;
+        return result ? result : null;
     },
 
     setCategory: async (id: string, category: CategoryType) => {
-        const categoriesRef = doc(db, id, "categories");
-        await updateDoc(categoriesRef, {
-            categories: arrayUnion(category),
-        });
+        const categoriesRef = doc(
+            db,
+            "users",
+            id,
+            "categories",
+            `category-${category.id}`,
+        );
+        await setDoc(categoriesRef, category, { merge: true });
     },
 
     removeCategory: async (id: string, category: CategoryType) => {
-        const categoriesRef = doc(db, id, "categories");
-        await updateDoc(categoriesRef, {
-            categories: arrayRemove(category),
-        });
-    },
-
-    setSubCategory: async (id: string, subcategory: SubCategories) => {
-        const subcategoriesRef = doc(db, id, "subcategories");
-        await updateDoc(subcategoriesRef, {
-            subcategories: arrayUnion(subcategory),
-        });
-    },
-
-    removeSubCategory: async (id: string, subcategory: SubCategories) => {
-        const subcategoriesRef = doc(db, id, "subcategories");
-        await updateDoc(subcategoriesRef, {
-            subcategories: arrayRemove(subcategory),
-        });
-    },
-
-    setUserAccount: async (id: string, account: UserAccountType) => {
-        const userAccountRef = doc(db, id, "accounts");
-        await updateDoc(userAccountRef, {
-            accounts: arrayUnion(account),
-        });
-    },
-
-    attUserAccount: async (id: string, account: UserAccountType) => {
-        const userAccountRef = doc(db, id, "accounts");
         try {
-            await updateDoc(userAccountRef, {
-                accounts: arrayUnion(account),
-            });
-        } catch (error) {
-            console.log(error);
+            const categoriesRef = doc(
+                db,
+                "users",
+                id,
+                "categories",
+                `category-${category.id}`,
+            );
+            await deleteDoc(categoriesRef);
+        } catch (error: any) {
+            return Promise.reject(new Error(error.message));
         }
     },
 
+    setSubCategory: async (id: string, subcategory: SubCategories) => {
+        const subcategoriesRef = doc(
+            db,
+            "users",
+            id,
+            "subcategories",
+            `subcategorie-${subcategory.id}`,
+        );
+        await setDoc(subcategoriesRef, subcategory, { merge: true });
+    },
+
+    removeSubCategory: async (id: string, subcategory: SubCategories) => {
+        const subcategoriesRef = doc(
+            db,
+            "users",
+            id,
+            "subcategories",
+            `subcategorie-${subcategory.id}`,
+        );
+        await deleteDoc(subcategoriesRef);
+    },
+
+    setUserAccount: async (id: string, account: UserAccountType) => {
+        const userAccountRef = doc(
+            db,
+            "users",
+            id,
+            "accounts",
+            `account-${account.id}`,
+        );
+        await setDoc(userAccountRef, account, { merge: true });
+    },
+
     removeUserAccount: async (id: string, account: UserAccountType) => {
-        const userAccountRef = doc(db, id, "accounts");
-        await updateDoc(userAccountRef, {
-            accounts: arrayRemove(account),
-        });
+        const userAccountRef = doc(
+            db,
+            "users",
+            id,
+            "accounts",
+            `account-${account.id}`,
+        );
+        await deleteDoc(userAccountRef);
     },
 
     setTransaction: async (
         id: string,
         transaction: NormalTansactionType | TransferTansactionType,
     ) => {
-        const userAccountRef = doc(db, id, "transactions");
-        await updateDoc(userAccountRef, {
-            transactions: arrayUnion(transaction),
-        });
+        const transactionsRef = doc(
+            db,
+            "users",
+            id,
+            "transactions",
+            `transaction-${transaction.id}`,
+        );
+        await setDoc(transactionsRef, transaction, { merge: true });
     },
 
     removeTransaction: async (
         id: string,
         transaction: NormalTansactionType | TransferTansactionType,
     ) => {
-        const userAccountRef = doc(db, id, "transactions");
-        await updateDoc(userAccountRef, {
-            transactions: arrayRemove(transaction),
-        });
+        const transactionsRef = doc(
+            db,
+            "users",
+            id,
+            "transactions",
+            `transaction-${transaction.id}`,
+        );
+        await deleteDoc(transactionsRef);
     },
 
     getAccountsPublic: async () => {
@@ -277,6 +258,39 @@ const Api = {
         } else {
             return undefined;
         }
+    },
+
+    fetchAllData: async (id: string) => {
+        const result: AllDataType = {};
+        const transactionsResult = (await Api.getUserDocument(
+            id,
+            "transactions",
+        )) as NormalTansactionType[] | TransferTansactionType[];
+        if (transactionsResult) {
+            result.transactions = transactionsResult;
+        }
+        const categoriesResult = (await Api.getUserDocument(
+            id,
+            "categories",
+        )) as CategoryType[];
+        if (categoriesResult) {
+            result.categories = categoriesResult;
+        }
+        const subcategoriesResult = (await Api.getUserDocument(
+            id,
+            "subcategories",
+        )) as SubCategories[];
+        if (subcategoriesResult) {
+            result.subcategories = subcategoriesResult;
+        }
+        const accountsResult = (await Api.getUserDocument(
+            id,
+            "accounts",
+        )) as UserAccountType[];
+        if (accountsResult) {
+            result.accounts = accountsResult;
+        }
+        return result;
     },
 };
 

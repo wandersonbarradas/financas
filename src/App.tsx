@@ -4,7 +4,7 @@ import { MainRouter, LoginRouter } from './routers/MainRouter';
 import { Context } from './context/context'
 import { useContext, useEffect } from 'react'
 import { Dark, Light } from './reducers/ThemeReducer';
-import Api from './Api'
+import Api, { AllDataType } from './Api'
 import Cookies from 'js-cookie';
 import { CategoryType, DataType, SubCategories } from './types/UserType';
 import { Loader } from './components/loader/Loader';
@@ -31,44 +31,35 @@ const App = () => {
     }
 
     const getDataUser = async (id: string | undefined) => {
+        console.log("Executando")
         if (id === undefined) {
             return;
         }
-        const transactions = await Api.getUserDocument(id, 'transactions') as { transactions: NormalTansactionType[] | TransferTansactionType[] }
-        dispatch({
-            type: 'setTransactions',
-            payload: { transactions: transactions.transactions }
-        })
-        const categoriesResult = (await Api.getUserDocument(
-            id,
-            "categories",
-        )) as {
-            categories: CategoryType[];
-        };
-        dispatch({
-            type: 'setCategories',
-            payload: { categories: categoriesResult.categories }
-        })
-        const subcategoriesResult = (await Api.getUserDocument(
-            id,
-            "subcategories",
-        )) as {
-            subcategories: SubCategories[];
-        };
-        dispatch({
-            type: 'setSubCategories',
-            payload: { subcategories: subcategoriesResult.subcategories }
-        })
-        const accountsResult = (await Api.getUserDocument(
-            id,
-            "accounts",
-        )) as {
-            accounts: UserAccountType[];
-        };
-        dispatch({
-            type: 'setAccounts',
-            payload: { accounts: accountsResult.accounts }
-        })
+        const resultUser = await Api.fetchAllData(id) as AllDataType;
+        if (resultUser.transactions) {
+            dispatch({
+                type: 'setTransactions',
+                payload: { transactions: resultUser.transactions }
+            })
+        }
+        if (resultUser.categories) {
+            dispatch({
+                type: 'setCategories',
+                payload: { categories: resultUser.categories }
+            })
+        }
+        if (resultUser.subcategories) {
+            dispatch({
+                type: 'setSubCategories',
+                payload: { subcategories: resultUser.subcategories }
+            })
+        }
+        if (resultUser.accounts) {
+            dispatch({
+                type: 'setAccounts',
+                payload: { accounts: resultUser.accounts }
+            })
+        }
     }
 
     const setNewUser = async (value: DataType | null,) => {
