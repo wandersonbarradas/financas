@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -30,8 +29,8 @@ export const Container = styled.header<Props>`
         .selectMonth {
             width: 100%;
             border: solid 1px ${(props) => props.Theme.colorOpacity};
-            padding: 5px 15px;
-            border-radius: 20px;
+            padding: 0.3125rem 1rem;
+            border-radius: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -57,17 +56,6 @@ export const Container = styled.header<Props>`
             }
         }
     }
-
-    /* .leftSide,
-    .rightSide {
-        z-index: 10;
-        flex: 1;
-        display: flex;
-        align-items: center;
-    } */
-
-    /* .leftSide {
-    } */
 
     .box-logo {
         flex: 1;
@@ -100,7 +88,7 @@ export const Container = styled.header<Props>`
     }
     .infoDate {
         display: block;
-        font-size: 14px;
+        font-size: 0.875rem;
         color: ${(props) => props.Theme.colorOpacity};
         font-weight: 500;
     }
@@ -115,7 +103,7 @@ export const Container = styled.header<Props>`
             height: 60px;
             border-radius: 50%;
             cursor: pointer;
-            padding: 6px;
+            padding: 0.375rem;
             transition: all 0.3s ease;
 
             &:hover {
@@ -129,10 +117,6 @@ export const Container = styled.header<Props>`
         }
     }
 
-    /* .rightSide {
-        justify-content: flex-end;
-    } */
-
     .dropdown {
         width: 250px;
         position: absolute;
@@ -140,11 +124,11 @@ export const Container = styled.header<Props>`
         transition: all 0.8s ease-in-out;
         top: ${(props) => (props.dropdown ? "90px" : "-250px")};
         right: ${(props) => (props.dropdown ? "24px" : "-250px")};
-        padding: 12px 0px;
+        padding: 0.75rem 0px;
         background-color: ${(props) => props.Theme.colorComponents};
         box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
             0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
-        border-radius: 16px;
+        border-radius: 1rem;
         border: 1px solid ${(props) => props.Theme.colorBorder};
         z-index: 1;
 
@@ -154,7 +138,7 @@ export const Container = styled.header<Props>`
             margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 0.3125rem;
         }
 
         li {
@@ -163,10 +147,10 @@ export const Container = styled.header<Props>`
                 width: 100%;
                 justify-content: flex-start;
                 align-items: center;
-                gap: 10px;
+                gap: 0.625rem;
                 color: ${(props) => props.Theme.colorOpacity};
                 text-decoration: none;
-                padding: 12px 24px;
+                padding: 0.75rem 1.5rem;
                 font-weight: 500;
                 transition: all 0.3s ease-in-out;
 
@@ -193,6 +177,10 @@ export const Container = styled.header<Props>`
         z-index: 50;
     }
 
+    @media screen and (max-width: 780px) {
+        padding: 0.75rem 1rem;
+    }
+
     @media screen and (max-width: 840px) {
         .infoUser {
             display: none;
@@ -212,7 +200,7 @@ export const Container = styled.header<Props>`
         .boxSelectMonth {
             .selectMonth {
                 border: 0;
-                padding: 5px 10px;
+                padding: 0.3125rem 0.625rem;
 
                 .icon {
                     width: 24px;
