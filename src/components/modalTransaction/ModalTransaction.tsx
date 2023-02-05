@@ -66,10 +66,6 @@ export const ModalTransaction = (props: Props) => {
     }, [dateTransaction])
 
     useEffect(() => {
-        console.log(state.user)
-    }, [state.user]);
-
-    useEffect(() => {
         if (props.type === 'expense') {
             setColorTransaction({ solid: state.theme.theme.expenseColor, rgba: 'rgba(240, 41, 39, 0.38)' })
         } else if (props.type === 'income') {
@@ -336,14 +332,12 @@ export const ModalTransaction = (props: Props) => {
             case 'category':
                 setModalCategories(false)
                 let c = document.querySelector('.input-area.category') as HTMLDivElement;
-                console.log(c)
                 if (!c) {
                     return
                 }
                 if (category === null) {
                     c.classList.add('warning', 'colorWarning')
                 } else {
-                    console.log('remove')
                     c.classList.remove('warning', 'colorWarning')
                 }
                 break;

@@ -72,7 +72,7 @@ export const Account = () => {
             }
         })
         const transactions = state.user.transactions as NormalTansactionType[];
-        transactions.map((item) => {
+        transactions.forEach((item) => {
             if (item.type === 'transfer') {
                 const el = item as unknown as TransferTansactionType;
                 attValueBank(list, el.account, el.value, el.type, el.accountFor)

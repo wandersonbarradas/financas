@@ -6,12 +6,14 @@ import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import { useState, useContext, useEffect } from 'react';
 import { Context } from '../../context/context';
 import { Modal } from '../../components/modais/Modais';
-import { NormalTansactionType } from '../../types/TransactionType';
+import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
 import { TableTransactionsItem } from '../../components/tableTransactionItem/TableTransactionsItem';
 import DF from '../../helpers/DateFunctions'
 import dayjs from 'dayjs';
 import { activeSidebarItem } from '../../helpers/helpers';
 import { ListTransactionsMobile } from '../../components/listTransactionsMobile/ListTransactionsMobile';
+import formatted from '../../helpers/FormattedPrice';
+import Api from '../../Api';
 
 type TypeTransactions = {
     color: string;
@@ -21,10 +23,13 @@ type TypeTransactions = {
 export const Transactions = () => {
     const { state, dispatch } = useContext(Context)
     const [transactions, setTransactions] = useState<NormalTansactionType[]>([])
+    const [selectedTransaction, setSelectTransaction] = useState<NormalTansactionType | null | TransferTansactionType>(null)
+    const [color, setColor] = useState("")
     const [inputSearch, setInputSearch] = useState(false)
     const [modalType, setModalType] = useState(false)
     const [position, setPosition] = useState({ left: 0, top: 0 })
     const [type, setType] = useState<TypeTransactions>({ name: 'Transações', color: state.theme.theme.colorPrimary })
+    const [modalDelete, setModalDelete] = useState(false)
 
     useEffect(() => {
         activeSidebarItem('activeLinkNavBar', 'transactions')
@@ -37,6 +42,30 @@ export const Transactions = () => {
     useEffect(() => {
         getTransactions()
     }, [state.user.transactions, state.user.selectedDate, type]);
+
+    useEffect(() => {
+        checkTransaction()
+    }, [selectedTransaction]);
+
+    useEffect(() => {
+        if (selectedTransaction) {
+            setModalDelete(true)
+        }
+    }, [selectedTransaction])
+
+    const checkTransaction = () => {
+        switch (selectedTransaction?.type) {
+            case 'expense':
+                setColor(state.theme.theme.expenseColor)
+                break;
+            case 'income':
+                setColor(state.theme.theme.incomeColor)
+                break;
+            case 'transfer':
+                setColor(state.theme.theme.transferColor)
+                break
+        }
+    }
 
     const getTransactions = () => {
         let t = state.user.transactions as NormalTansactionType[]
@@ -95,6 +124,21 @@ export const Transactions = () => {
         setModalType(false)
     }
 
+    const deleteTransaction = async () => {
+        if (state.user.data === null || !selectedTransaction) {
+            return
+        }
+        await Api.removeTransaction(state.user.data.id, selectedTransaction)
+        const transactions = state.user.transactions as unknown as NormalTansactionType[];
+        const arr = transactions.filter(el => el.id !== selectedTransaction.id)
+        dispatch({
+            type: 'setTransactions',
+            payload: { transactions: arr }
+        })
+        setSelectTransaction(null)
+        setModalDelete(false)
+    }
+
     return (
         <C.Container position={position} colorType={type.color} Theme={state.theme.theme} inputSearch={inputSearch}>
             <div className='header'>
@@ -135,7 +179,7 @@ export const Transactions = () => {
                     <tbody>
                         {
                             transactions.map((item, index) => (
-                                <TableTransactionsItem key={index} item={item} />
+                                <TableTransactionsItem key={index} item={item} setTransaction={setSelectTransaction} />
                             ))
                         }
                     </tbody>
@@ -167,6 +211,27 @@ export const Transactions = () => {
                         </li>
                     </ul>
                 </div>
+            </Modal>
+            <Modal open={modalDelete} setOpen={setModalDelete} clickAway={false} modalOpacity={.5}>
+                {selectedTransaction &&
+                    <C.ContainerModalDelete Theme={state.theme.theme} Color={color}>
+                        <h3>Deseja realmente deletar essa transação?</h3>
+                        <div className='info'>
+                            <div className='content'>
+                                <p className='title'>Descrição</p>
+                                <span>{selectedTransaction.description}</span>
+                            </div>
+                            <div className='content'>
+                                <p className='title'>Valor</p>
+                                <span>{formatted.format(selectedTransaction.value)}</span>
+                            </div>
+                        </div>
+                        <div className='btnArea'>
+                            <button onClick={() => setModalDelete(false)} className='btn cancelar'>Cancelar</button>
+                            <button onClick={deleteTransaction} className='btn deletar'>Deletar</button>
+                        </div>
+                    </C.ContainerModalDelete>
+                }
             </Modal>
         </C.Container>
     )

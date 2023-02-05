@@ -227,3 +227,77 @@ export const Container = styled.div<Props>`
         }
     }
 `;
+
+type PropsModalDelete = {
+    Theme: ThemeValues;
+    Color: string;
+};
+
+export const ContainerModalDelete = styled.div<PropsModalDelete>`
+    padding: 16px 26px;
+    background-color: ${(props) => props.Theme.colorComponents};
+    border: 1px solid ${(props) => props.Theme.colorComponents};
+    border-radius: 12px;
+    width: 550px;
+
+    h3 {
+        font-size: 22px;
+        margin: 0 0 20px 0;
+        color: ${(props) => props.Theme.colorTitle};
+        font-weight: 500;
+    }
+
+    .info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+
+        .title {
+            font-weight: 600;
+            color: ${(props) => props.Theme.colorOpacity};
+            margin: 0;
+            font-size: 14px;
+        }
+
+        span {
+            color: ${(props) => props.Theme.colorOpacity};
+            font-size: 14px;
+        }
+    }
+
+    .btnArea {
+        margin-top: 20px;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .btn {
+            padding: 6px 20px;
+            border-radius: 20px;
+            outline: 0;
+            border: 1px solid ${(props) => props.Color};
+            background-color: transparent;
+            color: ${(props) => props.Theme.colorTitle};
+            font-family: "Poppins", sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+
+            &.deletar {
+                background-color: ${(props) => props.Color};
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+
+            &.cancelar {
+                opacity: 0.8;
+                &:hover {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+`;

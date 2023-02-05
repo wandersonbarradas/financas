@@ -10,7 +10,7 @@ type Props = {
 
 export const Container = styled.div<PropsContainer>`
     background-color: ${(props) => props.Theme.colorComponents};
-    padding: 15px;
+    padding: 16px;
     border-radius: 12px;
     display: flex;
     flex-direction: column;

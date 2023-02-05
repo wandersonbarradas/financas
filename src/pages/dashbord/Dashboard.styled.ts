@@ -42,7 +42,7 @@ export const Container = styled.div<Props>`
             }
 
             .balance-summary {
-                margin-left: 36px;
+                margin-left: 16px;
                 flex: 1;
             }
 
@@ -124,13 +124,12 @@ export const Container = styled.div<Props>`
             .report {
                 display: flex;
                 flex-direction: column;
+                padding: 16px;
                 .report-title {
                     margin: 0;
                     color: ${(props) => props.Theme.colorTitle};
                     font-weight: 600;
                 }
-
-                padding: 15px;
                 div {
                     flex: 1;
                     max-height: 180px;
@@ -156,7 +155,7 @@ export const Container = styled.div<Props>`
             flex: 1;
             background-color: ${(props) => props.Theme.colorComponents};
             border-radius: 12px;
-            padding: 24px 25px;
+            padding: 16px;
             transition: all 0.3s ease;
             border: 1px solid ${(props) => props.Theme.colorBorder};
 

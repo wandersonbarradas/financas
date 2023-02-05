@@ -31,7 +31,6 @@ const App = () => {
     }
 
     const getDataUser = async (id: string | undefined) => {
-        console.log("Executando")
         if (id === undefined) {
             return;
         }

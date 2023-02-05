@@ -221,19 +221,15 @@ export const Categories = () => {
             return;
         }
         try {
-            console.log("Iniciando requisição de alteração da categoria")
             await Api.setCategory(state.user.data.id, category)
-            console.log("Requisição da categoria Concluida")
             const newList = state.user.categories?.filter(i => i.id !== category.id)
             if (newList) {
-                console.log("Adicionando Categoria editada ao contexto")
                 newList.push(category)
                 dispatch({
                     type: 'setCategories',
                     payload: { categories: newList }
                 })
             } else {
-                console.log("Adicionando Categoria editada ao contexto")
                 dispatch({
                     type: 'setCategories',
                     payload: { categories: [category] }
@@ -249,26 +245,19 @@ export const Categories = () => {
             return;
         }
         try {
-            console.log("Iniciando requisição de alteração da subcategoria")
             await Api.setSubCategory(state.user.data.id, subcategory)
-            console.log("Requisição da subcategoria Concluida")
             const newList = state.user.subcategories?.filter(i => i.id !== subcategory.id)
             if (newList) {
-                console.log("Adicionando subcategoria editada ao contexto")
                 newList.push(subcategory)
                 dispatch({
                     type: 'setSubCategories',
                     payload: { subcategories: newList }
                 })
-                console.log("pos dispatch dentro do if")
-                console.log(state.user.subcategories)
             } else {
-                console.log("Adicionando subcategoria editada ao contexto")
                 dispatch({
                     type: 'setSubCategories',
                     payload: { subcategories: [subcategory] }
                 })
-                console.log("pos dispatch fora do if")
             }
         } catch (error) {
             console.log(error)
@@ -330,7 +319,6 @@ export const Categories = () => {
     }
 
     const editCategory = async (name: string, color?: string) => {
-        console.log("Entrando na função editar...")
         if (!selectCategory) {
             Promise.reject(new Error("Categoria não encontrada"))
             return;
@@ -340,14 +328,12 @@ export const Categories = () => {
             return;
         }
         if (typeModal === 'category') {
-            console.log("Fazendo alterações da categoria...")
             const editCategory = selectCategory as CategoryType
             editCategory.name = name ? name : editCategory.name;
             editCategory.color = color ? color : editCategory.color
             await setNewCategory(editCategory)
             const subCategories = state.user.subcategories?.filter(i => i.category === editCategory.id)
             if (subCategories && color) {
-                console.log("Fazendo alterações da Subcategoria...")
                 subCategories.forEach(async (i) => {
                     const item = i
                     item.color = color;
@@ -355,7 +341,6 @@ export const Categories = () => {
                 })
             }
         } else {
-            console.log("Editando Subcategoria...")
             if (!name) {
                 Promise.reject(new Error("Dados da edição não encontrados"))
                 return
