@@ -16,7 +16,7 @@ export const MetricItem = ({ title, value }: Props) => {
     return (
         <C.Container Theme={state.theme.theme}>
             <span className='title'>{title}</span>
-            <div className='value'>{valor}<span>,{decimais}</span></div>
+            <div className='value'>{valor}<small>,{decimais}</small></div>
             {/* {percentage >= 0 &&
                 <C.Percentagem background='#A9FFA7' color='#037400'>
                     <div>

@@ -113,10 +113,6 @@ export const Container = styled.div<Props>`
             font-weight: 800;
             font-size: 1.5625rem;
             color: #ffffff;
-
-            span {
-                font-size: 1.375rem;
-            }
         }
 
         .report {

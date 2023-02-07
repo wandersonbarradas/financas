@@ -34,11 +34,6 @@ export const Container = styled.div<PropsContainer>`
         line-height: 28px;
         color: ${(props) => props.Theme.colorTitle};
         transition: all 0.3s ease;
-
-        span {
-            font-size: 16px;
-            line-height: 23px;
-        }
     }
 
     @media screen and (max-width: 576px) {
@@ -48,9 +43,6 @@ export const Container = styled.div<PropsContainer>`
 
         .value {
             font-size: 16px;
-            span {
-                font-size: 14px;
-            }
         }
     }
 `;

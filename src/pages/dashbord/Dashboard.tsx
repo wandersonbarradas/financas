@@ -110,9 +110,7 @@ export const Dashboard = () => {
                             <div className='balance-text-info'>Última Transação</div>
                         </div>
                         <div className={Number(amount.value) < 0 && Number(amount.decimals) < 0 ? 'balance-total ne' : 'balance-total po'}>
-                            <div className="balance-value">
-                                {amount.value}<span>,{amount.decimals}</span>
-                            </div>
+                            <div className="balance-value">{amount.value}<small>,{amount.decimals}</small></div>
                             <div className='info'>SALDO ATUAL</div>
                         </div>
                         <div></div>
