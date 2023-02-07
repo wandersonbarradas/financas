@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -27,7 +26,7 @@ export const Container = styled.div<Props>`
             color: ${(props) => props.Theme.colorTitle};
             margin: 0 0 10px 0;
             font-weight: 500;
-            font-size: 20px;
+            font-size: 1.25rem;
         }
     }
 
@@ -59,7 +58,7 @@ export const Container = styled.div<Props>`
                 position: absolute;
                 transition: border-bottom-color 300ms ease-in-out;
                 pointer-events: none;
-                font-size: 10px;
+                font-size: 0.625rem;
                 color: #ff9800;
                 width: 200px;
             }
@@ -144,7 +143,7 @@ export const Container = styled.div<Props>`
                 }
                 .date-extense {
                     display: ${(props) => (props.extend ? "block" : "none")};
-                    font-size: 15px;
+                    font-size: 0.9375rem;
                     color: ${(props) => props.Theme.colorTitle};
                     margin: 3px 0 0 32px;
                 }
@@ -154,13 +153,13 @@ export const Container = styled.div<Props>`
                 span {
                     margin: 0 5px 0 32px;
                     color: ${(props) => props.colorTransaction.solid};
-                    font-size: 20px;
+                    font-size: 1.25rem;
                 }
                 input {
                     color: ${(props) => props.colorTransaction.solid};
                     font-family: "Inter", sans-serif;
                     font-weight: 400;
-                    font-size: 20px;
+                    font-size: 1.25rem;
                     max-width: 200px;
 
                     &::placeholder {
@@ -174,13 +173,13 @@ export const Container = styled.div<Props>`
             input[type="text"] {
                 width: 100%;
                 font-family: "Poppins", sans-serif;
-                font-size: 16px;
+                font-size: 1rem;
                 color: ${(props) => props.Theme.colorTitle};
 
                 &::placeholder {
                     color: ${(props) => props.Theme.colorOpacity};
                     opacity: 1;
-                    font-size: 14px;
+                    font-size: 0.875rem;
                     font-weight: 400;
                 }
             }
@@ -188,9 +187,6 @@ export const Container = styled.div<Props>`
             &.description {
                 input {
                     margin-left: 32px;
-
-                    &.warning {
-                    }
                 }
             }
 
@@ -248,7 +244,7 @@ export const Container = styled.div<Props>`
                         position: absolute;
                         color: ${(props) => props.Theme.colorOpacity};
                         font-weight: 400;
-                        font-size: 14px;
+                        font-size: 0.875rem;
                     }
                 }
             }
@@ -407,7 +403,7 @@ export const Container = styled.div<Props>`
             padding: 8px 22px;
             background-color: ${(props) => props.Theme.colorPrimary};
             border-radius: 25px;
-            font-size: 16px;
+            font-size: 1rem;
             width: 175px;
             outline: 0;
             border: 0;
@@ -531,7 +527,7 @@ export const CategoryItem = styled.div<PropsCategory>`
         margin-left: 10px;
 
         &.sub {
-            font-size: 14px;
+            font-size: 0.875rem;
         }
     }
 
