@@ -32,7 +32,7 @@ export const Container = styled.div<Props>`
         h3 {
             margin: 0;
             font-weight: 500;
-            font-size: 18px;
+            font-size: 1.125rem;
             color: ${(props) => props.Theme.colorTitle};
         }
     }
@@ -51,7 +51,7 @@ export const Container = styled.div<Props>`
                 background-color: transparent;
                 border: 0;
                 outline: 0;
-                font-size: 16px;
+                font-size: 1rem;
                 font-weight: 400;
                 color: ${(props) => props.Theme.colorTitle};
 
@@ -110,7 +110,7 @@ export const Container = styled.div<Props>`
 
             p {
                 color: ${(props) => props.Theme.colorTitle};
-                font-size: 16px;
+                font-size: 1rem;
                 font-weight: 500;
             }
         }

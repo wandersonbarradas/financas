@@ -18,7 +18,7 @@ export const Container = styled.div<Props>`
         margin: 0;
         color: ${(props) => props.Theme.colorTitle};
         font-weight: 500;
-        font-size: 22px;
+        font-size: 1.375rem;
     }
 
     .form {
@@ -35,7 +35,7 @@ export const Container = styled.div<Props>`
                 border: 0;
                 background-color: transparent;
                 color: ${(props) => props.Theme.colorTitle};
-                font-size: 16px;
+                font-size: 1rem;
                 border-bottom: 2px solid ${(props) => props.Theme.colorOpacity};
                 padding: 8px 2px;
                 font-weight: 500;

@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -21,7 +20,7 @@ export const Container = styled.tr<Props>`
         padding: 10px;
         text-align: start;
         font-weight: 300;
-        font-size: 14px;
+        font-size: 0.875rem;
         &:last-child {
             padding-right: 30px;
         }

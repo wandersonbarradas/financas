@@ -21,7 +21,7 @@ export const Container = styled.li<Props>`
         padding: 8px 0;
         color: ${(props) => props.Theme.colorOpacity};
         font-weight: 500;
-        font-size: 16px;
+        font-size: 1rem;
         line-height: 21px;
         transition: all 0.3s ease;
         overflow: hidden;
@@ -57,7 +57,6 @@ export const Container = styled.li<Props>`
             justify-content: center;
             padding: 8px 4px;
             font-weight: 400;
-            font-size: 14px;
             overflow: visible;
 
             &.activeLinkNavBar,
@@ -84,9 +83,9 @@ export const Container = styled.li<Props>`
         }
     }
 
-    @media screen and (max-width: 460px) {
+    /* @media screen and (max-width: 460px) {
         .link-item {
             font-size: 12px;
         }
-    }
+    } */
 `;

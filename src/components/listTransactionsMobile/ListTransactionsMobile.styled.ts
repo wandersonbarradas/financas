@@ -30,12 +30,12 @@ export const Container = styled.div<Props>`
 
         .transactionDescription {
             margin: 0;
-            font-size: 14px;
+            font-size: 0.875rem;
             color: ${(i) => i.Theme.colorTitle};
         }
         .transactionAC {
             color: ${(i) => i.Theme.colorOpacity};
-            font-size: 12px;
+            font-size: 0.75rem;
         }
     }
 
@@ -43,7 +43,7 @@ export const Container = styled.div<Props>`
         align-items: end;
         gap: 5px;
         .transactionValue {
-            font-size: 12px;
+            font-size: 0.75rem;
 
             &.transfer {
                 color: ${(props) => props.Theme.transferColor};

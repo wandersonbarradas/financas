@@ -37,7 +37,7 @@ export const Container = styled.div<Props>`
             }
 
             .label {
-                font-size: 20px;
+                font-size: 1.25rem;
                 font-weight: 500;
                 color: ${(props) => props.Theme.colorTitle};
             }
@@ -69,13 +69,13 @@ export const Container = styled.div<Props>`
 
         .label {
             color: ${(props) => props.Theme.colorTitle};
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 500;
         }
 
         .value {
             color: #4fd18b;
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 500;
 
             &.less {
@@ -97,7 +97,7 @@ export const Container = styled.div<Props>`
         background-color: transparent;
         padding: 12px 12px;
         text-align: end;
-        font-size: 16px;
+        font-size: 1rem;
         font-weight: 500;
         color: ${(props) => props.Theme.colorPrimary};
         cursor: pointer;

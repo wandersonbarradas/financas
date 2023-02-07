@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type Props = {
@@ -110,7 +109,7 @@ export const Container = styled.div<Props>`
         gap: 6px;
         font-family: inherit;
         font-weight: 500;
-        font-size: 16px;
+        font-size: 1rem;
         padding: 0.7em 1.1em 0.7em 1.1em;
         color: white;
         background-color: #4c49ed;
@@ -232,7 +231,7 @@ export const Container = styled.div<Props>`
             color: ${(props) => props.Theme.colorOpacity};
             gap: 25px;
             padding: 8px 16px;
-            font-size: 15px;
+            font-size: 0.9375rem;
             font-weight: 500;
             transition: all 0.2s ease;
             cursor: pointer;
@@ -385,7 +384,7 @@ export const Container = styled.div<Props>`
                     cursor: pointer;
                     transition: all 0.3s ease;
                     font-family: "Poppins", sans-serif;
-                    font-size: 12px;
+                    font-size: 0.75rem;
 
                     &:hover {
                         .icon {
@@ -499,7 +498,7 @@ export const Container = styled.div<Props>`
 
                 .titleTransaction {
                     margin: 0;
-                    font-size: 20px;
+                    font-size: 1.25rem;
                     font-weight: 500;
                     color: ${(i) => i.Theme.colorTitle};
                 }

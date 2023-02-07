@@ -65,7 +65,7 @@ export const Container = styled.div<props>`
             border-radius: 16px;
             font-weight: 600;
             color: ${(props) => props.Theme.colorTitle};
-            font-size: 13px;
+            font-size: 0.8125rem;
             cursor: pointer;
             transition: all 0.3s ease;
 
@@ -88,7 +88,7 @@ export const Container = styled.div<props>`
         button {
             padding: 6px 8px;
             color: ${(props) => props.Theme.colorPrimary};
-            font-size: 14px;
+            font-size: 0.875rem;
             background-color: transparent;
             border: 0;
             outline: 0;

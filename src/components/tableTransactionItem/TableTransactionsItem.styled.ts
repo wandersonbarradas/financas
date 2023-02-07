@@ -19,7 +19,7 @@ export const Container = styled.tr<Props>`
         padding: 10px;
         text-align: start;
         font-weight: 300;
-        font-size: 14px;
+        font-size: 0.875rem;
 
         &.done {
             .icon {

@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -39,7 +38,7 @@ export const Container = styled.div<Props>`
 
         p {
             margin: 0;
-            font-size: 14px;
+            font-size: 0.875rem;
             color: ${(i) => i.Theme.colorTitle};
         }
     }

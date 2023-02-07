@@ -1,5 +1,3 @@
-import { display } from "@mui/system";
-import { spawn } from "child_process";
 import styled from "styled-components";
 
 type Props = {
@@ -16,7 +14,7 @@ export const Container = styled.div<Props>`
     justify-content: center;
     align-items: center;
     color: ${(props) => props.colorTitle};
-    font-size: 13px;
+    font-size: 0.8125rem;
     margin-right: 5px;
 
     p {

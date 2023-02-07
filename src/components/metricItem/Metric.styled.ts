@@ -21,7 +21,7 @@ export const Container = styled.div<PropsContainer>`
 
     .title {
         font-weight: 600;
-        font-size: 16px;
+        font-size: 1rem;
         line-height: 20px;
         color: ${(props) => props.Theme.colorOpacity};
         transition: all 0.3s ease;
@@ -30,13 +30,13 @@ export const Container = styled.div<PropsContainer>`
     .value {
         font-family: "Inter", sans-serif;
         font-weight: 700;
-        font-size: 18px;
+        font-size: 1.125rem;
         line-height: 28px;
         color: ${(props) => props.Theme.colorTitle};
         transition: all 0.3s ease;
     }
 
-    @media screen and (max-width: 576px) {
+    /* @media screen and (max-width: 576px) {
         .title {
             font-size: 14px;
         }
@@ -44,14 +44,14 @@ export const Container = styled.div<PropsContainer>`
         .value {
             font-size: 16px;
         }
-    }
+    } */
 `;
 
 export const Percentagem = styled.div<Props>`
     display: flex;
 
     div {
-        font-size: 14px;
+        font-size: 0.875rem;
         display: flex;
         justify-content: center;
         align-items: center;

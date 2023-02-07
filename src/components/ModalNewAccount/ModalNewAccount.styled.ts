@@ -23,7 +23,7 @@ export const Container = styled.div<Props>`
             color: ${(props) => props.Theme.colorTitle};
             margin: 0;
             font-weight: 500;
-            font-size: 20px;
+            font-size: 1.25rem;
         }
     }
 
@@ -66,7 +66,7 @@ export const Container = styled.div<Props>`
             &.value {
                 span {
                     margin: 0 5px 0 0;
-                    font-size: 25px;
+                    font-size: 1.5625rem;
                     font-weight: 400;
                     color: ${(props) => props.Theme.colorPrimary};
                 }
@@ -76,7 +76,7 @@ export const Container = styled.div<Props>`
                     background-color: transparent;
                     color: ${(props) => props.Theme.colorPrimary};
                     font-weight: 400;
-                    font-size: 25px;
+                    font-size: 1.5625rem;
                     position: relative;
 
                     &::placeholder {
@@ -116,7 +116,7 @@ export const Container = styled.div<Props>`
                     outline: 0;
                     border: 0;
                     font-weight: 400;
-                    font-size: 16px;
+                    font-size: 1rem;
                     color: ${(props) => props.Theme.colorTitle};
                 }
             }
@@ -139,7 +139,7 @@ export const Container = styled.div<Props>`
                 display: flex;
                 align-items: center;
                 gap: 25px;
-                font-size: 16px;
+                font-size: 1rem;
                 font-weight: 500;
                 color: ${(props) => props.Theme.colorOpacity};
                 cursor: pointer !important;
@@ -178,7 +178,7 @@ export const Container = styled.div<Props>`
             padding: 8px 22px;
             background-color: ${(props) => props.Theme.colorPrimary};
             border-radius: 25px;
-            font-size: 16px;
+            font-size: 1rem;
             min-width: 175px;
             outline: 0;
             border: 0;
@@ -197,7 +197,6 @@ export const Container = styled.div<Props>`
     @media screen and (max-width: 576px) {
         .footerModalAccount {
             button {
-                font-size: 14px;
                 min-width: 120px;
             }
         }
