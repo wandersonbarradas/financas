@@ -9,7 +9,7 @@ type Props = {
 export const Container = styled.li<Props>`
     display: flex;
     align-items: center;
-    padding: 0.5rem 0px;
+    padding: 0.5rem;
     cursor: pointer;
     border-radius: 0.625rem;
     transition: all 0.3s ease;

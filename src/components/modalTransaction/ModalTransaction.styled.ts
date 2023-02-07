@@ -9,7 +9,7 @@ type Props = {
 };
 export const Container = styled.div<Props>`
     width: 100%;
-    max-width: 430px;
+    max-width: 500px;
     padding: 16px 26px;
     z-index: 30;
     border-radius: 16px;

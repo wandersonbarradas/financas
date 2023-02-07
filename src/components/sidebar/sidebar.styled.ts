@@ -264,11 +264,10 @@ export const Container = styled.div<Props>`
     .boxModalTransaction {
         height: auto;
         width: 100%;
-        max-width: 430px;
+        max-width: 500px;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: ${(props) => props.Theme.colorSideBar};
 
         .headerBox {
             display: none;
