@@ -61,6 +61,19 @@ export const Container = styled.div<Props>`
             padding-bottom: 86px;
         }
     }
+    @media screen and (max-width: 576px) {
+        .scroll {
+            &::-webkit-scrollbar {
+                width: 0;
+                height: 0;
+            }
+            s &:hover {
+                &::-webkit-scrollbar-thumb {
+                    background-color: transparent;
+                }
+            }
+        }
+    }
 `;
 
 export const Loader = styled.div;

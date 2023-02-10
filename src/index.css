@@ -20,7 +20,6 @@ body {
 body::-webkit-scrollbar {
   width: 6px;
   height: 6px;
-  opacity: 0;
 }
 
 body::-webkit-scrollbar-thumb {
