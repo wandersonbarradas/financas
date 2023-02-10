@@ -235,6 +235,34 @@ const Api = {
         await setDoc(transactionsRef, transaction, { merge: true });
     },
 
+    // getTransaction: async (
+    //     id: string,
+    //     transaction: NormalTansactionType | TransferTansactionType,
+    // ) => {
+    //     const transactionsRef = doc(
+    //         db,
+    //         "users",
+    //         id,
+    //         "transactions",
+    //         `transaction-${transaction.id}`,
+    //     );
+    //     try {
+    //         const q = query(
+    //             db,
+    //             "users",
+    //             id,
+    //             "transactions",
+    //             `transaction-${transaction.id}`,
+    //         );
+    //         const querySnapshot = await getDocs(q);
+    //         querySnapshot.forEach((doc) => {
+    //             result.push(doc.data());
+    //         });
+    //     } catch (error: any) {
+    //         console.log(error.message);
+    //     }
+    // },
+
     removeTransaction: async (
         id: string,
         transaction: NormalTansactionType | TransferTansactionType,

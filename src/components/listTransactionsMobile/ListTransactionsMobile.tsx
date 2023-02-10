@@ -1,19 +1,21 @@
-import { NormalTansactionType } from '../../types/TransactionType';
+import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
 import * as C from './ListTransactionsMobile.styled'
 import { Context } from '../../context/context';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import formatted from '../../helpers/FormattedPrice';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {
     item: NormalTansactionType;
+    Click: (item: NormalTansactionType | TransferTansactionType) => void;
 }
 
-export const ListTransactionsMobile = ({ item }: Props) => {
+export const ListTransactionsMobile = ({ item, Click }: Props) => {
     const { state } = useContext(Context)
+
     return (
-        <C.Container color='' ColorCategory={item.type === 'transfer' ? state.theme.theme.transferColor : item.category.color} Theme={state.theme.theme}>
+        <C.Container color='' ColorCategory={item.type === 'transfer' ? state.theme.theme.transferColor : item.category.color} Theme={state.theme.theme} onClick={() => Click(item)}>
             <div className='transactionColor'>
                 <span className='transactionBoxColor'></span>
             </div>

@@ -6,6 +6,7 @@ type Props = {
     Theme: ThemeValues;
     inputSearch: boolean;
     colorType: string;
+    ColorDelete: string;
     position: { left: number; top: number };
 };
 
@@ -217,6 +218,46 @@ export const Container = styled.div<Props>`
         }
     }
 
+    .boxModalTransaction {
+        height: auto;
+        width: 100%;
+        max-width: 500px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .headerBox {
+            display: none;
+        }
+
+        .modalDeleteMobile {
+            width: 70%;
+            background-color: ${(i) => i.Theme.colorBorder};
+            padding: 16px;
+            border-radius: 16px;
+
+            .title {
+                font-size: 1rem;
+                margin: 0 0 16px 0;
+                color: ${(i) => i.Theme.colorTitle};
+            }
+
+            .boxModalBtn {
+                display: flex;
+                justify-content: flex-end;
+
+                .btn {
+                    background-color: transparent;
+                    border: 0;
+                    outline: 0;
+                    color: ${(i) => i.ColorDelete};
+                    font-family: "Poppins", sans-serif;
+                    margin-left: 16px;
+                }
+            }
+        }
+    }
+
     @media screen and (max-width: 780px) {
         padding: 12px 16px 60px 16px;
         .body .tableTransactions {
@@ -224,6 +265,48 @@ export const Container = styled.div<Props>`
         }
         .body .tableMobile {
             display: block;
+            color: ${(i) => i.colorType};
+        }
+    }
+
+    @media screen and (max-width: 576px) {
+        .boxModalTransaction {
+            position: fixed;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            height: 100vh;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: start;
+            background-color: ${(props) => props.Theme.colorSideBar};
+
+            .headerBox {
+                padding: 20px 20px 80px 20px;
+                display: flex;
+                align-items: center;
+                width: 100%;
+
+                .titleTransaction {
+                    margin: 0;
+                    flex: 1;
+                    font-size: 1.25rem;
+                    font-weight: 500;
+                    color: ${(i) => i.Theme.colorTitle};
+                }
+
+                .icon {
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: ${(i) => i.Theme.colorTitle};
+                    margin-right: 15px;
+                }
+            }
         }
     }
 `;
@@ -239,6 +322,7 @@ export const ContainerModalDelete = styled.div<PropsModalDelete>`
     border: 1px solid ${(props) => props.Theme.colorComponents};
     border-radius: 12px;
     width: 550px;
+    z-index: 99;
 
     h3 {
         font-size: 22px;

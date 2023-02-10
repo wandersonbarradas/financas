@@ -17,7 +17,7 @@ export const Container = styled.div<Props>`
     max-height: 100vh;
     overflow-y: auto;
 
-    .header {
+    .headerContent {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -43,7 +43,7 @@ export const Container = styled.div<Props>`
         }
     }
 
-    .body {
+    .bodyContent {
         transition: all 0.3s ease;
         width: 100%;
 
@@ -441,11 +441,11 @@ export const Container = styled.div<Props>`
         border-right: 0;
         border-bottom: 0;
 
-        .header {
+        .headerContent {
             display: none;
         }
 
-        .body .input-area {
+        .bodyContent .input-area {
             margin-top: 30px;
         }
 

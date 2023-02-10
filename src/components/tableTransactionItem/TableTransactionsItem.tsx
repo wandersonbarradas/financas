@@ -8,15 +8,14 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DF from '../../helpers/DateFunctions'
 import formatted from '../../helpers/FormattedPrice';
-import { Modal } from '../modais/Modais';
-import Api from '../../Api';
 
 type Props = {
     item: NormalTansactionType;
-    setTransaction: React.Dispatch<React.SetStateAction<NormalTansactionType | TransferTansactionType | null>>
+    handleDelete: (item: NormalTansactionType | TransferTansactionType) => void;
+    handleEdit: (item: NormalTansactionType | TransferTansactionType) => void;
 }
 
-export const TableTransactionsItem = ({ item, setTransaction }: Props) => {
+export const TableTransactionsItem = ({ item, handleDelete, handleEdit }: Props) => {
     const { state } = useContext(Context)
     const [transfer, setTransfer] = useState<TransferTansactionType | null>(null)
     const [date, setDate] = useState('')
@@ -36,10 +35,6 @@ export const TableTransactionsItem = ({ item, setTransaction }: Props) => {
             const el = item as unknown as TransferTansactionType;
             setTransfer(el)
         }
-    }
-
-    const handleDelete = () => {
-        setTransaction(item)
     }
 
     return (
@@ -93,8 +88,8 @@ export const TableTransactionsItem = ({ item, setTransaction }: Props) => {
             </td>
             <td className='actionArea'>
                 <div>
-                    <div className='icon center'><EditOutlinedIcon fontSize='small' /></div>
-                    <div onClick={handleDelete} className='icon center'><DeleteOutlinedIcon fontSize='small' /></div>
+                    <div onClick={() => handleEdit(item)} className='icon center'><EditOutlinedIcon fontSize='small' /></div>
+                    <div onClick={() => handleDelete(item)} className='icon center'><DeleteOutlinedIcon fontSize='small' /></div>
                 </div>
             </td>
         </C.Container>

@@ -23,11 +23,12 @@ import { NormalTansactionType, TransferTansactionType } from '../../types/Transa
 type Props = {
     type: 'expense' | 'income' | 'transfer';
     setClose: React.Dispatch<React.SetStateAction<boolean>>
+    item?: NormalTansactionType | TransferTansactionType
 }
 
 export const ModalTransaction = (props: Props) => {
     const { state, dispatch } = useContext(Context)
-    const [valueTransaction, setValueTransactions] = useState<number>(0)
+    const [valueTransaction, setValueTransaction] = useState<number>(0)
     const [description, setDescription] = useState<string>('')
     const [modalDatePicker, setModalDatePiker] = useState<boolean>(false)
     const [category, setCategory] = useState<CategoryType | null>(null)
@@ -51,17 +52,17 @@ export const ModalTransaction = (props: Props) => {
             case 'hoje':
                 backgroundBtnDate(0)
                 setDateExtense(false)
-                setDone(true)
+                setDone(props.item ? props.item.done : true)
                 break;
             case 'ontem':
                 backgroundBtnDate(1)
                 setDateExtense(false)
-                setDone(true)
+                setDone(props.item ? props.item.done : true)
                 break;
             case 'outros':
                 backgroundBtnDate(2)
                 setDateExtense(true)
-                dateTransaction > new Date() ? setDone(false) : setDone(true)
+                setDone(props.item ? props.item.done : dateTransaction > new Date() ? false : true)
         }
     }, [dateTransaction])
 
@@ -107,6 +108,22 @@ export const ModalTransaction = (props: Props) => {
         }
     }, [valueTransaction, description, category, account, accountFor]);
 
+    useEffect(() => {
+        if (!props.item) {
+            return;
+        }
+        if (props.item.type !== "transfer") {
+            setValueTransaction(props.item.value)
+            setDone(props.item.done)
+            setDescription(props.item.description)
+            setCategory(props.item.category)
+            setSubCategory(props.item.subcategory)
+            setAccount(props.item.account)
+            const d = props.item.date as { seconds: number; nanoseconds: number }
+            setDateTransaction(new Date(d.seconds * 1000))
+        }
+    }, []);
+
     const getCategory = async () => {
         if (state.user.data === null) {
             return;
@@ -145,12 +162,16 @@ export const ModalTransaction = (props: Props) => {
     }
 
     const getNewIdTransaction = () => {
-        const transactions = state.user.transactions;
-        if (transactions.length > 0) {
-            transactions.sort((a, b) => b.id - a.id)
-            return transactions[0].id + 1
+        if (props.item) {
+            return props.item.id
+        } else {
+            const transactions = state.user.transactions;
+            if (transactions.length > 0) {
+                transactions.sort((a, b) => b.id - a.id)
+                return transactions[0].id + 1
+            }
+            return 1;
         }
-        return 1;
     }
 
     const createTransaction = async () => {
@@ -173,9 +194,19 @@ export const ModalTransaction = (props: Props) => {
                 account,
                 accountFor,
                 done: true,
-            }
+            } as TransferTansactionType
             await Api.setTransaction(userId, transaction)
-            // attValueBank(account, valueExpense, props.type, accountFor)
+            const transactionsArr = state.user.transactions as TransferTansactionType[]
+            const newTransactionsList = transactionsArr.filter(item => item.id !== id);
+            transaction.date = {
+                seconds: dateTransaction.getTime() / 1000,
+                nanoseconds: dateTransaction.getSeconds()
+            }
+            newTransactionsList.push(transaction)
+            dispatch({
+                type: 'setTransactions',
+                payload: { transactions: newTransactionsList }
+            })
         } else {
             if (account === null || category === null) {
                 return
@@ -191,15 +222,20 @@ export const ModalTransaction = (props: Props) => {
                 subcategory,
                 account,
                 done
-            }
+            } as NormalTansactionType;
             await Api.setTransaction(userId, transaction)
-            // attValueBank(account, valueExpense, props.type)
+            const transactionsArr = state.user.transactions as NormalTansactionType[]
+            const newTransactionsList = transactionsArr.filter(item => item.id !== id);
+            transaction.date = {
+                seconds: dateTransaction.getTime() / 1000,
+                nanoseconds: dateTransaction.getSeconds()
+            }
+            newTransactionsList.push(transaction)
+            dispatch({
+                type: 'setTransactions',
+                payload: { transactions: newTransactionsList }
+            })
         }
-        const transactionsResult = await Api.getUserDocument(userId, 'transactions') as NormalTansactionType[] | TransferTansactionType[]
-        dispatch({
-            type: 'setTransactions',
-            payload: { transactions: transactionsResult }
-        })
         props.setClose(false)
     }
 
@@ -264,7 +300,7 @@ export const ModalTransaction = (props: Props) => {
     }
 
     const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValueTransactions(+e.currentTarget.value)
+        setValueTransaction(Number(e.currentTarget.value))
     }
 
     const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -287,6 +323,7 @@ export const ModalTransaction = (props: Props) => {
 
     const handleCategory = (item: CategoryType) => {
         setCategory(item)
+        setSubCategory(null)
         setModalCategories(false)
     }
 
@@ -374,13 +411,13 @@ export const ModalTransaction = (props: Props) => {
             <Modal open={modalDatePicker} setOpen={setModalDatePiker} modalOpacity={0.5} clickAway={true}>
                 <Calendario value={dateTransaction} dateValue={handleDateExpense} handleModal={handleModalDatePicker} />
             </Modal>
-            <div className='header'>
+            <div className='headerContent'>
                 <h3>Nova {props.type === 'expense' ? 'Despesa' : props.type === 'income' ? 'Receita' : 'Transferência'}</h3>
                 <div onClick={() => props.setClose(false)} className='icon'>
                     <CloseIcon />
                 </div>
             </div>
-            <div className='body'>
+            <div className='bodyContent'>
                 <div className='left-side'>
                     <div className='input-area date' onClick={handleBtnDate}>
                         <div className='icon'>
@@ -398,7 +435,7 @@ export const ModalTransaction = (props: Props) => {
                             </div>
                             <span>R$</span>
                             <input onBlur={() => handleVerificDescription('value')} type="number" placeholder='0,00' id='input-value-expense'
-                                onChange={handleValue} />
+                                onChange={handleValue} value={valueTransaction > 0 ? valueTransaction : ""} />
                         </div>
                     </label>
                     {props.type !== 'transfer' &&
@@ -427,7 +464,7 @@ export const ModalTransaction = (props: Props) => {
                                 <DescriptionOutlinedIcon />
                             </div>
                             <input onBlur={() => handleVerificDescription('description')} type="text" placeholder='Descrição' id='input-description-expense'
-                                onChange={handleDescription} />
+                                onChange={handleDescription} value={description} />
                         </div>
                     </label>
                     {props.type !== 'transfer' &&

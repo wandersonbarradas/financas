@@ -14,6 +14,9 @@ import { activeSidebarItem } from '../../helpers/helpers';
 import { ListTransactionsMobile } from '../../components/listTransactionsMobile/ListTransactionsMobile';
 import formatted from '../../helpers/FormattedPrice';
 import Api from '../../Api';
+import { ModalTransaction } from '../../components/modalTransaction/ModalTransaction';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 type TypeTransactions = {
     color: string;
@@ -24,12 +27,14 @@ export const Transactions = () => {
     const { state, dispatch } = useContext(Context)
     const [transactions, setTransactions] = useState<NormalTansactionType[]>([])
     const [selectedTransaction, setSelectTransaction] = useState<NormalTansactionType | null | TransferTansactionType>(null)
+    const [editTransaction, setEditTransaction] = useState(false)
     const [color, setColor] = useState("")
     const [inputSearch, setInputSearch] = useState(false)
     const [modalType, setModalType] = useState(false)
     const [position, setPosition] = useState({ left: 0, top: 0 })
     const [type, setType] = useState<TypeTransactions>({ name: 'Transações', color: state.theme.theme.colorPrimary })
     const [modalDelete, setModalDelete] = useState(false)
+    const [modalDeleteMobile, setModalDeleteMobile] = useState(false)
 
     useEffect(() => {
         activeSidebarItem('activeLinkNavBar', 'transactions')
@@ -48,10 +53,20 @@ export const Transactions = () => {
     }, [selectedTransaction]);
 
     useEffect(() => {
-        if (selectedTransaction) {
-            setModalDelete(true)
+        if (!modalDelete && !editTransaction) {
+            setSelectTransaction(null)
         }
-    }, [selectedTransaction])
+    }, [modalDelete, editTransaction]);
+
+    const handleEdit = (item: NormalTansactionType | TransferTansactionType) => {
+        setSelectTransaction(item)
+        setEditTransaction(true)
+    }
+
+    const handleDelete = (item: NormalTansactionType | TransferTansactionType) => {
+        setSelectTransaction(item)
+        setModalDelete(true)
+    }
 
     const checkTransaction = () => {
         switch (selectedTransaction?.type) {
@@ -92,6 +107,8 @@ export const Transactions = () => {
         })
         setTransactions(transactionsMonth)
     }
+
+
 
     const handleSearch = (e: React.MouseEvent<HTMLButtonElement>) => {
         const element = e.target as HTMLElement
@@ -137,10 +154,11 @@ export const Transactions = () => {
         })
         setSelectTransaction(null)
         setModalDelete(false)
+        setModalDeleteMobile(false)
     }
 
     return (
-        <C.Container position={position} colorType={type.color} Theme={state.theme.theme} inputSearch={inputSearch}>
+        <C.Container position={position} colorType={type.color} Theme={state.theme.theme} inputSearch={inputSearch} ColorDelete={color}>
             <div className='header'>
                 <div className='leftSide'>
                     <div onClick={handleModalType} className='type'>
@@ -179,7 +197,7 @@ export const Transactions = () => {
                     <tbody>
                         {
                             transactions.map((item, index) => (
-                                <TableTransactionsItem key={index} item={item} setTransaction={setSelectTransaction} />
+                                <TableTransactionsItem key={index} item={item} handleDelete={handleDelete} handleEdit={handleEdit} />
                             ))
                         }
                     </tbody>
@@ -188,7 +206,7 @@ export const Transactions = () => {
                     <ul className='listMobile'>
                         {
                             transactions.map((item, index) => (
-                                <ListTransactionsMobile key={index} item={item} />
+                                <ListTransactionsMobile Click={handleEdit} key={index} item={item} />
                             ))
                         }
                     </ul>
@@ -233,6 +251,27 @@ export const Transactions = () => {
                     </C.ContainerModalDelete>
                 }
             </Modal>
+            {selectedTransaction &&
+                <Modal clickAway={false} modalOpacity={0.5} setOpen={setEditTransaction} open={editTransaction}>
+                    <div className='boxModalTransaction'>
+                        <div className='headerBox'>
+                            <div onClick={() => setEditTransaction(false)} className='icon'><ArrowBackIcon fontSize='large' /></div>
+                            <h3 className='titleTransaction'>{selectedTransaction.type === 'expense' ? 'Nova despesa' : selectedTransaction.type === 'income' ? 'Nova receita' : 'Nova transferência'}</h3>
+                            <div onClick={() => setModalDeleteMobile(true)} className='icon'><DeleteOutlinedIcon fontSize='large' /></div>
+                        </div>
+                        <Modal clickAway={true} modalOpacity={0.3} setOpen={setModalDeleteMobile} open={modalDeleteMobile}>
+                            <div className='modalDeleteMobile'>
+                                <div className='title'>Deseja realmente deletar?</div>
+                                <div className='boxModalBtn'>
+                                    <button onClick={() => setModalDeleteMobile(false)} className='btn'>Não</button>
+                                    <button onClick={deleteTransaction} className='btn'>Sim</button>
+                                </div>
+                            </div>
+                        </Modal>
+                        <ModalTransaction item={selectedTransaction} setClose={setEditTransaction} type={selectedTransaction.type} />
+                    </div>
+                </Modal>
+            }
         </C.Container>
     )
 }
