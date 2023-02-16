@@ -124,6 +124,17 @@ export const ModalTransaction = (props: Props) => {
         }
     }, []);
 
+    useEffect(() => {
+        window.history.pushState(null, '', window.location.pathname);
+        window.addEventListener('popstate', onBackButtonEvent);
+    }, []);
+
+
+    const onBackButtonEvent = (e: PopStateEvent) => {
+        e.preventDefault();
+        window.history.pushState(null, '', window.location.pathname);
+    }
+
     const getCategory = async () => {
         if (state.user.data === null) {
             return;
