@@ -49,20 +49,6 @@ export const SideBar = ({ showLoader }: Props) => {
         setOpenMenu(state.general.sideBar)
     }, [state.general.sideBar]);
 
-    useEffect(() => {
-        if (modalTransaction) {
-            // window.history.pushState(null, '', window.location.pathname);
-            window.addEventListener('popstate', onBackButtonEvent);
-        } else {
-            window.removeEventListener('popstate', onBackButtonEvent);
-        }
-    }, [modalTransaction]);
-
-    const onBackButtonEvent = (e: PopStateEvent) => {
-        e.preventDefault();
-        window.history.pushState(null, '', window.location.pathname);
-    }
-
     const handleLogOut = () => {
         showLoader(true)
         Api.signOut()

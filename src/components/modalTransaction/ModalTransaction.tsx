@@ -124,6 +124,23 @@ export const ModalTransaction = (props: Props) => {
         }
     }, []);
 
+    useEffect(() => {
+        window.history.pushState(null, '', window.location.pathname);
+        window.addEventListener('popstate', onBackButtonEvent);
+    }, []);
+
+
+    const onBackButtonEvent = (e: PopStateEvent) => {
+        e.preventDefault();
+        window.history.pushState(null, '', window.location.pathname);
+        closeModalMobile()
+    }
+
+    const closeModalMobile = () => {
+        window.removeEventListener('popstate', onBackButtonEvent);
+        props.setClose(false)
+    }
+
     const getCategory = async () => {
         if (state.user.data === null) {
             return;
@@ -413,7 +430,7 @@ export const ModalTransaction = (props: Props) => {
             </Modal>
             <div className='headerContent'>
                 <h3>Nova {props.type === 'expense' ? 'Despesa' : props.type === 'income' ? 'Receita' : 'Transferência'}</h3>
-                <div onClick={() => props.setClose(false)} className='icon'>
+                <div onClick={closeModalMobile} className='icon'>
                     <CloseIcon />
                 </div>
             </div>
