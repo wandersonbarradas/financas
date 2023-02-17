@@ -1,3 +1,4 @@
+import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -30,6 +31,21 @@ export const Container = styled.div<Props>`
         }
     }
 
+    .actions {
+        display: flex;
+        gap: 16px;
+
+        .icon {
+            border-radius: 50%;
+            padding: 5px;
+            &:hover {
+                background-color: ${(i) => i.Theme.colorBorder};
+            }
+            &.delete {
+                display: none;
+            }
+        }
+    }
     .icon {
         display: flex;
         justify-content: center;
@@ -429,6 +445,17 @@ export const Container = styled.div<Props>`
         background-color: ${(props) => props.Theme.colorComponents};
         border: 1px solid ${(props) => props.Theme.colorBorder};
         border-radius: 12px;
+    }
+
+    @media screen and (max-width: 780px) {
+        .actions {
+            display: flex;
+            gap: 16px;
+
+            .icon.delete {
+                display: flex;
+            }
+        }
     }
 
     @media screen and (max-width: 576px) {

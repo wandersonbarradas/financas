@@ -19,10 +19,12 @@ import { UserAccountType } from '../../types/AccountsType';
 import { CategoryType, SubCategories } from '../../types/UserType';
 import { Modal } from '../modais/Modais';
 import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 type Props = {
     type: 'expense' | 'income' | 'transfer';
-    setClose: React.Dispatch<React.SetStateAction<boolean>>
+    setClose: React.Dispatch<React.SetStateAction<boolean>>;
+    showDelete?: React.Dispatch<React.SetStateAction<boolean>>;
     item?: NormalTansactionType | TransferTansactionType
 }
 
@@ -128,7 +130,6 @@ export const ModalTransaction = (props: Props) => {
         window.history.pushState(null, '', window.location.pathname);
         window.addEventListener('popstate', onBackButtonEvent);
     }, []);
-
 
     const onBackButtonEvent = (e: PopStateEvent) => {
         e.preventDefault();
@@ -430,8 +431,15 @@ export const ModalTransaction = (props: Props) => {
             </Modal>
             <div className='headerContent'>
                 <h3>Nova {props.type === 'expense' ? 'Despesa' : props.type === 'income' ? 'Receita' : 'Transferência'}</h3>
-                <div onClick={closeModalMobile} className='icon'>
-                    <CloseIcon />
+                <div className='actions'>
+                    {props.item &&
+                        <div className='icon delete' onClick={() => props.showDelete ? props.showDelete(true) : ''}>
+                            <DeleteOutlinedIcon fontSize='medium' />
+                        </div>
+                    }
+                    <div onClick={closeModalMobile} className='icon'>
+                        <CloseIcon />
+                    </div>
                 </div>
             </div>
             <div className='bodyContent'>

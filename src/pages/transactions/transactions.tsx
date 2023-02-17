@@ -294,7 +294,7 @@ export const Transactions = () => {
                                 </div>
                             </div>
                         </Modal>
-                        <ModalTransaction item={selectedTransaction} setClose={setEditTransaction} type={selectedTransaction.type} />
+                        <ModalTransaction showDelete={setModalDeleteMobile} item={selectedTransaction} setClose={setEditTransaction} type={selectedTransaction.type} />
                     </div>
                 </Modal>
             }

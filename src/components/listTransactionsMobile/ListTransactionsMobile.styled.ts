@@ -1,4 +1,3 @@
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -11,6 +10,7 @@ export const Container = styled.li<Props>`
     padding: 0 20px;
     list-style: none;
     margin-bottom: 16px;
+    cursor: pointer;
 
     &:hover {
         background-color: ${(i) => i.Theme.colorBorder};

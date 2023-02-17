@@ -264,13 +264,20 @@ export const Container = styled.div<Props>`
     }
 
     @media screen and (max-width: 780px) {
-        padding: 12px 16px 60px 16px;
-        .body .tableTransactions {
-            display: none;
+        padding: 12px 0px 0px 0px;
+        .header {
+            padding: 50px 16px;
         }
-        .body .tableMobile {
-            display: block;
-            color: ${(i) => i.colorType};
+        .body {
+            margin: 0;
+            border-radius: 32px 32px 0 0;
+            .tableTransactions {
+                display: none;
+            }
+            .tableMobile {
+                display: block;
+                color: ${(i) => i.colorType};
+            }
         }
     }
 

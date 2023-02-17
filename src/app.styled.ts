@@ -58,10 +58,10 @@ export const Container = styled.div<Props>`
         flex-direction: column-reverse;
 
         .main {
-            padding-bottom: 86px;
+            padding-bottom: 60px;
         }
     }
-    @media screen and (max-width: 576px) {
+    @media screen and (max-width: 780px) {
         .scroll {
             &::-webkit-scrollbar {
                 width: 0;
