@@ -152,7 +152,7 @@ export const Container = styled.div<Props>`
 
         .tableMobile {
             display: none;
-            padding: 10px 0;
+            padding: 16px 0;
             .listMobile {
                 display: flex;
                 flex-direction: column;
