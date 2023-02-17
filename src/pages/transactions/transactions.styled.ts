@@ -159,7 +159,12 @@ export const Container = styled.div<Props>`
                 list-style: none;
                 margin: 0;
                 padding: 0;
-                gap: 30px;
+
+                .dateTransactionMobile {
+                    margin: 0 0 5px 20px;
+                    color: ${(i) => i.Theme.colorTitle};
+                    font-size: 1rem;
+                }
             }
         }
     }

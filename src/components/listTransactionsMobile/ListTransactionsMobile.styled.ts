@@ -6,9 +6,11 @@ type Props = {
     Theme: ThemeValues;
     ColorCategory: string;
 };
-export const Container = styled.div<Props>`
+export const Container = styled.li<Props>`
     display: flex;
     padding: 0 20px;
+    list-style: none;
+    margin-bottom: 16px;
 
     &:hover {
         background-color: ${(i) => i.Theme.colorBorder};

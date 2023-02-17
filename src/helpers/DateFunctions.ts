@@ -81,6 +81,24 @@ const DF = {
         });
         return transactionsDate;
     },
+
+    getStringDate: (date: string) => {
+        const daysOfTheWeek = {
+            Mon: "Segunda",
+            Tue: "Terça",
+            Wed: "Quarta",
+            Thu: "Quinta",
+            Fri: "Sexta",
+            Sat: "Sábado",
+            Sun: "Domingo",
+        } as daysOfTheWeekType;
+        const arrDate = date.split(" ");
+        return `${daysOfTheWeek[arrDate[0]]}, ${arrDate[2]}`;
+    },
+};
+
+type daysOfTheWeekType = {
+    [key: string]: string;
 };
 
 export default DF;

@@ -23,6 +23,10 @@ type TypeTransactions = {
     name: 'Transações' | 'Receitas' | 'Despesas' | 'Transferências'
 }
 
+type TransactionsMobile = {
+    [key: string]: NormalTansactionType[];
+}
+
 export const Transactions = () => {
     const { state, dispatch } = useContext(Context)
     const [transactions, setTransactions] = useState<NormalTansactionType[]>([])
@@ -57,6 +61,19 @@ export const Transactions = () => {
             setSelectTransaction(null)
         }
     }, [modalDelete, editTransaction]);
+
+    const groupByDate = (arr: NormalTansactionType[]): TransactionsMobile => {
+        return arr.reduce((acc: any, curr) => {
+            const objDate = curr.date as { seconds: number; nanoseconds: number }
+            const date = DF.getStringDate(new Date(objDate.seconds * 1000).toDateString())
+            if (!acc[date]) {
+                acc[date] = [];
+            }
+
+            acc[date].push(curr);
+            return acc;
+        }, {});
+    }
 
     const handleEdit = (item: NormalTansactionType | TransferTansactionType) => {
         setSelectTransaction(item)
@@ -205,9 +222,18 @@ export const Transactions = () => {
                 <div className='tableMobile'>
                     <ul className='listMobile'>
                         {
-                            transactions.map((item, index) => (
-                                <ListTransactionsMobile Click={handleEdit} key={index} item={item} />
+
+                            Object.entries(groupByDate(transactions)).map((item, index) => (
+                                <>
+                                    <p className='dateTransactionMobile'>{item[0]}</p>
+                                    {item[1].map((i, ind) => (
+                                        <ListTransactionsMobile Click={handleEdit} key={ind} item={i} />
+                                    ))}
+                                </>
                             ))
+                            //     transactions.map((item, index) => (
+                            // <ListTransactionsMobile Click={handleEdit} key={index} item={item} />
+                            // ))
                         }
                     </ul>
                 </div>
