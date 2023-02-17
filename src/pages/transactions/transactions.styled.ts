@@ -264,11 +264,15 @@ export const Container = styled.div<Props>`
     }
 
     @media screen and (max-width: 780px) {
+        height: 85vh;
+        display: flex;
+        flex-direction: column;
         padding: 12px 0px 0px 0px;
         .header {
             padding: 50px 16px;
         }
         .body {
+            flex: 1;
             margin: 0;
             border-radius: 32px 32px 0 0;
             .tableTransactions {
