@@ -429,9 +429,9 @@ export const Categories = () => {
                                 {
                                     category.sort().map((item, index) => (
                                         <>
-                                            <ListCategoryMobile type={typeCategory} key={index} item={item} isCategory={true} />
+                                            <ListCategoryMobile newSub={openModalCategory} setId={handleIdCategory} removeCategory={removeCategory} edit={handleModalEdit} type={typeCategory} key={index} item={item} isCategory={true} />
                                             {subcategory.filter(i => i.category === item.id).map((value, valueIndex) => (
-                                                <ListCategoryMobile type={typeCategory} key={valueIndex + 1} item={value} isCategory={false} />
+                                                <ListCategoryMobile removeSubCategory={removeSubCategory} edit={handleModalEdit} type={typeCategory} key={valueIndex + 1} item={value} isCategory={false} />
                                             ))}
                                         </>
                                     ))
