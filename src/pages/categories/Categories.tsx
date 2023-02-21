@@ -455,7 +455,7 @@ export const Categories = () => {
                     }
                 </div>
             }
-            <Modal modalOpacity={0.5} clickAway={true} open={modalCategory} setOpen={setModalCategory}>
+            <Modal align='end' modalOpacity={0.5} clickAway={true} open={modalCategory} setOpen={setModalCategory}>
                 <ModalNewCategory toEdit={toEdit} typeContent={typeModal} selectCategory={selectCategory}
                     submit={OnClickModalNewCategory} type={typeCategory} />
             </Modal>

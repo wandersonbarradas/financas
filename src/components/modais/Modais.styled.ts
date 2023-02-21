@@ -3,6 +3,8 @@ import styled from "styled-components";
 type Props = {
     opacity: number;
     modalOpacity: number;
+    align?: string;
+    justifyContent?: string;
 };
 
 export const Container = styled.div<Props>`
@@ -16,7 +18,7 @@ export const Container = styled.div<Props>`
     opacity: ${(props) => props.opacity};
     transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: ${(i) => (i.justifyContent ? i.justifyContent : "center")};
+    align-items: ${(i) => (i.align ? i.align : "center")};
     z-index: 1000;
 `;
