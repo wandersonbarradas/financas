@@ -7,11 +7,9 @@ type Props = {
     children: ReactNode;
     modalOpacity: number;
     clickAway: boolean;
-    align?: "center" | "start" | "end";
-    justifyContent?: "center" | "flex-start" | "flex-end";
 }
 
-export const Modal = ({ open, setOpen, children, modalOpacity, clickAway, align, justifyContent }: Props) => {
+export const Modal = ({ open, setOpen, children, modalOpacity, clickAway }: Props) => {
     const [modal, setModal] = useState(false)
     const [opacity, setOpacity] = useState(0)
 
@@ -54,8 +52,6 @@ export const Modal = ({ open, setOpen, children, modalOpacity, clickAway, align,
                     id='modal'
                     opacity={opacity}
                     onClick={closeModal}
-                    align={align}
-                    justifyContent={justifyContent}
                 >
                     {children}
                 </C.Container>

@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const Container = styled.div<Props>`
-    max-width: 576px;
+    max-width: 500px;
     width: 100%;
     background-color: ${(props) => props.Theme.colorComponents};
     border: 1px solid ${(props) => props.Theme.colorBorder};
@@ -103,9 +103,5 @@ export const Container = styled.div<Props>`
                 }
             }
         }
-    }
-
-    @media screen and (max-width: 576px) {
-        border-radius: 12px 12px 0 0;
     }
 `;
