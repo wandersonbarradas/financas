@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const Container = styled.div<Props>`
-    padding: 1.5rem 1.5rem 3.75rem 1.5rem;
+    padding: 1.5rem;
     max-width: 1440px;
     margin: 0 auto;
 
@@ -187,11 +187,15 @@ export const Container = styled.div<Props>`
         margin: 1.5rem 0 0 0;
         display: flex;
         flex-direction: column;
-        gap: 0.9375rem;
+        gap: 0.5rem;
     }
 
     .bottom-metrics {
         margin-top: 2.3125rem;
+
+        .row {
+            align-items: start;
+        }
 
         .chart-pie {
             display: flex;
@@ -242,35 +246,4 @@ export const Container = styled.div<Props>`
     @media screen and (max-width: 780px) {
         padding: 0.5rem 1rem 3.75rem 1rem;
     }
-
-    /* @media screen and (max-width: 576px) {
-        .row {
-            .balance-title {
-                font-size: 20px;
-            }
-            .last-transaction-value {
-                font-size: 18px;
-
-                svg {
-                    font-size: 1.3rem;
-                }
-            }
-            .balance-text-info {
-                font-size: 12px;
-            }
-            .balance-value {
-                font-size: 20px;
-
-                span {
-                    font-size: 18px;
-                }
-            }
-            .last-transactions,
-            .chart-pie {
-                .title {
-                    font-size: 18px;
-                }
-            }
-        }
-    }*/
 `;
