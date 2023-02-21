@@ -142,13 +142,13 @@ export const Container = styled.div<Props>`
         }
 
         .list-navigation {
-            gap: 20px;
+            gap: 10px;
         }
 
         .list-options {
-            margin-top: 56px;
-            padding-top: 16px;
-            gap: 16px;
+            margin-top: 32px;
+            padding-top: 10px;
+            gap: 10px;
             border-top: 1px solid ${(props) => props.Theme.colorBorder};
         }
     }

@@ -1,3 +1,7 @@
+import {
+    NormalTansactionType,
+    TransferTansactionType,
+} from "./TransactionType";
 export type reducerActionType = {
     type: string;
     payload: {
@@ -9,4 +13,5 @@ export type GeneralType = {
     selectMonth: boolean;
     sideBar: boolean;
     loader: boolean;
+    selectedTransactions: NormalTansactionType | null;
 };

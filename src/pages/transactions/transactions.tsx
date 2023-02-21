@@ -46,14 +46,20 @@ export const Transactions = () => {
             type: 'setSelectMonth',
             payload: { selectMonth: true }
         })
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
-        getTransactions()
+        if (state.general.selectedTransactions) {
+            showSelectedTransaction()
+        } else {
+            getTransactions()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.user.transactions, state.user.selectedDate, type]);
 
     useEffect(() => {
         checkTransaction()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedTransaction]);
 
     useEffect(() => {
@@ -61,6 +67,17 @@ export const Transactions = () => {
             setSelectTransaction(null)
         }
     }, [modalDelete, editTransaction]);
+
+    const showSelectedTransaction = () => {
+        if (!state.general.selectedTransactions) {
+            return;
+        }
+        setTransactions([state.general.selectedTransactions])
+        dispatch({
+            type: 'setSelectedTransactions',
+            payload: { selectedTransactions: null }
+        })
+    }
 
     const groupByDate = (arr: NormalTansactionType[]): TransactionsMobile => {
         return arr.reduce((acc: any, curr) => {

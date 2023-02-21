@@ -35,16 +35,15 @@ export const Container = styled.li<Props>`
         .title-transaction {
             color: ${(props) => props.Theme.colorTitle};
             margin: 0;
-            font-family: "Mulish", sans-serif;
             font-style: normal;
-            font-weight: 500;
+            font-weight: 400;
             font-size: 1rem;
             line-height: 1.3125rem;
             letter-spacing: -0.02em;
         }
 
         .categorie-transaction {
-            font-weight: 500;
+            font-weight: 400;
             font-size: 0.875rem;
             line-height: 1.125rem;
             letter-spacing: -0.02em;
@@ -54,8 +53,8 @@ export const Container = styled.li<Props>`
 
         .value {
             white-space: nowrap;
-            font-weight: 500;
-            font-size: 1.125rem;
+            font-weight: 400;
+            font-size: 1rem;
             line-height: 1.4375rem;
             text-align: right;
             letter-spacing: -0.02em;

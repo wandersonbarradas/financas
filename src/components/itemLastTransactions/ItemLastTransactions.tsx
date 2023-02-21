@@ -1,6 +1,6 @@
 import * as C from './ItemLastTransactions.styled'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Context } from '../../context/context';
+import { useNavigate } from 'react-router-dom'
 import { useContext, useEffect, useState } from 'react'
 import { NormalTansactionType, TransferTansactionType } from '../../types/TransactionType';
 import Formatted from '../../helpers/FormattedPrice'
@@ -8,10 +8,12 @@ type Props = {
     item: NormalTansactionType | TransferTansactionType;
 }
 export const ItemLastTransactions = ({ item }: Props) => {
-    const { state } = useContext(Context)
+    const { state, dispatch } = useContext(Context)
     const [color, setColor] = useState('')
     const [colorCategory, setColorCategory] = useState("");
     const [transfer, setTransfer] = useState<TransferTansactionType | null>(null)
+    const navigate = useNavigate()
+
     useEffect(() => {
         if (item.type === 'expense') {
             setColor(state.theme.theme.expenseColor)
@@ -27,8 +29,16 @@ export const ItemLastTransactions = ({ item }: Props) => {
         }
     }, []);
 
+    const displayTransaction = () => {
+        dispatch({
+            type: 'setSelectedTransactions',
+            payload: { selectedTransactions: item }
+        })
+        navigate('/transacoes')
+    }
+
     return (
-        <C.Container Theme={state.theme.theme} colorCategory={colorCategory} colorValue={color}>
+        <C.Container onClick={displayTransaction} Theme={state.theme.theme} colorCategory={colorCategory} colorValue={color}>
             <div className='profile'>
 
             </div>
