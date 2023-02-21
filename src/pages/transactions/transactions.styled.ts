@@ -180,7 +180,8 @@ export const Container = styled.div<Props>`
 
             h3 {
                 color: ${(i) => i.Theme.colorTitle};
-                font-size: 1.6rem;
+                font-size: 1.2rem;
+                text-align: center;
             }
         }
     }
