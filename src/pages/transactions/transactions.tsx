@@ -216,44 +216,49 @@ export const Transactions = () => {
                 </div>
             </div>
             <div className='body'>
-                <table className="tableTransactions">
-                    <thead>
-                        <tr>
-                            <th className='done' scope='col'>Situação</th>
-                            <th className='date' scope='col'>Data</th>
-                            <th className='description' scope='col'>Descrição</th>
-                            <th className='category' scope='col'>Categoria</th>
-                            <th className='account' scope='col'>Conta</th>
-                            <th className='value' scope='col'>Valor</th>
-                            <th className='actionArea' scope='col'>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            transactions.map((item, index) => (
-                                <TableTransactionsItem key={index} item={item} handleDelete={handleDelete} handleEdit={handleEdit} />
-                            ))
-                        }
-                    </tbody>
-                </table>
-                <div className='tableMobile'>
-                    <ul className='listMobile'>
-                        {
-
-                            Object.entries(groupByDate(transactions)).map((item, index) => (
-                                <>
-                                    <p className='dateTransactionMobile'>{item[0]}</p>
-                                    {item[1].map((i, ind) => (
-                                        <ListTransactionsMobile Click={handleEdit} key={ind} item={i} />
-                                    ))}
-                                </>
-                            ))
-                            //     transactions.map((item, index) => (
-                            // <ListTransactionsMobile Click={handleEdit} key={index} item={item} />
-                            // ))
-                        }
-                    </ul>
-                </div>
+                {transactions.length > 0 &&
+                    <>
+                        <table className="tableTransactions">
+                            <thead>
+                                <tr>
+                                    <th className='done' scope='col'>Situação</th>
+                                    <th className='date' scope='col'>Data</th>
+                                    <th className='description' scope='col'>Descrição</th>
+                                    <th className='category' scope='col'>Categoria</th>
+                                    <th className='account' scope='col'>Conta</th>
+                                    <th className='value' scope='col'>Valor</th>
+                                    <th className='actionArea' scope='col'>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    transactions.map((item, index) => (
+                                        <TableTransactionsItem key={index} item={item} handleDelete={handleDelete} handleEdit={handleEdit} />
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                        <div className='tableMobile'>
+                            <ul className='listMobile'>
+                                {
+                                    Object.entries(groupByDate(transactions)).map((item, index) => (
+                                        <>
+                                            <p className='dateTransactionMobile'>{item[0]}</p>
+                                            {item[1].map((i, ind) => (
+                                                <ListTransactionsMobile Click={handleEdit} key={ind} item={i} />
+                                            ))}
+                                        </>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                    </>
+                }
+                {transactions.length <= 0 &&
+                    <div className='transactionMessage'>
+                        <h3>Nenhuma transação encontrada!🦖</h3>
+                    </div>
+                }
             </div>
             <Modal clickAway={true} modalOpacity={0} open={modalType} setOpen={setModalType}>
                 <div className='containerToggle'>

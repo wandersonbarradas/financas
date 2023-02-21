@@ -114,6 +114,7 @@ export const Container = styled.div<Props>`
     }
 
     .body {
+        display: flex;
         width: 100%;
         background-color: ${(props) => props.Theme.colorComponents};
         border-radius: 12px;
@@ -151,10 +152,12 @@ export const Container = styled.div<Props>`
         }
 
         .tableMobile {
+            width: 100%;
             display: none;
             padding: 16px 0;
             .listMobile {
                 display: flex;
+                width: 100%;
                 flex-direction: column;
                 list-style: none;
                 margin: 0;
@@ -165,6 +168,19 @@ export const Container = styled.div<Props>`
                     color: ${(i) => i.Theme.colorTitle};
                     font-size: 1rem;
                 }
+            }
+        }
+
+        .transactionMessage {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            h3 {
+                color: ${(i) => i.Theme.colorTitle};
+                font-size: 1.6rem;
             }
         }
     }
@@ -279,7 +295,7 @@ export const Container = styled.div<Props>`
                 display: none;
             }
             .tableMobile {
-                display: block;
+                display: flex;
                 color: ${(i) => i.colorType};
             }
         }
