@@ -1,14 +1,14 @@
-import { useContext, useState, useEffect } from 'react'
-import { Context } from '../../context/context'
-import CloseIcon from '@mui/icons-material/Close';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
-import * as C from './ModalNewAccount.styled'
-import IconBank from '../../assets/museum.png'
-import { SelectAccounts } from '../selectAccounts/selectAccounts';
-import { AccountType, UserAccountType } from '../../types/AccountsType';
-import Api from '../../Api';
+import { useContext, useState, useEffect } from "react";
+import { Context } from "../../context/context";
+import CloseIcon from "@mui/icons-material/Close";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import ColorLensOutlinedIcon from "@mui/icons-material/ColorLensOutlined";
+import * as C from "./ModalNewAccount.styled";
+import IconBank from "../../assets/museum.png";
+import { SelectAccounts } from "../selectAccounts/selectAccounts";
+import { AccountType, UserAccountType } from "../../types/AccountsType";
+import Api from "../../Api";
 
 type Props = {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,226 +16,308 @@ type Props = {
     id: number;
     getAccount: () => Promise<void>;
     item?: UserAccountType | null;
-}
+};
 
-export const ModalNewAccount = ({ setOpen, accounts, id, getAccount, item }: Props) => {
-    const { state } = useContext(Context)
-    const [valueAccount, setValueAccount] = useState<number>(0)
-    const [descriptionAccount, setDescriptionAccount] = useState<string>('')
-    const [colorAccount, setColorAccount] = useState<string>(state.theme.theme.colorPrimary)
-    const [openMod, setOpenMod] = useState(false)
-    const [opacity, setOpacity] = useState(0)
-    const [accountItem, setAccountItem] = useState<AccountType | null>(null)
-    const [disabled, setDisabled] = useState<boolean>(true)
+export const ModalNewAccount = ({
+    setOpen,
+    accounts,
+    id,
+    getAccount,
+    item,
+}: Props) => {
+    const { state } = useContext(Context);
+    const [initialValue, setInitialValue] = useState<number>(0);
+    const [descriptionAccount, setDescriptionAccount] = useState<string>("");
+    const [colorAccount, setColorAccount] = useState<string>(
+        state.theme.theme.colorPrimary,
+    );
+    const [openMod, setOpenMod] = useState(false);
+    const [opacity, setOpacity] = useState(0);
+    const [accountItem, setAccountItem] = useState<AccountType | null>(null);
+    const [disabled, setDisabled] = useState<boolean>(true);
     useEffect(() => {
-        checkValues()
+        checkValues();
         if (accountItem) {
-            setColorAccount(item?.color ?? accountItem.color)
+            setColorAccount(item?.color ?? accountItem.color);
         }
     }, [descriptionAccount, accountItem]);
 
     useEffect(() => {
         if (item) {
-            setAccountItem(item.account)
-            setValueAccount(item.value)
-            setDescriptionAccount(item.description)
-            setColorAccount(item.color)
+            setAccountItem(item.account);
+            setInitialValue(item.initialValue);
+            setDescriptionAccount(item.description);
+            setColorAccount(item.color);
         }
     }, []);
 
     const handleFocusInputArea = (e: React.MouseEvent<HTMLElement>) => {
         const element = e.currentTarget as HTMLDivElement;
-        if (element.classList.contains('focus')) {
+        if (element.classList.contains("focus")) {
             return;
         }
-        document.querySelector('.inputArea.focus')?.classList.remove('focus')
-        element.classList.add('focus')
-    }
+        document.querySelector(".inputArea.focus")?.classList.remove("focus");
+        element.classList.add("focus");
+    };
 
     const handleInstitution = (e: React.MouseEvent<HTMLElement>) => {
-        handleFocusInputArea(e)
-        setOpenMod(true)
+        handleFocusInputArea(e);
+        setOpenMod(true);
         setTimeout(() => {
-            setOpacity(1)
-        }, 225)
-    }
+            setOpacity(1);
+        }, 225);
+    };
 
     const closeMod = () => {
-        setOpacity(0)
+        setOpacity(0);
         setTimeout(() => {
-            setOpenMod(false)
-        }, 225)
-    }
+            setOpenMod(false);
+        }, 225);
+    };
 
     const handleValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValueAccount(+e.currentTarget.value)
-    }
+        setInitialValue(+e.currentTarget.value);
+    };
 
     const handleDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDescriptionAccount(e.currentTarget.value)
-    }
+        setDescriptionAccount(e.currentTarget.value);
+    };
 
     const handleColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setColorAccount(e.currentTarget.value)
-    }
+        setColorAccount(e.currentTarget.value);
+    };
 
     const checkValues = () => {
-        if (descriptionAccount !== '' && accountItem !== null) {
-            setDisabled(false)
+        if (descriptionAccount !== "" && accountItem !== null) {
+            setDisabled(false);
         } else {
-            setDisabled(true)
+            setDisabled(true);
         }
-    }
+    };
 
     const handleBtnSave = async () => {
         if (state.user.data === null) {
-            return
+            return;
         }
         if (disabled === true) {
-            return
+            return;
         }
         const account: UserAccountType = {
             id: id,
             account: accountItem as AccountType,
             color: colorAccount,
             description: descriptionAccount,
-            value: valueAccount,
-        }
-        setDisabled(true)
-        await Api.setUserAccount(state.user.data.id, account)
-        getAccount()
-        setOpen(false)
-    }
+            value: initialValue,
+            initialValue,
+        };
+        setDisabled(true);
+        await Api.setUserAccount(state.user.data.id, account);
+        getAccount();
+        setOpen(false);
+    };
 
     const handleBtnEdit = async () => {
         if (state.user.data === null) {
-            return
+            return;
         }
         if (disabled === true) {
-            return
+            return;
         }
         if (!item) {
-            return
+            return;
         }
-        setDisabled(true)
+        setDisabled(true);
         const account: UserAccountType = {
             id: item.id,
             account: accountItem as AccountType,
             color: colorAccount,
             description: descriptionAccount,
-            value: valueAccount,
-        }
-        await Api.setUserAccount(state.user.data.id, account)
-        getAccount()
-        setOpen(false)
-    }
+            value: item.value,
+            initialValue,
+        };
+        await Api.setUserAccount(state.user.data.id, account);
+        getAccount();
+        setOpen(false);
+    };
 
     return (
         <C.Container Theme={state.theme.theme}>
-            {!item &&
+            {!item && (
                 <>
-                    <div className='headerModalAccount'>
+                    <div className="headerModalAccount">
                         <h3>Nova conta</h3>
-                        <div onClick={() => setOpen(false)} className='icon'>
+                        <div onClick={() => setOpen(false)} className="icon">
                             <CloseIcon />
                         </div>
                     </div>
-                    <div className='bodyModalAccount'>
-                        <div className='inputArea value' onClick={handleFocusInputArea}>
+                    <div className="bodyModalAccount">
+                        <div
+                            className="inputArea value"
+                            onClick={handleFocusInputArea}
+                        >
                             <span>R$</span>
-                            <input type="number" placeholder='0,00' id='inputValueAccount'
-                                onChange={handleValue} />
+                            <input
+                                type="number"
+                                placeholder="0,00"
+                                id="inputValueAccount"
+                                onChange={handleValue}
+                                value={initialValue}
+                            />
                         </div>
-                        <div className='inputArea institution' onClick={handleInstitution}>
-                            <div className='boxImg'>
-                                <img src={accountItem?.imgUrl ?? IconBank} alt="" />
+                        <div
+                            className="inputArea institution"
+                            onClick={handleInstitution}
+                        >
+                            <div className="boxImg">
+                                <img
+                                    src={accountItem?.imgUrl ?? IconBank}
+                                    alt=""
+                                />
                             </div>
-                            <div className='selectInstitution'>
-                                <span className='label'>{accountItem?.name ?? 'Selecione seu banco'}</span>
-                                <div className='icon'>
+                            <div className="selectInstitution">
+                                <span className="label">
+                                    {accountItem?.name ?? "Selecione seu banco"}
+                                </span>
+                                <div className="icon">
                                     <KeyboardArrowRightIcon />
                                 </div>
                             </div>
                         </div>
-                        <div className='inputArea description' onClick={handleFocusInputArea}>
-                            <div className='icon'>
+                        <div
+                            className="inputArea description"
+                            onClick={handleFocusInputArea}
+                        >
+                            <div className="icon">
                                 <DescriptionOutlinedIcon />
                             </div>
-                            <input onChange={handleDescription} type="text" placeholder='Descrição' id='inputDescriptionAccount' />
+                            <input
+                                onChange={handleDescription}
+                                type="text"
+                                placeholder="Descrição"
+                                id="inputDescriptionAccount"
+                            />
                         </div>
-                        <div className='inputAreaColor' >
-                            <label htmlFor="inputColorAccount" onClick={handleFocusInputArea}>
-                                <div className='icon'>
+                        <div className="inputAreaColor">
+                            <label
+                                htmlFor="inputColorAccount"
+                                onClick={handleFocusInputArea}
+                            >
+                                <div className="icon">
                                     <ColorLensOutlinedIcon />
                                 </div>
                                 Cor da conta
-                                <div className='boxColorAccount'>
-                                    <input value={colorAccount} onInput={handleColor} type="color" id='inputColorAccount' />
+                                <div className="boxColorAccount">
+                                    <input
+                                        value={colorAccount}
+                                        onInput={handleColor}
+                                        type="color"
+                                        id="inputColorAccount"
+                                    />
                                 </div>
                             </label>
-
                         </div>
                     </div>
-                    <div className='footerModalAccount'>
-                        <button onClick={() => setOpen(false)} >Cancelar</button>
-                        <button onClick={handleBtnSave} disabled={disabled} >Salvar</button>
+                    <div className="footerModalAccount">
+                        <button onClick={() => setOpen(false)}>Cancelar</button>
+                        <button onClick={handleBtnSave} disabled={disabled}>
+                            Salvar
+                        </button>
                     </div>
                 </>
-            }{item &&
+            )}
+            {item && (
                 <>
-                    <div className='headerModalAccount'>
+                    <div className="headerModalAccount">
                         <h3>Editando conta</h3>
-                        <div onClick={() => setOpen(false)} className='icon'>
+                        <div onClick={() => setOpen(false)} className="icon">
                             <CloseIcon />
                         </div>
                     </div>
-                    <div className='bodyModalAccount'>
-                        <div className='inputArea value' onClick={handleFocusInputArea}>
+                    <div className="bodyModalAccount">
+                        <div
+                            className="inputArea value"
+                            onClick={handleFocusInputArea}
+                        >
                             <span>R$</span>
-                            <input type="number" value={valueAccount} placeholder='0,00' id='inputValueAccount'
-                                onChange={handleValue} />
+                            <input
+                                type="number"
+                                value={initialValue}
+                                placeholder="0,00"
+                                id="inputValueAccount"
+                                onChange={handleValue}
+                            />
                         </div>
-                        <div className='inputArea institution' onClick={handleInstitution}>
-                            <div className='boxImg'>
-                                <img src={accountItem?.imgUrl ?? IconBank} alt="" />
+                        <div
+                            className="inputArea institution"
+                            onClick={handleInstitution}
+                        >
+                            <div className="boxImg">
+                                <img
+                                    src={accountItem?.imgUrl ?? IconBank}
+                                    alt=""
+                                />
                             </div>
-                            <div className='selectInstitution'>
-                                <span className='label'>{accountItem?.name ?? 'Selecione seu banco'}</span>
-                                <div className='icon'>
+                            <div className="selectInstitution">
+                                <span className="label">
+                                    {accountItem?.name ?? "Selecione seu banco"}
+                                </span>
+                                <div className="icon">
                                     <KeyboardArrowRightIcon />
                                 </div>
                             </div>
                         </div>
-                        <div className='inputArea description' onClick={handleFocusInputArea}>
-                            <div className='icon'>
+                        <div
+                            className="inputArea description"
+                            onClick={handleFocusInputArea}
+                        >
+                            <div className="icon">
                                 <DescriptionOutlinedIcon />
                             </div>
-                            <input onChange={handleDescription} value={descriptionAccount} type="text" placeholder='Descrição' id='inputDescriptionAccount' />
+                            <input
+                                onChange={handleDescription}
+                                value={descriptionAccount}
+                                type="text"
+                                placeholder="Descrição"
+                                id="inputDescriptionAccount"
+                            />
                         </div>
-                        <div className='inputAreaColor' >
-                            <label htmlFor="inputColorAccount" onClick={handleFocusInputArea}>
-                                <div className='icon'>
+                        <div className="inputAreaColor">
+                            <label
+                                htmlFor="inputColorAccount"
+                                onClick={handleFocusInputArea}
+                            >
+                                <div className="icon">
                                     <ColorLensOutlinedIcon />
                                 </div>
                                 Cor da conta
-                                <div className='boxColorAccount'>
-                                    <input value={colorAccount} onInput={handleColor} type="color" id='inputColorAccount' />
+                                <div className="boxColorAccount">
+                                    <input
+                                        value={colorAccount}
+                                        onInput={handleColor}
+                                        type="color"
+                                        id="inputColorAccount"
+                                    />
                                 </div>
                             </label>
-
                         </div>
                     </div>
-                    <div className='footerModalAccount'>
-                        <button onClick={() => setOpen(false)} >Cancelar</button>
-                        <button onClick={handleBtnEdit} disabled={disabled} >Salvar</button>
+                    <div className="footerModalAccount">
+                        <button onClick={() => setOpen(false)}>Cancelar</button>
+                        <button onClick={handleBtnEdit} disabled={disabled}>
+                            Salvar
+                        </button>
                     </div>
                 </>
-            }
-            {openMod &&
-                <C.ContainerModal opacity={opacity} >
-                    <SelectAccounts setAccountItem={setAccountItem} accounts={accounts} closeMod={closeMod} />
+            )}
+            {openMod && (
+                <C.ContainerModal opacity={opacity}>
+                    <SelectAccounts
+                        setAccountItem={setAccountItem}
+                        accounts={accounts}
+                        closeMod={closeMod}
+                    />
                 </C.ContainerModal>
-            }
+            )}
         </C.Container>
-    )
-}
+    );
+};

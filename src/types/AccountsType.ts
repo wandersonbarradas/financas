@@ -11,4 +11,5 @@ export type UserAccountType = {
     description: string;
     color: string;
     value: number;
+    initialValue: number;
 };
