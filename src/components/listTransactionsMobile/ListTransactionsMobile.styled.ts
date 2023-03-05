@@ -12,6 +12,11 @@ export const Container = styled.li<Props>`
     margin-bottom: 16px;
     cursor: pointer;
 
+    &:last-child {
+        padding-bottom: 30px;
+        margin-bottom: 0;
+    }
+
     &:hover {
         background-color: ${(i) => i.Theme.colorBorder};
     }
