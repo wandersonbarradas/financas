@@ -115,10 +115,6 @@ export const Account = () => {
                     return;
                 }
                 listAccounts[index1].value = listAccounts[index1].value - value;
-                console.log(
-                    "🚀 ~ file: Accounts.tsx:97 ~ attValueBank ~ listAccounts[index1].value:",
-                    listAccounts[index1].value,
-                );
                 break;
             case "income":
                 const index2 = listAccounts.findIndex(

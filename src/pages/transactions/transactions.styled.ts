@@ -292,6 +292,7 @@ export const Container = styled.div<Props>`
             flex: 1;
             margin: 0;
             border-radius: 32px 32px 0 0;
+            background-color: ${(i) => i.Theme.colorComponents};
             .tableTransactions {
                 display: none;
             }
