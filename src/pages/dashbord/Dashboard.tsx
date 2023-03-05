@@ -70,8 +70,13 @@ export const Dashboard = () => {
         }
         const allTheExpenses = getValuesForType("expense", transactions, true);
         const allTheIncome = getValuesForType("income", transactions, true);
+        const initialValueBanks = state.user.accounts?.reduce(
+            (previousValue: number, currentValue) =>
+                previousValue + currentValue.initialValue,
+            0,
+        );
         const [value, decimals] = Formatted.format(
-            allTheIncome - allTheExpenses,
+            allTheIncome - allTheExpenses + (initialValueBanks ?? 0),
         ).split(",");
         setAmount({ value, decimals });
 
@@ -139,7 +144,7 @@ export const Dashboard = () => {
                 >
                     <div className="balance">
                         <div className="balance-summary">
-                            <h4 className="balance-title">Balanço Total</h4>
+                            <h4 className="balance-title">Saldo Total</h4>
                             {lastTransaction && (
                                 <div
                                     className={
@@ -194,7 +199,7 @@ export const Dashboard = () => {
                     }
                 >
                     <MetricItem
-                        title="Saldo Total"
+                        title="Balanço Total"
                         value={currentMonthValues.balance}
                     />
                     <MetricItem
