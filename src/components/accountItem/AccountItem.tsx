@@ -112,7 +112,11 @@ export const AccountItem = ({
             </div>
             <div className="rowResume">
                 <span className="label">Saldo previsto</span>
-                <span className="value less">
+                <span
+                    className={
+                        expectedBalance >= 0 ? "value more" : "value less"
+                    }
+                >
                     {Formatted.format(expectedBalance)}
                 </span>
             </div>
