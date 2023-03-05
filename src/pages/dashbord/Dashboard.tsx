@@ -68,8 +68,8 @@ export const Dashboard = () => {
             );
             setLastTransaction(transactionsFilt[0]);
         }
-        const allTheExpenses = getValuesForType("expense", true, transactions);
-        const allTheIncome = getValuesForType("income", true, transactions);
+        const allTheExpenses = getValuesForType("expense", transactions, true);
+        const allTheIncome = getValuesForType("income", transactions, true);
         const [value, decimals] = Formatted.format(
             allTheIncome - allTheExpenses,
         ).split(",");
@@ -88,12 +88,20 @@ export const Dashboard = () => {
 
     const getValuesForType = (
         type: "expense" | "income",
-        done: boolean,
         transactions: NormalTansactionType[],
+        done?: boolean | undefined,
     ) => {
-        const transactionsExpense = transactions.filter(
-            (item) => item.type === type && item.done === done,
-        );
+        let transactionsExpense = [] as NormalTansactionType[];
+        if (done) {
+            transactionsExpense = transactions.filter(
+                (item) => item.type === type && item.done === done,
+            );
+        } else {
+            transactionsExpense = transactions.filter(
+                (item) => item.type === type,
+            );
+        }
+
         const valueExpense = transactionsExpense.reduce(
             (previousValue: number, currentValue) =>
                 previousValue + currentValue.value,
@@ -103,12 +111,12 @@ export const Dashboard = () => {
     };
 
     const getMonthlySummary = (transactions: NormalTansactionType[]) => {
-        const valueExpense = getValuesForType("expense", true, transactions);
-        const valueIncome = getValuesForType("income", true, transactions);
+        const valueExpense = getValuesForType("expense", transactions);
+        const valueIncome = getValuesForType("income", transactions);
         const valueExpensePending = getValuesForType(
             "expense",
-            false,
             transactions,
+            false,
         );
         const balance = valueIncome - valueExpense;
         return {
