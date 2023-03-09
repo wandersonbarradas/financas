@@ -7,8 +7,8 @@ type Props = {
 };
 
 export const Container = styled.div<Props>`
-    background-color: ${(props) => props.Theme.colorComponents};
-    border: solid 1px ${(props) => props.Theme.colorBorder};
+    background-color: ${(p) => p.Theme.colorComponents};
+    border: solid 1px ${(p) => p.Theme.colorBorder};
     border-radius: 12px;
     padding-top: 12px;
     width: 300px;
@@ -39,23 +39,23 @@ export const Container = styled.div<Props>`
             .label {
                 font-size: 1.25rem;
                 font-weight: 500;
-                color: ${(props) => props.Theme.colorTitle};
+                color: ${(p) => p.Theme.colorTitle};
             }
         }
 
         .icon {
-            width: 48px;
-            height: 48px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: ${(props) => props.Theme.colorOpacity};
+            color: ${(p) => p.Theme.colorOpacity};
             transition: all 0.3s ease;
             cursor: pointer;
 
             &:hover {
-                background-color: ${(props) => props.Theme.colorBorder};
+                background-color: ${(p) => p.Theme.colorBorder};
             }
         }
     }
@@ -68,7 +68,7 @@ export const Container = styled.div<Props>`
         margin-bottom: 5px;
 
         .label {
-            color: ${(props) => props.Theme.colorTitle};
+            color: ${(p) => p.Theme.colorTitle};
             font-size: 1rem;
             font-weight: 500;
         }
@@ -79,10 +79,10 @@ export const Container = styled.div<Props>`
             font-weight: 500;
 
             &.less {
-                color: #ff0000;
+                color: ${(i) => i.Theme.expenseColor};
             }
             &.more {
-                color: #4fd18b;
+                color: ${(i) => i.Theme.incomeColor};
             }
         }
     }
@@ -92,19 +92,19 @@ export const Container = styled.div<Props>`
         width: 100%;
         margin-top: 20px;
         border: 0;
-        border-top: solid 1px ${(props) => props.Theme.colorBorder};
+        border-top: solid 1px ${(p) => p.Theme.colorBorder};
         outline: 0;
         background-color: transparent;
         padding: 12px 12px;
         text-align: end;
         font-size: 1rem;
         font-weight: 500;
-        color: ${(props) => props.Theme.colorPrimary};
+        color: ${(p) => p.Theme.colorPrimary};
         cursor: pointer;
         transition: all 0.3s ease;
 
         &:hover {
-            color: ${(props) => props.Theme.colorSecundary};
+            color: ${(p) => p.Theme.colorSecundary};
         }
     }
 
@@ -122,15 +122,15 @@ type PropsToggleMenu = {
 };
 
 export const ToggleMenu = styled.ul<PropsToggleMenu>`
-    background-color: ${(props) => props.Theme.colorComponents};
+    background-color: ${(p) => p.Theme.colorComponents};
     position: absolute;
-    top: ${(props) => props.Position.top}px;
-    left: ${(props) => props.Position.left}px;
+    top: ${(p) => p.Position.top}px;
+    left: ${(p) => p.Position.left}px;
     padding: 6px 0;
     margin: 0;
     list-style: none;
     border-radius: 12px;
-    border: solid 1px ${(props) => props.Theme.colorBorder};
+    border: solid 1px ${(p) => p.Theme.colorBorder};
 
     li {
         min-width: 130px;
@@ -139,12 +139,12 @@ export const ToggleMenu = styled.ul<PropsToggleMenu>`
         align-items: center;
         justify-content: flex-start;
         gap: 12px;
-        color: ${(props) => props.Theme.colorOpacity};
+        color: ${(p) => p.Theme.colorOpacity};
         transition: all 0.3s ease;
         cursor: pointer;
 
         &:hover {
-            background-color: ${(props) => props.Theme.colorBorder};
+            background-color: ${(p) => p.Theme.colorBorder};
         }
     }
 `;

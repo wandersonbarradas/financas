@@ -167,14 +167,6 @@ export const Container = styled.div<Props>`
                 line-height: 1.5625rem;
                 letter-spacing: -0.02em;
             }
-
-            .icon {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                color: ${(props) => props.Theme.colorOpacity};
-                cursor: pointer;
-            }
         }
 
         .chartPie {
@@ -245,5 +237,36 @@ export const Container = styled.div<Props>`
 
     @media screen and (max-width: 780px) {
         padding: 0.5rem 1rem 3.75rem 1rem;
+    }
+`;
+
+type PropsMenuDrop = {
+    Theme: ThemeValues;
+    position: { top: number; left: number };
+};
+export const MenuDrop = styled.div<PropsMenuDrop>`
+    position: absolute;
+    top: ${(i) => i.position.top}px;
+    left: ${(i) => i.position.left}px;
+    background-color: ${(i) => i.Theme.colorComponents};
+    border: 1px solid ${(i) => i.Theme.colorBorder};
+    border-radius: 5rem;
+    box-shadow: 4px 4px 10px 0px rgba(0, 0, 0, 0.75);
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            color: ${(i) => i.Theme.colorOpacity};
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 5rem;
+
+            &:hover {
+                background-color: ${(i) => i.Theme.colorBorder};
+                cursor: pointer;
+            }
+        }
     }
 `;

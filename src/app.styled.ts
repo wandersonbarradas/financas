@@ -74,6 +74,23 @@ export const Container = styled.div<Props>`
             }
         }
     }
+
+    //Utilitários
+
+    .iconMore {
+        padding: 0.5rem;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: ${(p) => p.Theme.colorOpacity};
+        transition: all 0.3s ease;
+        cursor: pointer;
+
+        &:hover {
+            background-color: ${(p) => p.Theme.colorBorder};
+        }
+    }
 `;
 
 export const Loader = styled.div;

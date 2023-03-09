@@ -2,10 +2,7 @@ import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 type PropsContainer = {
     Theme: ThemeValues;
-};
-type Props = {
-    background: string;
-    color: string;
+    bgIcon: string;
 };
 
 export const Container = styled.div<PropsContainer>`
@@ -13,11 +10,23 @@ export const Container = styled.div<PropsContainer>`
     padding: 16px;
     border-radius: 12px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-around;
     gap: 14px;
     transition: all 0.3s ease;
     border: 1px solid ${(props) => props.Theme.colorBorder};
+
+    .values {
+        flex: 1;
+    }
+
+    .boxIcon {
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        border-radius: 50%;
+        align-items: center;
+        background-color: ${(i) => i.bgIcon};
+        color: ${(i) => i.Theme.colorTitle};
+    }
 
     .title {
         font-weight: 600;
@@ -29,11 +38,12 @@ export const Container = styled.div<PropsContainer>`
 
     .value {
         font-family: "Inter", sans-serif;
-        font-weight: 700;
-        font-size: 1.125rem;
+        font-weight: 600;
+        font-size: 1.35rem;
         line-height: 28px;
         color: ${(props) => props.Theme.colorTitle};
         transition: all 0.3s ease;
+        width: 138px;
     }
 
     /* @media screen and (max-width: 576px) {
@@ -45,21 +55,4 @@ export const Container = styled.div<PropsContainer>`
             font-size: 16px;
         }
     } */
-`;
-
-export const Percentagem = styled.div<Props>`
-    display: flex;
-
-    div {
-        font-size: 0.875rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 7px 12px;
-        gap: 4px;
-        border-radius: 19px;
-        background-color: ${(props) => props.background};
-        color: ${(props) => props.color};
-        transition: all 0.3s ease;
-    }
 `;

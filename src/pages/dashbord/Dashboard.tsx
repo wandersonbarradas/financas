@@ -14,8 +14,10 @@ import dayjs from "dayjs";
 import DF from "../../helpers/DateFunctions";
 import Formatted from "../../helpers/FormattedPrice";
 import { activeSidebarItem } from "../../helpers/helpers";
+import { Modal } from "../../components/modais/Modais";
+import Calculation from "../../helpers/CalculationOfValues";
 
-type currentMonthValueType = {
+export type currentMonthValueType = {
     valueExpense: number;
     valueIncome: number;
     valueExpensePending: number;
@@ -37,6 +39,19 @@ export const Dashboard = () => {
         NormalTansactionType[]
     >([]);
     const [amount, setAmount] = useState({ value: "0", decimals: "00" });
+    const [cardPieChart, setCardPieChart] = useState(true);
+    const [menuPieChart, setMenuPieChart] = useState(false);
+    const [positionMenuPieChart, setPositionPieChart] = useState({
+        top: 0,
+        left: 0,
+    });
+    const [cardLastTransactions, setCardLastTransactions] = useState(true);
+    const [menuLastTransactions, setMenuLastTransactions] = useState(false);
+    const [positionMenuLastTransactions, setPositionMenuLastTransactions] =
+        useState({
+            top: 0,
+            left: 0,
+        });
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -68,15 +83,11 @@ export const Dashboard = () => {
             );
             setLastTransaction(transactionsFilt[0]);
         }
-        const allTheExpenses = getValuesForType("expense", transactions, true);
-        const allTheIncome = getValuesForType("income", transactions, true);
-        const initialValueBanks = state.user.accounts?.reduce(
-            (previousValue: number, currentValue) =>
-                previousValue + currentValue.initialValue,
-            0,
-        );
         const [value, decimals] = Formatted.format(
-            allTheIncome - allTheExpenses + (initialValueBanks ?? 0),
+            Calculation.getCurrentBalance(
+                transactions,
+                state.user.accounts ?? undefined,
+            ),
         ).split(",");
         setAmount({ value, decimals });
 
@@ -85,51 +96,44 @@ export const Dashboard = () => {
             transactions,
             dayjs(state.user.selectedDate),
         );
-        const newCurrentMonthValues = getMonthlySummary(
+        const newCurrentMonthValues = Calculation.getMonthlySummary(
             transactionsSelectedMonth,
         );
         setCurrentMonthValues(newCurrentMonthValues);
     };
 
-    const getValuesForType = (
-        type: "expense" | "income",
-        transactions: NormalTansactionType[],
-        done?: boolean | undefined,
-    ) => {
-        let transactionsExpense = [] as NormalTansactionType[];
-        if (done) {
-            transactionsExpense = transactions.filter(
-                (item) => item.type === type && item.done === done,
-            );
-        } else {
-            transactionsExpense = transactions.filter(
-                (item) => item.type === type,
-            );
-        }
-
-        const valueExpense = transactionsExpense.reduce(
-            (previousValue: number, currentValue) =>
-                previousValue + currentValue.value,
-            0,
+    const handleShowMenuPieChart = (e: React.MouseEvent<HTMLDivElement>) => {
+        const pos = e.currentTarget.getBoundingClientRect();
+        console.log(
+            "🚀 ~ file: Dashboard.tsx:143 ~ handleShowMenuPieChart ~ pos:",
+            pos,
         );
-        return valueExpense;
+        setPositionPieChart({
+            top: pos.y + 30,
+            left: pos.x - 120,
+        });
+        setMenuPieChart(true);
     };
 
-    const getMonthlySummary = (transactions: NormalTansactionType[]) => {
-        const valueExpense = getValuesForType("expense", transactions);
-        const valueIncome = getValuesForType("income", transactions);
-        const valueExpensePending = getValuesForType(
-            "expense",
-            transactions,
-            false,
-        );
-        const balance = valueIncome - valueExpense;
-        return {
-            valueExpense,
-            valueIncome,
-            valueExpensePending,
-            balance,
-        };
+    const ClosePieChart = () => {
+        setCardPieChart(false);
+        setMenuPieChart(false);
+    };
+
+    const handleShowMenuLastTransactions = (
+        e: React.MouseEvent<HTMLDivElement>,
+    ) => {
+        const pos = e.currentTarget.getBoundingClientRect();
+        setPositionMenuLastTransactions({
+            top: pos.y + 30,
+            left: pos.x - 120,
+        });
+        setMenuLastTransactions(true);
+    };
+
+    const CloseLastTransactions = () => {
+        setCardLastTransactions(false);
+        setMenuLastTransactions(false);
     };
 
     return (
@@ -144,7 +148,7 @@ export const Dashboard = () => {
                 >
                     <div className="balance">
                         <div className="balance-summary">
-                            <h4 className="balance-title">Saldo Total</h4>
+                            <h4 className="balance-title">Saldo Atual</h4>
                             {lastTransaction && (
                                 <div
                                     className={
@@ -218,11 +222,14 @@ export const Dashboard = () => {
             </div>
             <div className="bottom-metrics">
                 <div className={state.general.sideBar ? "row response" : "row"}>
-                    {lastTransactions.length > 0 && (
+                    {lastTransactions.length > 0 && cardLastTransactions && (
                         <div className="last-transactions">
                             <div className="header">
                                 <h4 className="title">Últimas Transações</h4>
-                                <div className="icon">
+                                <div
+                                    onClick={handleShowMenuLastTransactions}
+                                    className="iconMore"
+                                >
                                     <MoreHorizIcon />
                                 </div>
                             </div>
@@ -236,17 +243,54 @@ export const Dashboard = () => {
                             </ul>
                         </div>
                     )}
-                    <div className="chart-pie">
-                        <div className="header">
-                            <h4 className="title">Gastos este mês</h4>
-                            <div className="icon">
-                                <MoreHorizIcon />
+                    {currentMonthValues.valueExpense > 0 &&
+                        currentMonthValues.valueExpensePending &&
+                        cardPieChart && (
+                            <div className="chart-pie">
+                                <div className="header">
+                                    <h4 className="title">Gastos este mês</h4>
+                                    <div
+                                        onClick={handleShowMenuPieChart}
+                                        className="iconMore"
+                                    >
+                                        <MoreHorizIcon />
+                                    </div>
+                                </div>
+                                <PieChart />
                             </div>
-                        </div>
-                        <PieChart />
-                    </div>
+                        )}
                 </div>
             </div>
+            <Modal
+                clickAway={true}
+                modalOpacity={0}
+                open={menuPieChart}
+                setOpen={setMenuPieChart}
+            >
+                <C.MenuDrop
+                    Theme={state.theme.theme}
+                    position={positionMenuPieChart}
+                >
+                    <ul>
+                        <li onClick={ClosePieChart}>Dispensar card</li>
+                    </ul>
+                </C.MenuDrop>
+            </Modal>
+            <Modal
+                clickAway={true}
+                modalOpacity={0}
+                open={menuLastTransactions}
+                setOpen={setMenuLastTransactions}
+            >
+                <C.MenuDrop
+                    Theme={state.theme.theme}
+                    position={positionMenuLastTransactions}
+                >
+                    <ul>
+                        <li onClick={CloseLastTransactions}>Dispensar card</li>
+                    </ul>
+                </C.MenuDrop>
+            </Modal>
         </C.Container>
     );
 };

@@ -8,6 +8,7 @@ type Props = {
     colorType: string;
     ColorDelete: string;
     position: { left: number; top: number };
+    sideBar: boolean;
 };
 
 export const Container = styled.div<Props>`
@@ -18,10 +19,14 @@ export const Container = styled.div<Props>`
 
     .header {
         width: 100%;
-        padding: 50px 0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        padding: 3.1rem 0 1.25rem 0;
+
+        .topLine {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 2rem;
+        }
 
         .leftSide,
         .rightSide {
@@ -51,11 +56,13 @@ export const Container = styled.div<Props>`
                 }
             }
         }
+
         .rightSide {
             display: flex;
             justify-content: flex-end;
             align-items: center;
         }
+
         .boxOptions {
             display: flex;
             gap: 12px;
@@ -90,6 +97,7 @@ export const Container = styled.div<Props>`
                         position: absolute;
                         left: ${(props) =>
                             props.inputSearch ? "10px" : "50px"};
+                        left: 10px;
                         display: block;
                         width: 250px;
                         background-color: transparent;
@@ -107,6 +115,43 @@ export const Container = styled.div<Props>`
                         background-color: inherit;
                         position: absolute;
                         right: 10px;
+                    }
+                }
+            }
+        }
+
+        .bottomLine {
+            display: grid;
+            gap: 0.625rem;
+            align-items: stretch;
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .bottomLineMobile {
+            display: none;
+            justify-content: space-between;
+            background-color: ${(i) => i.Theme.colorComponents};
+            border-radius: 2rem 2rem 0 0;
+            padding: 1.43rem;
+            border-bottom: 2px solid ${(i) => i.Theme.colorBorder};
+
+            .resumeItem {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                color: ${(i) => i.Theme.colorTitle};
+
+                .boxIcon {
+                    font-size: 1.25rem;
+                }
+
+                .value {
+                    &.less {
+                        color: ${(i) => i.Theme.expenseColor};
+                    }
+                    &.more {
+                        color: ${(i) => i.Theme.incomeColor};
                     }
                 }
             }
@@ -280,18 +325,45 @@ export const Container = styled.div<Props>`
         }
     }
 
+    @media screen and (max-width: 1300px) {
+        .header {
+            .bottomLine {
+                display: grid;
+                grid-template-columns: ${(i) =>
+                    i.sideBar ? "repeat(2, 1fr)" : "repeat(4, 1fr)"};
+            }
+        }
+    }
+
+    @media screen and (max-width: 1140px) {
+        .header {
+            .bottomLine {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    }
+
     @media screen and (max-width: 780px) {
         height: 85vh;
         display: flex;
         flex-direction: column;
         padding: 12px 0px 0px 0px;
+
         .header {
-            padding: 50px 16px;
+            padding: 3.1rem 1rem 1rem 1rem;
+            .bottomLine {
+                //display: none;
+            }
+            .bottomLineMobile {
+                //display: flex;
+            }
         }
+
         .body {
             flex: 1;
             margin: 0;
-            border-radius: 32px 32px 0 0;
+            border-radius: 1em 1rem 0 0;
             background-color: ${(i) => i.Theme.colorComponents};
             .tableTransactions {
                 display: none;
@@ -304,6 +376,23 @@ export const Container = styled.div<Props>`
     }
 
     @media screen and (max-width: 576px) {
+        .header {
+            padding: 3.1rem 0 0 0;
+            .topLine {
+                padding: 0 1.43rem 2rem 1.43rem;
+            }
+            .bottomLine {
+                display: none;
+            }
+            .bottomLineMobile {
+                display: flex;
+            }
+        }
+
+        .body {
+            border-radius: 0;
+        }
+
         .boxModalTransaction {
             position: fixed;
             left: 0;

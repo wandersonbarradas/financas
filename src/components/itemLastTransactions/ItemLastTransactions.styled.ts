@@ -52,6 +52,7 @@ export const Container = styled.li<Props>`
         }
 
         .value {
+            font-family: "Inter", sans-serif;
             white-space: nowrap;
             font-weight: 400;
             font-size: 1rem;
