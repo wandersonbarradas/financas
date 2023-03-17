@@ -68,7 +68,7 @@ export const Account = () => {
 
     const handleValuesAccounts = () => {
         const list: ListAccount[] = [];
-        state.user.accounts?.map((item) => {
+        state.user.accounts?.forEach((item) => {
             const verif = list.findIndex((el) => el.id === item.id);
             if (verif < 0) {
                 list.push({
@@ -114,7 +114,9 @@ export const Account = () => {
                 if (index1 < 0) {
                     return;
                 }
-                listAccounts[index1].value = listAccounts[index1].value - value;
+                listAccounts[index1].value = parseFloat(
+                    (listAccounts[index1].value - value).toFixed(2),
+                );
                 break;
             case "income":
                 const index2 = listAccounts.findIndex(
@@ -123,7 +125,9 @@ export const Account = () => {
                 if (index2 < 0) {
                     return;
                 }
-                listAccounts[index2].value = listAccounts[index2].value + value;
+                listAccounts[index2].value = parseFloat(
+                    (listAccounts[index2].value + value).toFixed(2),
+                );
                 break;
             case "transfer":
                 if (bankFor === undefined) {
@@ -136,7 +140,9 @@ export const Account = () => {
                 if (index3 < 0) {
                     return;
                 }
-                listAccounts[index3].value = listAccounts[index3].value - value;
+                listAccounts[index3].value = parseFloat(
+                    (listAccounts[index3].value - value).toFixed(2),
+                );
 
                 const index4 = listAccounts.findIndex(
                     (item) => item.id === bankFor.id,
@@ -144,7 +150,9 @@ export const Account = () => {
                 if (index4 < 0) {
                     return;
                 }
-                listAccounts[index4].value = listAccounts[index4].value + value;
+                listAccounts[index4].value = parseFloat(
+                    (listAccounts[index4].value + value).toFixed(2),
+                );
                 break;
         }
     };

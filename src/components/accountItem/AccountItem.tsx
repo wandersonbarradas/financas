@@ -35,6 +35,7 @@ export const AccountItem = ({
 
     useEffect(() => {
         getExpectedBalance();
+        console.log(Math.floor(Account.value), Account.description);
     }, [state.user.transactions]);
 
     const handleMenuToggle = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -107,7 +108,7 @@ export const AccountItem = ({
                 <span
                     className={Account.value >= 0 ? "value more" : "value less"}
                 >
-                    {Formatted.format(Account.value)}
+                    {Formatted.format(Number(Account.value.toFixed(2)))}
                 </span>
             </div>
             <div className="rowResume">
@@ -117,7 +118,7 @@ export const AccountItem = ({
                         expectedBalance >= 0 ? "value more" : "value less"
                     }
                 >
-                    {Formatted.format(expectedBalance)}
+                    {Formatted.format(Number(expectedBalance.toFixed(2)))}
                 </span>
             </div>
             <button className="add-expense">ADICIONAR DESPESA</button>
