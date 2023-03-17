@@ -64,6 +64,10 @@ export const Transactions = () => {
             valueExpensePending: 0,
             balance: 0,
         });
+    const [valuesForType, setValuesForType] = useState({
+        pending: 0,
+        effected: 0,
+    });
 
     useEffect(() => {
         activeSidebarItem("activeLinkNavBar", "transactions");
@@ -78,6 +82,11 @@ export const Transactions = () => {
             showSelectedTransaction();
         } else {
             getTransactions();
+            if (type.name === "Despesas") {
+                getTransactionsForType("expense");
+            } else if (type.name === "Receitas") {
+                getTransactionsForType("income");
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.user.transactions, state.user.selectedDate, type]);
@@ -116,6 +125,29 @@ export const Transactions = () => {
         );
         const values = Calculation.getMonthlySummary(transactions);
         setValuesCurrentMonth(values);
+    };
+
+    const getTransactionsForType = (type: "expense" | "income") => {
+        if (!state.user.transactions) {
+            return;
+        }
+        const transactionsNormal = state.user
+            .transactions as NormalTansactionType[];
+        const transctionsMonth = DF.getTransactionsSelectDate(
+            transactionsNormal,
+            dayjs(state.user.selectedDate),
+        );
+        const effected = Calculation.getValuesForType(
+            type,
+            transctionsMonth,
+            true,
+        );
+        const pending = Calculation.getValuesForType(
+            type,
+            transctionsMonth,
+            false,
+        );
+        setValuesForType({ effected, pending });
     };
 
     const showSelectedTransaction = () => {
@@ -314,68 +346,150 @@ export const Transactions = () => {
                         </div>
                     </div>
                 </div>
-                <div className="bottomLine">
-                    <MetricItem
-                        title="Saldo Atual"
-                        value={currentBalance}
-                        Icon={AccountBalanceOutlinedIcon}
-                        bgIcon={state.theme.theme.transferColor}
-                    />
-                    <MetricItem
-                        title="Receitas"
-                        value={valuesCurrentMonth?.valueIncome}
-                        Icon={ArrowUpwardOutlinedIcon}
-                        bgIcon={state.theme.theme.incomeColor}
-                    />
-                    <MetricItem
-                        title="Despesas"
-                        value={valuesCurrentMonth?.valueExpense}
-                        Icon={ArrowDownwardOutlinedIcon}
-                        bgIcon={state.theme.theme.expenseColor}
-                    />
-                    <MetricItem
-                        title="Balanço"
-                        value={valuesCurrentMonth?.balance}
-                        Icon={BalanceOutlinedIcon}
-                        bgIcon="#26a69a"
-                    />
-                </div>
-                <div className="bottomLineMobile">
-                    <div className="resumeItem">
-                        <div className="boxIcon">
-                            <AccountBalanceOutlinedIcon />
+                {type.name !== "Despesas" && type.name !== "Receitas" && (
+                    <>
+                        <div className="bottomLine">
+                            <MetricItem
+                                title="Saldo Atual"
+                                value={currentBalance}
+                                Icon={AccountBalanceOutlinedIcon}
+                                bgIcon={state.theme.theme.transferColor}
+                            />
+                            <MetricItem
+                                title="Receitas"
+                                value={valuesCurrentMonth?.valueIncome}
+                                Icon={ArrowUpwardOutlinedIcon}
+                                bgIcon={state.theme.theme.incomeColor}
+                            />
+                            <MetricItem
+                                title="Despesas"
+                                value={valuesCurrentMonth?.valueExpense}
+                                Icon={ArrowDownwardOutlinedIcon}
+                                bgIcon={state.theme.theme.expenseColor}
+                            />
+                            <MetricItem
+                                title="Balanço"
+                                value={valuesCurrentMonth?.balance}
+                                Icon={BalanceOutlinedIcon}
+                                bgIcon="#26a69a"
+                            />
                         </div>
-                        <div className="valuesInfo">
-                            <span>Saldo atual</span>
-                            <div
-                                className={
-                                    currentBalance >= 0
-                                        ? "value more"
-                                        : "value less"
-                                }
-                            >
-                                {formatted.format(currentBalance)}
+                        <div className="bottomLineMobile">
+                            <div className="resumeItem">
+                                <div className="boxIcon">
+                                    <AccountBalanceOutlinedIcon />
+                                </div>
+                                <div className="valuesInfo">
+                                    <span>Saldo atual</span>
+                                    <div
+                                        className={
+                                            currentBalance >= 0
+                                                ? "value more"
+                                                : "value less"
+                                        }
+                                    >
+                                        {formatted.format(currentBalance)}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="resumeItem">
+                                <div className="boxIcon">
+                                    <BalanceOutlinedIcon />
+                                </div>
+                                <div className="valuesInfo">
+                                    <span>Balanço mensal</span>
+                                    <div
+                                        className={
+                                            valuesCurrentMonth.balance >= 0
+                                                ? "value more"
+                                                : "value less"
+                                        }
+                                    >
+                                        {formatted.format(
+                                            valuesCurrentMonth.balance,
+                                        )}
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="resumeItem">
-                        <div className="boxIcon">
-                            <BalanceOutlinedIcon />
-                        </div>
-                        <div className="valuesInfo">
-                            <span>Balanço mensal</span>
-                            <div
-                                className={
-                                    valuesCurrentMonth.balance >= 0
-                                        ? "value more"
-                                        : "value less"
-                                }
-                            >
-                                {formatted.format(valuesCurrentMonth.balance)}
+                    </>
+                )}
+                {type.name !== "Transações" &&
+                    type.name !== "Transferências" && (
+                        <>
+                            <div className="bottomLine filtered">
+                                <MetricItem
+                                    title={`${type.name} pendentes`}
+                                    value={valuesForType.pending}
+                                    Icon={ArrowUpwardOutlinedIcon}
+                                    bgIcon={type.color}
+                                />
+                                <MetricItem
+                                    title={`${type.name} ${
+                                        type.name === "Despesas"
+                                            ? "Pagas"
+                                            : "Recebidas"
+                                    }`}
+                                    value={valuesForType.effected}
+                                    Icon={ArrowDownwardOutlinedIcon}
+                                    bgIcon={type.color}
+                                />
+                                <MetricItem
+                                    title="Total"
+                                    value={
+                                        valuesForType.pending +
+                                        valuesForType.effected
+                                    }
+                                    Icon={BalanceOutlinedIcon}
+                                    bgIcon={type.color}
+                                />
                             </div>
-                        </div>
-                    </div>
-                </div>
+                            <div className="bottomLineMobile">
+                                <div className="resumeItem">
+                                    <div className="boxIcon">
+                                        <ArrowDownwardOutlinedIcon />
+                                    </div>
+                                    <div className="valuesInfo">
+                                        <span>Total pendente</span>
+                                        <div
+                                            className={
+                                                type.name === "Receitas"
+                                                    ? "value more"
+                                                    : "value less"
+                                            }
+                                        >
+                                            {formatted.format(
+                                                valuesForType.pending,
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="resumeItem">
+                                    <div className="boxIcon">
+                                        <ArrowUpwardOutlinedIcon />
+                                    </div>
+                                    <div className="valuesInfo">
+                                        <span>{`Total ${
+                                            type.name === "Despesas"
+                                                ? "pago"
+                                                : "recebido"
+                                        }`}</span>
+                                        <div
+                                            className={
+                                                type.name === "Receitas"
+                                                    ? "value more"
+                                                    : "value less"
+                                            }
+                                        >
+                                            {formatted.format(
+                                                valuesForType.effected,
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )}
             </div>
             <div className="body">
                 {transactions.length > 0 && (

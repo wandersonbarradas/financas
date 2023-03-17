@@ -1,3 +1,4 @@
+import { GeneralType } from "./../../types/RedeucersTypes";
 import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
@@ -125,6 +126,10 @@ export const Container = styled.div<Props>`
             gap: 0.625rem;
             align-items: stretch;
             grid-template-columns: repeat(4, 1fr);
+
+            &.filtered {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         .bottomLineMobile {
@@ -339,6 +344,14 @@ export const Container = styled.div<Props>`
         .header {
             .bottomLine {
                 display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    }
+
+    @media screen and (max-width: 875px) {
+        .header {
+            .bottomLine.filtered {
                 grid-template-columns: repeat(2, 1fr);
             }
         }

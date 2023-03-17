@@ -8,7 +8,7 @@ const Calculation = {
         done?: boolean | undefined,
     ) {
         let transactionsExpense = [] as NormalTansactionType[];
-        if (done) {
+        if (done !== undefined) {
             transactionsExpense = transactions.filter(
                 (item) => item.type === type && item.done === done,
             );
@@ -17,13 +17,12 @@ const Calculation = {
                 (item) => item.type === type,
             );
         }
-
-        const valueExpense = transactionsExpense.reduce(
+        const valueType = transactionsExpense.reduce(
             (previousValue: number, currentValue) =>
                 previousValue + currentValue.value,
             0,
         );
-        return valueExpense;
+        return valueType;
     },
     getMonthlySummary(transactions: NormalTansactionType[]) {
         const valueExpense = this.getValuesForType("expense", transactions);
