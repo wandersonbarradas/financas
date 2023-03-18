@@ -243,22 +243,20 @@ export const Dashboard = () => {
                             </ul>
                         </div>
                     )}
-                    {currentMonthValues.valueExpense > 0 &&
-                        currentMonthValues.valueExpensePending &&
-                        cardPieChart && (
-                            <div className="chart-pie">
-                                <div className="header">
-                                    <h4 className="title">Gastos este mês</h4>
-                                    <div
-                                        onClick={handleShowMenuPieChart}
-                                        className="iconMore"
-                                    >
-                                        <MoreHorizIcon />
-                                    </div>
+                    {currentMonthValues.valueExpense > 0 && cardPieChart && (
+                        <div className="chart-pie">
+                            <div className="header">
+                                <h4 className="title">Gastos este mês</h4>
+                                <div
+                                    onClick={handleShowMenuPieChart}
+                                    className="iconMore"
+                                >
+                                    <MoreHorizIcon />
                                 </div>
-                                <PieChart />
                             </div>
-                        )}
+                            <PieChart />
+                        </div>
+                    )}
                 </div>
             </div>
             <Modal

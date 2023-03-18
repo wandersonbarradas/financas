@@ -46,7 +46,7 @@ export const Container = styled.div<PropsContainer>`
         line-height: 28px;
         color: ${(props) => props.Theme.colorTitle};
         transition: all 0.3s ease;
-        width: 138px;
+        width: 100%;
     }
 
     /* @media screen and (max-width: 576px) {

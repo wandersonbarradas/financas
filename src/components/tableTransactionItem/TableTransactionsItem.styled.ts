@@ -84,7 +84,6 @@ export const Container = styled.tr<Props>`
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                flex-wrap: wrap;
                 gap: 10px;
 
                 .icon {
@@ -105,5 +104,15 @@ export const Container = styled.tr<Props>`
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    @media screen and (max-width: 1045px) {
+        td {
+            &.actionArea {
+                div {
+                    flex-wrap: wrap;
+                }
+            }
+        }
     }
 `;
