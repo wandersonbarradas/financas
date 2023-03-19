@@ -21,6 +21,8 @@ import { ModalTransaction } from "../../components/modalTransaction/ModalTransac
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { ResumeValuesTransactions } from "../../components/resumeValuesTransactions/ResumeValuesTransactions";
+import { ModalExpenseCatItem } from "../../components/modalExpenseCatItem/ModalExpenseCatItem";
+import { FilterArea } from "../../components/filterArea/FilterArea";
 
 type TypeTransactions = {
     color: string;
@@ -31,8 +33,24 @@ type TransactionsMobile = {
     [key: string]: NormalTansactionType[];
 };
 
+type FilterItem = {
+    type:
+        | "date"
+        | "category"
+        | "subcategory"
+        | "account"
+        | "tag"
+        | "status"
+        | "type";
+    parameters: string;
+    descrição: string;
+    color: string;
+};
+
 export const Transactions = () => {
     const { state, dispatch } = useContext(Context);
+    const [filters, setFilters] = useState<FilterItem[]>([]);
+    const [modalFilters, setModalFilters] = useState(false);
     const [transactions, setTransactions] = useState<NormalTansactionType[]>(
         [],
     );
@@ -268,7 +286,10 @@ export const Transactions = () => {
                                 />
                                 <SearchIcon className="svg" />
                             </span>
-                            <div className="btn">
+                            <div
+                                onClick={() => setModalFilters(true)}
+                                className="btn"
+                            >
                                 <FilterAltOutlinedIcon />
                             </div>
                             <div className="btn">
@@ -280,6 +301,20 @@ export const Transactions = () => {
                 <ResumeValuesTransactions type={type} />
             </div>
             <div className="body">
+                {filters.length > 0 && (
+                    <div className="filterList">
+                        <span className="title">Filtros:</span>
+                        {filters.map((item, index) => (
+                            <ModalExpenseCatItem
+                                filterItem={{
+                                    name: item.descrição,
+                                    color: item.color,
+                                }}
+                                key={index}
+                            />
+                        ))}
+                    </div>
+                )}
                 {transactions.length > 0 && (
                     <>
                         <table className="tableTransactions">
@@ -490,6 +525,9 @@ export const Transactions = () => {
                         />
                     </div>
                 </Modal>
+            )}
+            {modalFilters && (
+                <FilterArea setOpen={setModalFilters} show={modalFilters} />
             )}
         </C.Container>
     );

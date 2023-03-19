@@ -123,7 +123,6 @@ export const Container = styled.div<Props>`
     }
 
     .body {
-        display: flex;
         width: 100%;
         background-color: ${(props) => props.Theme.colorComponents};
         border-radius: 12px;
@@ -132,6 +131,20 @@ export const Container = styled.div<Props>`
         box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
             0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
         margin-bottom: 20px;
+
+        .filterList {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            gap: 1rem;
+            flex-wrap: wrap;
+
+            .title {
+                color: ${(i) => i.Theme.colorTitle};
+                font-size: 1rem;
+            }
+        }
 
         .tableTransactions {
             width: 100%;
