@@ -23,6 +23,9 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { ResumeValuesTransactions } from "../../components/resumeValuesTransactions/ResumeValuesTransactions";
 import { ModalExpenseCatItem } from "../../components/modalExpenseCatItem/ModalExpenseCatItem";
 import { FilterArea } from "../../components/filterArea/FilterArea";
+import { CategoryType, SubCategories } from "../../types/UserType";
+import { UserAccountType } from "../../types/AccountsType";
+import { Filters } from "../../helpers/Filters";
 
 type TypeTransactions = {
     color: string;
@@ -33,7 +36,7 @@ type TransactionsMobile = {
     [key: string]: NormalTansactionType[];
 };
 
-type FilterItem = {
+export type FilterItem = {
     type:
         | "date"
         | "category"
@@ -42,8 +45,8 @@ type FilterItem = {
         | "tag"
         | "status"
         | "type";
-    parameters: string;
-    descrição: string;
+    parameters: CategoryType | SubCategories | UserAccountType;
+    description: string;
     color: string;
 };
 
@@ -97,7 +100,20 @@ export const Transactions = () => {
         }
     }, [modalDelete, editTransaction]);
 
+    useEffect(() => {
+        if (filters.length > 0) {
+            createFilters();
+        }
+    }, [filters]);
+
     //Buscando Valores mensais.
+
+    const createFilters = () => {
+        console.log("Estagio 1");
+        const t = state.user.transactions as NormalTansactionType[];
+        const transactionsFilters = Filters(t, filters);
+        setTransactions(transactionsFilters);
+    };
 
     const showSelectedTransaction = () => {
         if (!state.general.selectedTransactions) {
@@ -307,7 +323,7 @@ export const Transactions = () => {
                         {filters.map((item, index) => (
                             <ModalExpenseCatItem
                                 filterItem={{
-                                    name: item.descrição,
+                                    name: item.description,
                                     color: item.color,
                                 }}
                                 key={index}
@@ -527,7 +543,11 @@ export const Transactions = () => {
                 </Modal>
             )}
             {modalFilters && (
-                <FilterArea setOpen={setModalFilters} show={modalFilters} />
+                <FilterArea
+                    onClick={setFilters}
+                    setOpen={setModalFilters}
+                    show={modalFilters}
+                />
             )}
         </C.Container>
     );

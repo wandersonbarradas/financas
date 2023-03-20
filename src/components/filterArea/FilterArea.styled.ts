@@ -55,6 +55,23 @@ export const Container = styled.div<Props>`
             padding: 20px 40px;
             overflow-y: auto;
             flex: 1;
+            position: relative;
+
+            .containerListItems {
+                position: absolute;
+                background-color: ${(props) => props.Theme.colorComponents};
+                border-radius: 1.5rem;
+                z-index: 100;
+                width: 100%;
+                top: 80px;
+            }
+
+            .filterSelectedItems {
+                div {
+                    //max-width: 100%;
+                    margin-bottom: 0.5rem;
+                }
+            }
         }
 
         .field {
@@ -70,27 +87,26 @@ export const Container = styled.div<Props>`
                 margin-top: 5px;
                 display: flex;
                 justify-content: flex-start;
+                align-items: center;
 
                 & > div:last-child {
-                    flex: 1;
                     display: flex;
-
-                    div {
-                        max-width: 100%;
-                    }
                 }
 
                 input {
-                    width: 80%;
+                    width: 75%;
                     background-color: transparent;
                     border: 0;
                     outline: 0;
                     color: ${(p) => p.Theme.colorTitle};
-                    margin-left: 5px;
+                    margin: 0 0 0 0.5rem;
                     font-size: 1rem;
                 }
 
                 .fieldIcon {
+                    position: absolute;
+                    right: 0;
+                    top: 30px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -98,6 +114,7 @@ export const Container = styled.div<Props>`
                     color: ${(p) => p.Theme.colorOpacity};
                     width: 32px;
                     height: 32px;
+                    transition: all 0.25s ease;
 
                     &:hover {
                         background-color: ${(props) => props.Theme.colorBorder};

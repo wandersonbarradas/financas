@@ -4,16 +4,32 @@ import { Context } from "../../context/context";
 import { ModalExpenseCatItem } from "../modalExpenseCatItem/ModalExpenseCatItem";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { CategoryType, SubCategories } from "../../types/UserType";
+import { AccountType, UserAccountType } from "../../types/AccountsType";
+import { ListCategoriesAndAccounts } from "../modalListCategoriesAndAccounts";
+import { FilterItem } from "../../pages/transactions/transactions";
 
 type Props = {
     show: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    onClick: React.Dispatch<React.SetStateAction<FilterItem[]>>;
 };
 
-export const FilterArea = ({ show, setOpen }: Props) => {
+export const FilterArea = ({ show, setOpen, onClick }: Props) => {
     const { state } = useContext(Context);
     const [right, setRight] = useState(-500);
     const [Opacity, setOpacity] = useState(0);
+    const [categories, setCategories] = useState<CategoryType[]>([]);
+    const [subcategories, setSubcategories] = useState<SubCategories[]>([]);
+    const [accounts, setAccounts] = useState<UserAccountType[]>([]);
+    const [tags, setTags] = useState([]);
+    const [status, setStatus] = useState<boolean[]>([]);
+    const [types, setTypes] = useState<"expense"[] | "income"[] | "transfer"[]>(
+        [],
+    );
+    const [dates, setDates] = useState<{ from: Date; to: Date }[]>([]);
+    const [listCategories, setListCategories] = useState<boolean>(false);
+    const [listAccount, setListAccounts] = useState(false);
 
     useEffect(() => {
         if (show) {
@@ -23,6 +39,20 @@ export const FilterArea = ({ show, setOpen }: Props) => {
             }, 225);
         }
     }, [show]);
+
+    useEffect(() => {
+        if (!listCategories) {
+            document.getElementById("fieldCategories")?.blur();
+        } else {
+            document.getElementById("fieldCategories")?.focus();
+        }
+
+        if (!listAccount) {
+            document.getElementById("fieldAccounts")?.blur();
+        } else {
+            document.getElementById("fieldAccounts")?.focus();
+        }
+    }, [listCategories, listAccount]);
 
     useEffect(() => {
         window.history.pushState(null, "", window.location.pathname);
@@ -60,6 +90,13 @@ export const FilterArea = ({ show, setOpen }: Props) => {
         if (el) {
             el.classList.add("focus");
         }
+        if (e.currentTarget.id === "fieldCategories") {
+            setListCategories(true);
+            setListAccounts(false);
+        } else if (e.currentTarget.id === "fieldAccounts") {
+            setListAccounts(true);
+            setListCategories(false);
+        }
     };
 
     const removeFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -67,6 +104,111 @@ export const FilterArea = ({ show, setOpen }: Props) => {
         if (el) {
             el.classList.remove("focus");
         }
+        if (e.currentTarget.id === "fieldCategories") {
+            setTimeout(() => {
+                setListCategories(false);
+            }, 300);
+        } else if (e.currentTarget.id === "fieldAccounts") {
+            setTimeout(() => {
+                setListAccounts(false);
+            }, 300);
+        }
+    };
+
+    const handleCategory = (item: SubCategories | CategoryType) => {
+        const subcat = item as unknown as SubCategories;
+        if (subcat.category) {
+            const items = [...subcategories];
+            const exist = items.find((i) => i.id === subcat.id);
+            if (!exist) {
+                items.push(subcat);
+                setSubcategories(items);
+            }
+        } else {
+            const cat = item as unknown as CategoryType;
+            const items = [...categories];
+            const exist = items.find((i) => i.id === cat.id);
+            if (!exist) {
+                items.push(cat);
+                setCategories(items);
+            }
+        }
+        setListCategories(false);
+    };
+
+    const handleAccount = (item: UserAccountType) => {
+        const items = [...accounts];
+        const exist = items.find((i) => i.id === item.id);
+        if (!exist) {
+            items.push(item);
+            setAccounts(items);
+        }
+        setListAccounts(false);
+    };
+
+    const removeItem = (
+        type: "category" | "subcategory" | "account",
+        item: UserAccountType | CategoryType | SubCategories,
+    ) => {
+        if (type === "account") {
+            const account = item as UserAccountType;
+            const newList = accounts.filter((i) => i.id !== account.id);
+            setAccounts(newList);
+        } else if (type === "category") {
+            const category = item as CategoryType;
+            const newList = categories.filter((i) => i.id !== category.id);
+            setCategories(newList);
+        } else if (type === "subcategory") {
+            const subcategory = item as SubCategories;
+            const newList = subcategories.filter(
+                (i) => i.id !== subcategory.id,
+            );
+            setSubcategories(newList);
+        }
+    };
+
+    const assembleFilters = () => {
+        const arrayFilters: FilterItem[] = [];
+        if (categories.length > 0) {
+            categories.forEach((item) => {
+                const filter: FilterItem = {
+                    type: "category",
+                    parameters: item,
+                    description: item.name,
+                    color: item.color,
+                };
+                arrayFilters.push(filter);
+            });
+        }
+        if (subcategories.length > 0) {
+            subcategories.forEach((item) => {
+                const cat = state.user.categories?.filter(
+                    (i) => i.id === item.category,
+                )[0];
+                if (cat) {
+                    const filter: FilterItem = {
+                        type: "subcategory",
+                        parameters: item,
+                        description: `${cat.name} > ${item.name}`,
+                        color: item.color,
+                    };
+                    arrayFilters.push(filter);
+                }
+            });
+        }
+        if (accounts.length > 0) {
+            accounts.forEach((item) => {
+                const filter: FilterItem = {
+                    type: "account",
+                    parameters: item,
+                    description: item.description,
+                    color: item.color,
+                };
+                arrayFilters.push(filter);
+            });
+        }
+        onClick(arrayFilters);
+        closeModal();
     };
 
     return (
@@ -89,131 +231,134 @@ export const FilterArea = ({ show, setOpen }: Props) => {
 
                         <div className="fields scroll">
                             <div className="field">
-                                <label htmlFor="">Categorias</label>
+                                <label htmlFor="fieldCategories">
+                                    Categorias
+                                </label>
                                 <div className="fieldInput">
-                                    <div>
-                                        <ModalExpenseCatItem
-                                            filterItem={{
-                                                name: "Todas as categorias",
-                                                color: state.theme.theme
-                                                    .colorOpacity,
-                                            }}
-                                        />
+                                    <div className="filterSelectedItems">
+                                        {categories.length <= 0 &&
+                                            subcategories.length <= 0 && (
+                                                <ModalExpenseCatItem
+                                                    filterItem={{
+                                                        name: "Todas as categorias",
+                                                        color: state.theme.theme
+                                                            .colorOpacity,
+                                                    }}
+                                                />
+                                            )}
+                                        {categories.map((item, index) => (
+                                            <ModalExpenseCatItem
+                                                category={item}
+                                                key={index}
+                                                removeItem={removeItem}
+                                            />
+                                        ))}
+                                        {subcategories.map((item, index) => (
+                                            <ModalExpenseCatItem
+                                                subcategory={item}
+                                                category={state.user.categories?.find(
+                                                    (i) =>
+                                                        i.id === item.category,
+                                                )}
+                                                key={index}
+                                                removeItem={removeItem}
+                                            />
+                                        ))}
                                     </div>
                                     <div>
                                         <input
                                             type="text"
+                                            id="fieldCategories"
                                             onFocus={addFocus}
                                             onBlur={removeFocus}
                                         />
-                                        <div className="fieldIcon">
+                                        <div
+                                            onClick={() =>
+                                                setListCategories(
+                                                    listCategories
+                                                        ? false
+                                                        : true,
+                                                )
+                                            }
+                                            className={`fieldIcon ${
+                                                listCategories ? "active" : ""
+                                            }`}
+                                        >
                                             <ExpandMoreOutlinedIcon />
                                         </div>
                                     </div>
                                 </div>
+                                {listCategories && (
+                                    <div className="containerListItems">
+                                        <ListCategoriesAndAccounts
+                                            categories={state.user.categories}
+                                            subcategories={
+                                                state.user.subcategories
+                                            }
+                                            OnClick={handleCategory}
+                                            height={250}
+                                        />
+                                    </div>
+                                )}
                             </div>
                             <div className="field">
-                                <label htmlFor="">Contas</label>
+                                <label htmlFor="fieldAccounts">Contas</label>
                                 <div className="fieldInput">
-                                    <div>
-                                        <ModalExpenseCatItem
-                                            filterItem={{
-                                                name: "Todas as contas",
-                                                color: state.theme.theme
-                                                    .colorOpacity,
-                                            }}
-                                        />
+                                    <div className="filterSelectedItems">
+                                        {accounts.length <= 0 && (
+                                            <ModalExpenseCatItem
+                                                filterItem={{
+                                                    name: "Todas as contas",
+                                                    color: state.theme.theme
+                                                        .colorOpacity,
+                                                }}
+                                            />
+                                        )}
+                                        {accounts.map((item, index) => (
+                                            <ModalExpenseCatItem
+                                                account={item}
+                                                key={index}
+                                                removeItem={removeItem}
+                                            />
+                                        ))}
                                     </div>
                                     <div>
                                         <input
                                             type="text"
+                                            id="fieldAccounts"
                                             onFocus={addFocus}
                                             onBlur={removeFocus}
                                         />
-                                        <div className="fieldIcon">
+                                        <div
+                                            onClick={() =>
+                                                setListAccounts(
+                                                    listAccount ? false : true,
+                                                )
+                                            }
+                                            className={`fieldIcon ${
+                                                listAccount ? "active" : ""
+                                            }`}
+                                        >
                                             <ExpandMoreOutlinedIcon />
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="field">
-                                <label htmlFor="">Tags</label>
-                                <div className="fieldInput">
-                                    <div>
-                                        <ModalExpenseCatItem
-                                            filterItem={{
-                                                name: "Todas as tags",
-                                                color: state.theme.theme
-                                                    .colorOpacity,
-                                            }}
+                                {listAccount && (
+                                    <div className="containerListItems">
+                                        <ListCategoriesAndAccounts
+                                            accounts={state.user.accounts}
+                                            OnClick={handleAccount}
+                                            height={250}
                                         />
                                     </div>
-                                    <div>
-                                        <input
-                                            type="text"
-                                            onFocus={addFocus}
-                                            onBlur={removeFocus}
-                                        />
-                                        <div className="fieldIcon">
-                                            <ExpandMoreOutlinedIcon />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label htmlFor="">Situações</label>
-                                <div className="fieldInput">
-                                    <div>
-                                        <ModalExpenseCatItem
-                                            filterItem={{
-                                                name: "Todas as situções",
-                                                color: state.theme.theme
-                                                    .colorOpacity,
-                                            }}
-                                        />
-                                    </div>
-                                    <div>
-                                        <input
-                                            type="text"
-                                            onFocus={addFocus}
-                                            onBlur={removeFocus}
-                                        />
-                                        <div className="fieldIcon">
-                                            <ExpandMoreOutlinedIcon />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label htmlFor="">Tipos</label>
-                                <div className="fieldInput">
-                                    <div>
-                                        <ModalExpenseCatItem
-                                            filterItem={{
-                                                name: "Todas os tipos",
-                                                color: state.theme.theme
-                                                    .colorOpacity,
-                                            }}
-                                        />
-                                    </div>
-                                    <div>
-                                        <input
-                                            type="text"
-                                            onFocus={addFocus}
-                                            onBlur={removeFocus}
-                                        />
-                                        <div className="fieldIcon">
-                                            <ExpandMoreOutlinedIcon />
-                                        </div>
-                                    </div>
-                                </div>
+                                )}
                             </div>
                             <div className="fieldDate">
                                 <div className="field">
-                                    <label htmlFor="dateIn">Tipos</label>
+                                    <label htmlFor="fromDate">Tipos</label>
                                     <div className="fieldInput">
                                         <input
-                                            id="dateIn"
+                                            id="fromDate"
                                             type="text"
                                             onFocus={addFocus}
                                             onBlur={removeFocus}
@@ -222,11 +367,11 @@ export const FilterArea = ({ show, setOpen }: Props) => {
                                     </div>
                                 </div>
                                 <div className="field">
-                                    <label htmlFor="dateUntil">Até</label>
+                                    <label htmlFor="toDate">Até</label>
                                     <div className="fieldInput">
                                         <input
                                             type="text"
-                                            id="dateUntil"
+                                            id="toDate"
                                             onFocus={addFocus}
                                             onBlur={removeFocus}
                                             placeholder="31 de Março"
@@ -236,8 +381,13 @@ export const FilterArea = ({ show, setOpen }: Props) => {
                             </div>
                         </div>
                         <div className="filtersActions">
-                            <button className="filtersBtn">Cancelar</button>
-                            <button className="filtersBtn">
+                            <button onClick={closeModal} className="filtersBtn">
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={assembleFilters}
+                                className="filtersBtn"
+                            >
                                 Aplicar Filtros
                             </button>
                         </div>
