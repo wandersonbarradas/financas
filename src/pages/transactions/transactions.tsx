@@ -20,6 +20,7 @@ import Api from "../../Api";
 import { ModalTransaction } from "../../components/modalTransaction/ModalTransaction";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import CloseIcon from "@mui/icons-material/CloseOutlined";
 import { ResumeValuesTransactions } from "../../components/resumeValuesTransactions/ResumeValuesTransactions";
 import { ModalExpenseCatItem } from "../../components/modalExpenseCatItem/ModalExpenseCatItem";
 import { FilterArea } from "../../components/filterArea/FilterArea";
@@ -103,16 +104,26 @@ export const Transactions = () => {
     useEffect(() => {
         if (filters.length > 0) {
             createFilters();
+        } else {
+            getTransactions();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filters]);
 
     //Buscando Valores mensais.
 
     const createFilters = () => {
-        console.log("Estagio 1");
         const t = state.user.transactions as NormalTansactionType[];
         const transactionsFilters = Filters(t, filters);
         setTransactions(transactionsFilters);
+    };
+
+    const clearFilters = () => {
+        setFilters([]);
+    };
+
+    const removeFilterItem = (name: string) => {
+        setFilters(filters.filter((i) => i.description !== name));
     };
 
     const showSelectedTransaction = () => {
@@ -320,15 +331,21 @@ export const Transactions = () => {
                 {filters.length > 0 && (
                     <div className="filterList">
                         <span className="title">Filtros:</span>
-                        {filters.map((item, index) => (
-                            <ModalExpenseCatItem
-                                filterItem={{
-                                    name: item.description,
-                                    color: item.color,
-                                }}
-                                key={index}
-                            />
-                        ))}
+                        <div className="containerFilterList">
+                            {filters.map((item, index) => (
+                                <ModalExpenseCatItem
+                                    filterItem={{
+                                        name: item.description,
+                                        color: item.color,
+                                    }}
+                                    key={index}
+                                    OnClick={removeFilterItem}
+                                />
+                            ))}
+                        </div>
+                        <div onClick={clearFilters} className="filterIcon">
+                            <CloseIcon />
+                        </div>
                     </div>
                 )}
                 {transactions.length > 0 && (
@@ -373,7 +390,7 @@ export const Transactions = () => {
                         <div className="tableMobile">
                             <ul className="listMobile">
                                 {Object.entries(groupByDate(transactions)).map(
-                                    (item, index) => (
+                                    (item) => (
                                         <>
                                             <p className="dateTransactionMobile">
                                                 {item[0]}

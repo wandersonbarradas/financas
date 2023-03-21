@@ -14,6 +14,7 @@ type Props = {
         type: "category" | "subcategory" | "account",
         item: CategoryType | SubCategories | UserAccountType,
     ) => void;
+    OnClick?: (name: string) => void;
 };
 
 export const ModalExpenseCatItem = ({
@@ -22,6 +23,7 @@ export const ModalExpenseCatItem = ({
     account,
     filterItem,
     removeItem,
+    OnClick,
 }: Props) => {
     const { state } = useContext(Context);
 
@@ -88,11 +90,19 @@ export const ModalExpenseCatItem = ({
     } else if (filterItem) {
         return (
             <C.Container
-                maxWidth="auto"
+                maxWidth="100%"
                 colorTitle={state.theme.theme.colorTitle}
                 colorPrimary={filterItem.color}
             >
                 <p className="text-nowrap">{filterItem.name}</p>
+                {OnClick && (
+                    <div
+                        onClick={() => OnClick(filterItem.name)}
+                        className="icon"
+                    >
+                        <CloseIcon fontSize="small" />
+                    </div>
+                )}
             </C.Container>
         );
     } else {

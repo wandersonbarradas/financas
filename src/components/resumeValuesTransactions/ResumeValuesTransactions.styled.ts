@@ -22,7 +22,7 @@ export const Container = styled.div<Props>`
         background-color: ${(i) => i.Theme.colorComponents};
         border-radius: 2rem 2rem 0 0;
         padding: 1.43rem;
-        border-bottom: 2px solid ${(i) => i.Theme.colorBorder};
+        border-bottom: 1px solid ${(i) => i.Theme.colorBorder};
 
         .resumeItem {
             flex: 1;

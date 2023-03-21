@@ -1,5 +1,3 @@
-import { GeneralType } from "./../../types/RedeucersTypes";
-import { display } from "@mui/system";
 import styled from "styled-components";
 import { ThemeValues } from "../../reducers/ThemeReducer";
 
@@ -136,13 +134,35 @@ export const Container = styled.div<Props>`
             display: flex;
             align-items: center;
             width: 100%;
+            overflow-x: hidden;
             padding: 20px;
-            gap: 1rem;
-            flex-wrap: wrap;
+            background-color: ${(props) => props.Theme.colorComponents};
+            border-bottom: 1px solid ${(p) => p.Theme.colorBorder};
 
             .title {
                 color: ${(i) => i.Theme.colorTitle};
                 font-size: 1rem;
+                margin-right: 1rem;
+            }
+
+            .containerFilterList {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                padding: 0 20px;
+                overflow-x: hidden;
+            }
+
+            .filterIcon {
+                padding: 0.1rem;
+                background-color: ${(p) => p.Theme.colorPrimary};
+                color: ${(p) => p.Theme.colorTitle};
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 50%;
+                cursor: pointer;
+                margin: 0 0 0 auto;
             }
         }
 
@@ -337,6 +357,7 @@ export const Container = styled.div<Props>`
 
         .body {
             border-radius: 0;
+            border: 0;
         }
 
         .boxModalTransaction {
