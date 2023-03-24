@@ -61,6 +61,17 @@ const Calculation = {
         );
         return allTheIncome - allTheExpenses + (initialValueBanks ?? 0);
     },
+    getValuesForFilters(transactions: NormalTansactionType[], done: boolean) {
+        let values = 0;
+        values = transactions
+            .filter((item) => item.done === done)
+            .reduce(
+                (previousValue: number, currentValue) =>
+                    previousValue + currentValue.value,
+                0,
+            );
+        return values;
+    },
 };
 
 export default Calculation;

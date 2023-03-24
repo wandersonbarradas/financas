@@ -9,8 +9,6 @@ import ArrowDownwardOutlinedIcon from "@mui/icons-material/ArrowDownwardOutlined
 import BalanceOutlinedIcon from "@mui/icons-material/BalanceOutlined";
 import { NormalTansactionType } from "../../types/TransactionType";
 import Calculation from "../../helpers/CalculationOfValues";
-import DF from "../../helpers/DateFunctions";
-import dayjs from "dayjs";
 import formatted from "../../helpers/FormattedPrice";
 
 type Props = {
@@ -18,11 +16,21 @@ type Props = {
         name: "Transações" | "Receitas" | "Despesas" | "Transferências";
         color: string;
     };
+    transactions: NormalTansactionType[];
+    filters: boolean;
 };
 
-export const ResumeValuesTransactions = ({ type }: Props) => {
+export const ResumeValuesTransactions = ({
+    type,
+    transactions,
+    filters,
+}: Props) => {
     const { state } = useContext(Context);
     const [currentBalance, setCurrentBalance] = useState(0);
+    const [valueFilters, setValuesFilters] = useState({
+        pending: 0,
+        effected: 0,
+    });
     const [valuesCurrentMonth, setValuesCurrentMonth] =
         useState<currentMonthValueType>({
             valueExpense: 0,
@@ -43,63 +51,54 @@ export const ResumeValuesTransactions = ({ type }: Props) => {
                 type.name === "Despesas" ? "expense" : "income",
             );
         }
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.user.transactions, state.user.selectedDate, type]);
+    }, [state.user.transactions, state.user.selectedDate, type, transactions]);
+
+    useEffect(() => {
+        if (filters) {
+            getValuesFilters();
+        }
+        console.log(transactions);
+    }, [filters, transactions]);
 
     const getValueTransactions = () => {
-        if (!state.user.transactions) {
-            return;
-        }
-        let transactions = state.user.transactions as NormalTansactionType[];
+        let transactionsGeneral = state.user
+            .transactions as NormalTansactionType[];
         setCurrentBalance(
             Calculation.getCurrentBalance(
-                transactions,
+                transactionsGeneral,
                 state.user.accounts ?? undefined,
             ),
-        );
-        transactions = DF.getTransactionsSelectDate(
-            transactions,
-            dayjs(new Date()),
         );
         const values = Calculation.getMonthlySummary(transactions);
         setValuesCurrentMonth(values);
     };
 
     const getTransactionsForType = (type: "expense" | "income") => {
-        if (!state.user.transactions) {
-            return;
-        }
-        const transactionsNormal = state.user
-            .transactions as NormalTansactionType[];
-        const transctionsMonth = DF.getTransactionsSelectDate(
-            transactionsNormal,
-            dayjs(state.user.selectedDate),
-        );
-        const effected = Calculation.getValuesForType(
-            type,
-            transctionsMonth,
-            true,
-        );
-        const pending = Calculation.getValuesForType(
-            type,
-            transctionsMonth,
-            false,
-        );
+        const effected = Calculation.getValuesForType(type, transactions, true);
+        const pending = Calculation.getValuesForType(type, transactions, false);
         setValuesForType({ effected, pending });
+    };
+
+    const getValuesFilters = () => {
+        const effected = Calculation.getValuesForFilters(transactions, true);
+        const pending = Calculation.getValuesForFilters(transactions, false);
+        setValuesFilters({ effected, pending });
     };
 
     return (
         <C.Container sideBar={state.general.sideBar} Theme={state.theme.theme}>
             {type.name !== "Despesas" && type.name !== "Receitas" && (
                 <>
-                    <div className="bottomLine">
-                        <MetricItem
-                            title="Saldo Atual"
-                            value={currentBalance}
-                            Icon={AccountBalanceOutlinedIcon}
-                            bgIcon={state.theme.theme.transferColor}
-                        />
+                    <div className={`bottomLine ${filters ? "filtered" : ""}`}>
+                        {!filters && (
+                            <MetricItem
+                                title="Saldo Atual"
+                                value={currentBalance}
+                                Icon={AccountBalanceOutlinedIcon}
+                                bgIcon={state.theme.theme.transferColor}
+                            />
+                        )}
                         <MetricItem
                             title="Receitas"
                             value={valuesCurrentMonth?.valueIncome}
@@ -120,42 +119,88 @@ export const ResumeValuesTransactions = ({ type }: Props) => {
                         />
                     </div>
                     <div className="bottomLineMobile">
-                        <div className="resumeItem">
-                            <div className="boxIcon">
-                                <AccountBalanceOutlinedIcon />
-                            </div>
-                            <div className="valuesInfo">
-                                <span>Saldo atual</span>
-                                <div
-                                    className={
-                                        currentBalance >= 0
-                                            ? "value more"
-                                            : "value less"
-                                    }
-                                >
-                                    {formatted.format(currentBalance)}
+                        {!filters && (
+                            <>
+                                <div className="resumeItem">
+                                    <div className="boxIcon">
+                                        <AccountBalanceOutlinedIcon />
+                                    </div>
+                                    <div className="valuesInfo">
+                                        <span>Saldo atual</span>
+                                        <div
+                                            className={
+                                                currentBalance >= 0
+                                                    ? "value more"
+                                                    : "value less"
+                                            }
+                                        >
+                                            {formatted.format(currentBalance)}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="resumeItem">
-                            <div className="boxIcon">
-                                <BalanceOutlinedIcon />
-                            </div>
-                            <div className="valuesInfo">
-                                <span>Balanço mensal</span>
-                                <div
-                                    className={
-                                        valuesCurrentMonth.balance >= 0
-                                            ? "value more"
-                                            : "value less"
-                                    }
-                                >
-                                    {formatted.format(
-                                        valuesCurrentMonth.balance,
-                                    )}
+                                <div className="resumeItem">
+                                    <div className="boxIcon">
+                                        <BalanceOutlinedIcon />
+                                    </div>
+                                    <div className="valuesInfo">
+                                        <span>Balanço mensal</span>
+                                        <div
+                                            className={
+                                                valuesCurrentMonth.balance >= 0
+                                                    ? "value more"
+                                                    : "value less"
+                                            }
+                                        >
+                                            {formatted.format(
+                                                valuesCurrentMonth.balance,
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </>
+                        )}
+                        {filters && (
+                            <>
+                                <div className="resumeItem">
+                                    <div className="boxIcon">
+                                        <AccountBalanceOutlinedIcon />
+                                    </div>
+                                    <div className="valuesInfo">
+                                        <span>Total pendente</span>
+                                        <div
+                                        // className={
+                                        //     currentBalance >= 0
+                                        //         ? "value more"
+                                        //         : "value less"
+                                        // }
+                                        >
+                                            {formatted.format(
+                                                valueFilters.pending,
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="resumeItem">
+                                    <div className="boxIcon">
+                                        <BalanceOutlinedIcon />
+                                    </div>
+                                    <div className="valuesInfo">
+                                        <span>Total efetuadas</span>
+                                        <div
+                                        // className={
+                                        //     valuesCurrentMonth.balance >= 0
+                                        //         ? "value more"
+                                        //         : "value less"
+                                        // }
+                                        >
+                                            {formatted.format(
+                                                valueFilters.effected,
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </>
             )}

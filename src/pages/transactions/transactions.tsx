@@ -114,7 +114,11 @@ export const Transactions = () => {
 
     const createFilters = () => {
         const t = state.user.transactions as NormalTansactionType[];
-        const transactionsFilters = Filters(t, filters);
+        const trans = DF.getTransactionsSelectDate(
+            t,
+            dayjs(state.user.selectedDate),
+        );
+        const transactionsFilters = Filters(trans, filters);
         setTransactions(transactionsFilters);
     };
 
@@ -325,7 +329,11 @@ export const Transactions = () => {
                         </div>
                     </div>
                 </div>
-                <ResumeValuesTransactions type={type} />
+                <ResumeValuesTransactions
+                    transactions={transactions}
+                    type={type}
+                    filters={filters.length > 0 ? true : false}
+                />
             </div>
             <div className="body">
                 {filters.length > 0 && (
